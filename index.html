@@ -1183,39 +1183,77 @@ function fetchWithTimeout(url, ms){
 async function lookupOnline(word){
   const w = cleanWord(word).toLowerCase().replace(/[^\w'-]/g,'');
   if(!w || w.length < 2) return null;
-  // Direct API works on GitHub Pages (https). Proxy only as last resort for local file opens.
-  const urls = [
-    'https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(w)
-  ];
-  if(location.protocol === 'file:'){
-    urls.push('https://corsproxy.io/?' + encodeURIComponent('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(w)));
-  }
-  for(const url of urls){
-    try{
-      const r = await fetchWithTimeout(url, 8000);
-      if(!r.ok) continue;
-      let data = await r.json();
-      if(!Array.isArray(data) && data && typeof data.contents === 'string'){
-        try{ data = JSON.parse(data.contents); }catch(e){ continue; }
-      }
-      const e = Array.isArray(data) ? data[0] : null;
-      if(!e) continue;
-      const senses = [];
-      for(const m of (e.meanings||[])){
-        for(const d of (m.definitions||[])){
+
+  // 1) Datamuse (reliable, CORS-friendly, includes definitions)
+  try{
+    const r = await fetchWithTimeout(
+      'https://api.datamuse.com/words?sp=' + encodeURIComponent(w) + '&md=d&max=1',
+      8000
+    );
+    if(r.ok){
+      const data = await r.json();
+      if(Array.isArray(data) && data[0] && data[0].defs && data[0].defs.length){
+        const senses = [];
+        for(const line of data[0].defs){
           if(senses.length >= 2) break;
-          senses.push({pos: m.partOfSpeech||'', def: d.definition||'', ex: d.example ? [d.example] : []});
+          // format: "n\tA short written or spoken expression."
+          const tab = line.indexOf('\t');
+          let pos = '', def = line;
+          if(tab >= 0){
+            pos = line.slice(0, tab).trim();
+            def = line.slice(tab + 1).trim();
+          }
+          const posMap = {n:'noun', v:'verb', adj:'adjective', adv:'adverb', u:'unknown'};
+          pos = posMap[pos] || pos;
+          // strip leading parenthetical notes noise lightly
+          senses.push({pos, def, ex: []});
         }
-        if(senses.length >= 2) break;
+        if(senses.length){
+          return {
+            word: data[0].word || w,
+            phon: '',
+            senses,
+            pos: senses[0].pos,
+            def: senses[0].def,
+            ex: [],
+            src: 'dictionary'
+          };
+        }
       }
-      if(!senses.length) continue;
-      const phon = e.phonetic || ((e.phonetics||[]).find(p=>p.text)||{}).text || '';
-      return {word: e.word||w, phon, senses, pos:senses[0].pos, def:senses[0].def,
-        ex: senses.reduce((a,s)=>a.concat(s.ex||[]),[]).slice(0,3), src:'dictionary'};
-    }catch(err){
-      continue;
     }
-  }
+  }catch(err){}
+
+  // 2) Free Dictionary API (backup when available)
+  try{
+    const r = await fetchWithTimeout(
+      'https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(w),
+      6000
+    );
+    if(r.ok){
+      const data = await r.json();
+      const e = Array.isArray(data) ? data[0] : null;
+      if(e){
+        const senses = [];
+        for(const m of (e.meanings||[])){
+          for(const d of (m.definitions||[])){
+            if(senses.length >= 2) break;
+            senses.push({pos: m.partOfSpeech||'', def: d.definition||'', ex: d.example ? [d.example] : []});
+          }
+          if(senses.length >= 2) break;
+        }
+        if(senses.length){
+          const phon = e.phonetic || ((e.phonetics||[]).find(p=>p.text)||{}).text || '';
+          return {
+            word: e.word||w, phon, senses,
+            pos: senses[0].pos, def: senses[0].def,
+            ex: senses.reduce((a,s)=>a.concat(s.ex||[]),[]).slice(0,3),
+            src: 'dictionary'
+          };
+        }
+      }
+    }
+  }catch(err){}
+
   return null;
 }
 
