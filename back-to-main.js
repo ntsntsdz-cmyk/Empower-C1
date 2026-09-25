@@ -1,7 +1,10 @@
 (() => {
+  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
   const mainPage = new URL('./index.html', window.location.href).href;
 
-  if (window.location.pathname.endsWith('/index.html')) return;
+  // Keep the button off the course navigator itself, but show it on every lesson
+  // page, including names such as 1Aindex.html and 2Bindex.html.
+  if (currentFile === 'index.html') return;
   if (document.querySelector('[data-back-to-main]')) return;
 
   const style = document.createElement('style');
