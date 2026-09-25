@@ -1,508 +1,453 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-slate-50">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empower C1 - Advanced English Platform</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        empower: {
-                            50: '#f0f7ff',
-                            100: '#e0f0fe',
-                            500: '#0284c7',
-                            600: '#0369a1',
-                            700: '#1d4ed8',
-                        },
-                        calm: {
-                            bg: '#f8fafc',
-                            card: '#ffffff',
-                            text: '#0f172a',
-                            muted: '#64748b',
-                            border: '#e2e8f0',
-                            accent: '#0d9488'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease-out;
-            opacity: 0;
-        }
-        .accordion-content.expanded {
-            max-height: 700px;
-            opacity: 1;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1e3a5f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Empower C1 · Advanced English Platform</title>
+<link rel="manifest" href='data:application/manifest+json,{"name":"Empower%20C1","short_name":"Empower%20C1","start_url":".","display":"standalone","background_color":"%23f8fafc","theme_color":"%231e3a5f"}'>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        empower: { 50:'#f0f7ff', 100:'#e0f0fe', 500:'#0284c7', 600:'#0369a1', 700:'#1d4ed8' },
+        calm: { bg:'#f8fafc', card:'#ffffff', text:'#0f172a', muted:'#64748b', border:'#e2e8f0', accent:'#0d9488' }
+      },
+      fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body { font-family: Inter, system-ui, sans-serif; }
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease-out;
+  opacity: 0;
+}
+.accordion-content.expanded {
+  max-height: 720px;
+  opacity: 1;
+}
+.lesson-row:hover .arrow { transform: translateX(3px); color: #0d9488; }
+</style>
 </head>
-<body class="h-full bg-slate-50 text-slate-800 antialiased flex flex-col selection:bg-teal-100 selection:text-teal-900">
+<body class="h-full bg-slate-50 text-slate-800 antialiased flex flex-col selection:bg-sky-100 selection:text-sky-900">
 
-    <!-- Top Header Navigation -->
-    <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 transition-all">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <button id="backToCourseBtn" onclick="showIndexView()" class="hidden items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 rounded-lg transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                    <span>Main Page</span>
-                </button>
-                <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-teal-600 to-sky-500 flex items-center justify-center text-white font-black shadow-sm text-sm">
-                        C1
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <h1 class="text-base font-bold text-slate-900 leading-none tracking-tight">Empower C1</h1>
-                            <span class="px-1.5 py-0.5 text-[10px] font-semibold bg-teal-50 text-teal-700 border border-teal-200 rounded">Advanced</span>
-                        </div>
-                        <span id="currentLessonBreadcrumb" class="text-xs text-slate-500 font-medium hidden sm:inline">Course Overview</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Student Profile & Actions -->
-            <div class="flex items-center gap-3">
-                <div class="flex items-center bg-slate-100/80 border border-slate-200 rounded-lg px-2.5 py-1 text-sm focus-within:ring-2 focus-within:ring-teal-500/20 focus-within:border-teal-500 transition-all">
-                    <svg class="w-4 h-4 text-slate-400 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                    <input type="text" id="studentNameInput" placeholder="Student name..." class="bg-transparent border-none text-slate-800 placeholder-slate-400 focus:outline-none w-28 sm:w-40 text-sm font-medium" oninput="saveStudentName(this.value)">
-                </div>
-                <button onclick="openProgressReport()" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-teal-700 bg-teal-50 hover:bg-teal-100/80 border border-teal-200/80 rounded-lg transition-colors">
-                    <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                    <span>Results Report</span>
-                </button>
-            </div>
+<!-- Top Header -->
+<header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#1e3a5f] to-[#2b6cb0] flex items-center justify-center text-white font-black shadow-sm text-sm shrink-0">C1</div>
+      <div class="min-w-0">
+        <div class="flex items-center gap-2">
+          <h1 class="text-base font-bold text-slate-900 leading-none tracking-tight">Empower C1</h1>
+          <span class="px-1.5 py-0.5 text-[10px] font-semibold bg-sky-50 text-sky-800 border border-sky-200 rounded">Advanced</span>
         </div>
-    </header>
-
-    <!-- MAIN CONTAINER -->
-    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-
-        <!-- VIEW 1: COURSE INDEX PAGE -->
-        <div id="courseIndexView" class="space-y-6">
-            <!-- Welcome Banner -->
-            <div class="bg-gradient-to-r from-teal-50/90 via-sky-50/60 to-slate-50 border border-teal-100/80 p-6 sm:p-8 rounded-2xl relative overflow-hidden shadow-sm">
-                <div class="max-w-2xl relative z-10">
-                    <span class="inline-block px-3 py-1 bg-teal-100/80 text-teal-800 text-xs font-semibold rounded-full mb-3 border border-teal-200/50">Cambridge English Empower</span>
-                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">Empower C1 Interactive Course</h2>
-                    <p class="text-slate-600 text-sm sm:text-base mt-2 leading-relaxed">Welcome to your advanced English portal. Click on any unit below to expand its lessons, complete speaking & writing exercises, and request instant grammar feedback.</p>
-                </div>
-            </div>
-
-            <!-- Single Column Collapsible Accordion Unit List -->
-            <div class="max-w-3xl mx-auto space-y-3" id="unitsAccordionContainer">
-                <!-- 12 Units populated via JavaScript -->
-            </div>
+        <span class="text-xs text-slate-500 font-medium hidden sm:inline">Course Overview</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
+      <div class="flex items-center bg-slate-100/80 border border-slate-200 rounded-lg px-2.5 py-1 text-sm focus-within:ring-2 focus-within:ring-sky-500/25 focus-within:border-sky-500 transition-all">
+        <svg class="w-4 h-4 text-slate-400 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <input type="text" id="studentNameInput" placeholder="Student name..." autocomplete="name"
+          class="bg-transparent border-none text-slate-800 placeholder-slate-400 focus:outline-none w-20 sm:w-36 text-sm font-medium"
+          oninput="saveStudentName(this.value)">
+      </div>
+      <!-- Course progress -->
+      <div class="hidden sm:flex flex-col justify-center min-w-[7.5rem] max-w-[9.5rem]" title="Progress on published lessons">
+        <div class="flex items-center justify-between gap-2 mb-0.5">
+          <span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wide">Progress</span>
+          <span id="headerProgressPct" class="text-[11px] font-bold text-emerald-700">0%</span>
         </div>
-
-        <!-- VIEW 2: LESSON INTERFACE -->
-        <div id="lessonView" class="hidden space-y-6">
-            <!-- Lesson Header Bar -->
-            <div class="bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <div class="flex items-center gap-2 mb-1">
-                        <span class="text-xs font-bold text-teal-700 bg-teal-50 border border-teal-200 px-2.5 py-0.5 rounded-md">Empower C1</span>
-                        <span id="lessonUnitBadge" class="text-xs font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">Unit 1</span>
-                        <span class="text-xs text-slate-400">•</span>
-                        <span id="lessonTypeBadge" class="text-xs text-slate-500 font-medium">Lesson C</span>
-                    </div>
-                    <h2 id="lessonTitleHeading" class="text-xl sm:text-2xl font-bold text-slate-900">1C Express Personal Preferences</h2>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-xs text-slate-500 font-medium">Status:</span>
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-xs font-semibold">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Active Lesson
-                    </span>
-                </div>
-            </div>
-
-            <!-- Two Column Layout: Exercise Sidebar & Task Content -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                
-                <!-- Lesson Navigation Sidebar -->
-                <aside class="lg:col-span-3 bg-white border border-slate-200 rounded-xl p-3 shadow-sm sticky top-20">
-                    <div class="px-3 py-2 border-b border-slate-100 mb-2">
-                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Empower C1 Modules</span>
-                    </div>
-                    <nav class="space-y-1" id="exerciseSidebarNav">
-                        <button onclick="switchSection('vocab')" class="section-nav-btn w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                            <span>1 Vocabulary</span>
-                        </button>
-                        <button onclick="switchSection('pronunciation')" class="section-nav-btn w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                            <span>2 Pronunciation</span>
-                        </button>
-                        <button onclick="switchSection('howto')" class="section-nav-btn w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                            <span>3 How to...</span>
-                        </button>
-                        <button onclick="switchSection('speaking')" class="section-nav-btn active-nav w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-lg bg-teal-50 text-teal-700 font-semibold transition-colors">
-                            <span>4 Speaking & Notes</span>
-                            <span class="w-2 h-2 rounded-full bg-teal-500"></span>
-                        </button>
-                        <button onclick="switchSection('grammar')" class="section-nav-btn w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                            <span>Grammar Bank</span>
-                        </button>
-                        <button onclick="switchSection('mediation')" class="section-nav-btn w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                            <span>Mediation Bank</span>
-                        </button>
-                        <button onclick="switchSection('extra')" class="section-nav-btn w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                            <span>Extra Practice</span>
-                        </button>
-                    </nav>
-                </aside>
-
-                <!-- Task Content Area -->
-                <div class="lg:col-span-9 space-y-6">
-
-                    <!-- Modern Exercise Card: 5 Speaking -->
-                    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-6">
-                        <div class="border-b border-slate-100 pb-4 flex items-center justify-between">
-                            <div>
-                                <span class="text-xs font-bold text-teal-600 uppercase tracking-wide">Section 5</span>
-                                <h3 class="text-xl font-bold text-slate-800 mt-0.5">5 Speaking</h3>
-                            </div>
-                            <span class="text-xs bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-full">Unit 1C</span>
-                        </div>
-
-                        <!-- Task 5A -->
-                        <div class="space-y-3">
-                            <div class="text-sm text-slate-700 leading-relaxed">
-                                <strong class="text-slate-900">A</strong> Work in groups. Brainstorm some cities you would like to visit, and choose one you are all interested in.
-                            </div>
-                            <div class="relative">
-                                <textarea id="task5A_input" rows="3" oninput="updateWordCount('task5A')" class="w-full p-3.5 text-sm text-slate-800 bg-slate-50/80 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder-slate-400" placeholder="Cities / chosen city..."></textarea>
-                                <div class="flex justify-between items-center mt-1.5 text-xs text-slate-400 px-1">
-                                    <span>Express personal group preferences</span>
-                                    <span>Words: <strong id="task5A_count" class="text-slate-600">0</strong></span>
-                                </div>
-                            </div>
-                            <div class="flex justify-end">
-                                <button onclick="triggerGrammarCheck('Task 5A')" class="px-4 py-1.5 text-xs font-semibold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/80 rounded-lg transition-colors flex items-center gap-1.5">
-                                    <svg class="w-3.5 h-3.5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                                    Check writing
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Task 5B -->
-                        <div class="space-y-3 pt-4 border-t border-slate-100">
-                            <div class="text-sm text-slate-700 leading-relaxed space-y-2">
-                                <div><strong class="text-slate-900">B</strong> Work alone. Imagine you are going to spend a day in the city you chose in Ex 5A. Make notes about:</div>
-                                <ul class="list-disc list-inside text-xs sm:text-sm text-slate-600 pl-2 space-y-1">
-                                    <li>places to visit (e.g. famous sites, museums, green spaces, etc.)</li>
-                                    <li>activities (e.g. shopping, concerts, city tours, etc.)</li>
-                                    <li>how you'll get around</li>
-                                    <li>meals (e.g. what to eat, when, where, etc.)</li>
-                                    <li>what to do in the evening</li>
-                                </ul>
-                            </div>
-                            <div class="relative">
-                                <textarea id="task5B_input" rows="5" oninput="updateWordCount('task5B')" class="w-full p-3.5 text-sm text-slate-800 bg-slate-50/80 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all placeholder-slate-400" placeholder="My day plan notes..."></textarea>
-                                <div class="flex justify-between items-center mt-1.5 text-xs text-slate-400 px-1">
-                                    <span>Draft detailed itinerary notes</span>
-                                    <span>Words: <strong id="task5B_count" class="text-slate-600">0</strong></span>
-                                </div>
-                            </div>
-                            <div class="flex justify-end">
-                                <button onclick="triggerGrammarCheck('Task 5B')" class="px-4 py-1.5 text-xs font-semibold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/80 rounded-lg transition-colors flex items-center gap-1.5">
-                                    <svg class="w-3.5 h-3.5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                                    Check writing
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Action Bar -->
-                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-                            <button onclick="saveAnswers()" class="px-4 py-2 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors flex items-center gap-1.5">
-                                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
-                                Save Draft
-                            </button>
-                            <span class="text-xs text-slate-400 italic">Empower C1 • Unit 1</span>
-                        </div>
-                    </div>
-
-                    <!-- Soft Future Skills Callout Card -->
-                    <div class="bg-emerald-50/60 border-l-4 border-emerald-500 border-y border-r border-emerald-100 rounded-r-2xl p-5 text-slate-700 shadow-sm space-y-2">
-                        <div class="flex items-center gap-2 text-emerald-900 font-bold text-sm">
-                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                            <span>FUTURE SKILLS • Collaboration</span>
-                        </div>
-                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">When we collaborate, we sometimes have to compromise, to find a solution that everyone can accept. Look at your notes in Ex 5B. What ideas might you need to compromise on? Why? What other ideas would be acceptable to you, as a compromise?</p>
-                    </div>
-
-                </div>
-            </div>
+        <div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+          <div id="headerProgressBar" class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width:0%"></div>
         </div>
-    </main>
+      </div>
+      <button type="button" onclick="openProgressReport()" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-sky-800 bg-sky-50 hover:bg-sky-100/80 border border-sky-200/80 rounded-lg transition-colors">
+        <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <span>Results Report</span>
+      </button>
+    </div>
+  </div>
+</header>
+<!-- Mobile progress -->
+<div class="sm:hidden bg-white border-b border-slate-200 px-4 py-2 flex items-center gap-3">
+  <span class="text-[10px] font-semibold text-slate-500 uppercase">Progress</span>
+  <div class="flex-1 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+    <div id="mobileProgressBar" class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width:0%"></div>
+  </div>
+  <span id="mobileProgressPct" class="text-[11px] font-bold text-emerald-700 tabular-nums">0%</span>
+</div>
 
-    <!-- Modal: Grammar & Writing Feedback -->
-    <div id="grammarModal" class="fixed inset-0 bg-slate-900/30 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-slate-100 space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div class="flex items-center gap-2">
-                    <div class="p-1.5 bg-teal-50 text-teal-600 rounded-lg font-bold text-xs">Empower C1</div>
-                    <h3 class="font-bold text-slate-800 text-sm sm:text-base">Writing & Grammar Review</h3>
-                </div>
-                <button onclick="closeGrammarModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
-            </div>
-            <div class="space-y-3 text-sm text-slate-600">
-                <div id="modalTargetLabel" class="text-xs font-semibold text-teal-700 uppercase tracking-wider">Checking Task...</div>
-                <div class="p-3.5 bg-emerald-50/80 border border-emerald-100 rounded-xl text-emerald-900 text-xs sm:text-sm leading-relaxed">
-                    <strong class="font-semibold block text-emerald-950 mb-0.5">Well formulated notes!</strong>
-                    Your vocabulary reflects appropriate C1-level range. Good use of preferences phrasing.
-                </div>
-                <div class="p-3.5 bg-slate-50 border border-slate-100 rounded-xl space-y-1">
-                    <span class="text-xs text-slate-400 font-semibold uppercase">Grammar Suggestion</span>
-                    <p class="text-xs text-slate-700">Remember that after structures like "I'd rather", use the bare infinitive (e.g., "I'd rather visit the old town").</p>
-                </div>
-            </div>
-            <div class="pt-2 flex justify-end">
-                <button onclick="closeGrammarModal()" class="px-4 py-2 text-xs font-semibold bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition-colors">Close Feedback</button>
-            </div>
+<main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <div class="space-y-6">
+
+    <!-- Welcome Banner -->
+    <div class="bg-gradient-to-r from-sky-50 via-blue-50/50 to-slate-50 border border-sky-100/80 p-6 sm:p-8 rounded-2xl relative overflow-hidden shadow-sm">
+      <div class="max-w-2xl relative z-10">
+        <span class="inline-block px-3 py-1 bg-sky-100/80 text-sky-900 text-xs font-semibold rounded-full mb-3 border border-sky-200/60">Cambridge English Empower</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight">Empower C1 Interactive Course</h2>
+        <p class="text-slate-600 text-sm sm:text-base mt-2 leading-relaxed">
+          Open a unit, choose a lesson, and practise with live checking, audio, and writing feedback.
+        </p>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/80 border border-slate-200 text-slate-600">12 units</span>
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/80 border border-slate-200 text-slate-600">A · B · C · D · Review</span>
         </div>
+      </div>
     </div>
 
-    <!-- Toast Banner -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-slate-800 text-white px-4 py-2.5 rounded-xl text-xs font-medium shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-2">
-        <span id="toastMsg">Action completed!</span>
+    <!-- Search / filter -->
+    <div class="max-w-3xl mx-auto flex flex-col sm:flex-row gap-2 sm:items-center">
+      <input type="search" id="q" placeholder="Search units or lessons…"
+        class="flex-1 px-3.5 py-2.5 text-sm bg-white border border-slate-200 rounded-xl shadow-sm focus:ring-2 focus:ring-sky-500/25 focus:border-sky-500 outline-none">
+      <div class="flex gap-1.5"></div>
     </div>
+    <p id="status" class="max-w-3xl mx-auto text-xs text-slate-500 -mt-3">Loading lessons…</p>
 
-    <script>
-        // Empower C1 Full Structure: 12 Units with 5 items each (A, B, C, D, Review)
-        const unitsData = [
-            { id: 1, title: "Unit 1: Language & Communication", completed: 3, lessons: [
-                { id: "1A", title: "1A Expressing Yourself" },
-                { id: "1B", title: "1B Complex Sentences & Nuance" },
-                { id: "1C", title: "1C Express Personal Preferences", active: true },
-                { id: "1D", title: "1D Active Listening Strategies" },
-                { id: "1R", title: "Unit 1 Empower Review" }
-            ]},
-            { id: 2, title: "Unit 2: Work & Business Ethics", completed: 1, lessons: [
-                { id: "2A", title: "2A Corporate Responsibility" },
-                { id: "2B", title: "2B Negotiation Tactics" },
-                { id: "2C", title: "2C Professional Pitches" },
-                { id: "2D", title: "2D Cross-cultural Workplace" },
-                { id: "2R", title: "Unit 2 Empower Review" }
-            ]},
-            { id: 3, title: "Unit 3: Science & Human Mind", completed: 0, lessons: [
-                { id: "3A", title: "3A Cognitive Psychology" },
-                { id: "3B", title: "3B Scientific Innovations" },
-                { id: "3C", title: "3C Medical Breakthroughs" },
-                { id: "3D", title: "3D Ethics in Research" },
-                { id: "3R", title: "Unit 3 Empower Review" }
-            ]},
-            { id: 4, title: "Unit 4: Global Cultures & Society", completed: 0, lessons: [
-                { id: "4A", title: "4A Cultural Heritage" },
-                { id: "4B", title: "4B Migration & Globalization" },
-                { id: "4C", title: "4C Travel & Identity" },
-                { id: "4D", title: "4D Urban Communities" },
-                { id: "4R", title: "Unit 4 Empower Review" }
-            ]},
-            { id: 5, title: "Unit 5: Environment & Planet", completed: 0, lessons: [
-                { id: "5A", title: "5A Ecological Sustainability" },
-                { id: "5B", title: "5B Renewable Energy Futures" },
-                { id: "5C", title: "5C Wildlife Conservation" },
-                { id: "5D", title: "5D Climate Action Debates" },
-                { id: "5R", title: "Unit 5 Empower Review" }
-            ]},
-            { id: 6, title: "Unit 6: Technology & AI", completed: 0, lessons: [
-                { id: "6A", title: "6A Automation & Future Jobs" },
-                { id: "6B", title: "6B Digital Ethics & Privacy" },
-                { id: "6C", title: "6C Cyber Security Trends" },
-                { id: "6D", title: "6D Social Media Dynamics" },
-                { id: "6R", title: "Unit 6 Empower Review" }
-            ]},
-            { id: 7, title: "Unit 7: Arts & Aesthetics", completed: 0, lessons: [
-                { id: "7A", title: "7A Literary Criticism" },
-                { id: "7B", title: "7B Visual Arts & Design" },
-                { id: "7C", title: "7C Performing Arts Impact" },
-                { id: "7D", title: "7D Architecture & Living" },
-                { id: "7R", title: "Unit 7 Empower Review" }
-            ]},
-            { id: 8, title: "Unit 8: Media, News & Truth", completed: 0, lessons: [
-                { id: "8A", title: "8A Investigative Journalism" },
-                { id: "8B", title: "8B Bias & Fact Checking" },
-                { id: "8C", title: "8C Digital Content Creation" },
-                { id: "8D", title: "8D Freedom of Expression" },
-                { id: "8R", title: "Unit 8 Empower Review" }
-            ]},
-            { id: 9, title: "Unit 9: Economics & Wealth", completed: 0, lessons: [
-                { id: "9A", title: "9A Financial Literacy C1" },
-                { id: "9B", title: "9B Global Markets" },
-                { id: "9C", title: "9C Consumer Psychology" },
-                { id: "9D", title: "9D Economic Policies" },
-                { id: "9R", title: "Unit 9 Empower Review" }
-            ]},
-            { id: 10, title: "Unit 10: Law & Human Rights", completed: 0, lessons: [
-                { id: "10A", title: "10A International Law" },
-                { id: "10B", title: "10B Justice Systems" },
-                { id: "10C", title: "10C Human Rights Campaigns" },
-                { id: "10D", title: "10D Ethical Governance" },
-                { id: "10R", title: "Unit 10 Empower Review" }
-            ]},
-            { id: 11, title: "Unit 11: Health & Well-Being", completed: 0, lessons: [
-                { id: "11A", title: "11A Public Health Systems" },
-                { id: "11B", title: "11B Mental Health Awareness" },
-                { id: "11C", title: "11C Nutrition & Longevity" },
-                { id: "11D", title: "11D Modern Medicine" },
-                { id: "11R", title: "Unit 11 Empower Review" }
-            ]},
-            { id: 12, title: "Unit 12: History & The Future", completed: 0, lessons: [
-                { id: "12A", title: "12A Historical Perspectives" },
-                { id: "12B", title: "12B World Turning Points" },
-                { id: "12C", title: "12C Cultural Memory" },
-                { id: "12D", title: "12D Visioning 2050" },
-                { id: "12R", title: "Unit 12 Empower Review" }
-            ]}
-        ];
+    <!-- Accordion -->
+    <div class="max-w-3xl mx-auto space-y-3" id="unitsAccordionContainer"></div>
 
-        // Currently expanded accordion unit ID
-        let expandedUnitId = 1;
+    <p class="max-w-3xl mx-auto text-center text-xs text-slate-400 pt-2 pb-6">
+      Your progress is saved on this device and updates as you work through each lesson.
+    </p>
+  </div>
+</main>
 
-        // Render Single-Column Accordion for Empower C1
-        function renderAccordion() {
-            const container = document.getElementById('unitsAccordionContainer');
-            container.innerHTML = '';
+<!-- Results info modal -->
+<div id="reportModal" class="fixed inset-0 bg-slate-900/30 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this)closeReportModal()">
+  <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100 space-y-4">
+    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+      <div class="flex items-center gap-2">
+        <div class="p-1.5 bg-sky-50 text-sky-700 rounded-lg font-bold text-xs">Empower C1</div>
+        <h3 class="font-bold text-slate-800 text-sm sm:text-base">Results Report</h3>
+      </div>
+      <button type="button" onclick="closeReportModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold leading-none">&times;</button>
+    </div>
+    <p class="text-sm text-slate-600 leading-relaxed">
+      Your overall progress is shown in the header. Open a lesson for a detailed <strong class="text-slate-800">Results Report</strong> of that lesson’s exercises.
+    </p>
+    <p id="reportNameLine" class="text-xs text-slate-500"></p>
+    <div class="flex justify-end">
+      <button type="button" onclick="closeReportModal()" class="px-4 py-2 text-xs font-semibold bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition-colors">Close</button>
+    </div>
+  </div>
+</div>
 
-            unitsData.forEach(unit => {
-                const isExpanded = unit.id === expandedUnitId;
-                const totalLessons = unit.lessons.length;
-                const progressPct = Math.round((unit.completed / totalLessons) * 100);
+<div id="toast" class="fixed bottom-5 right-5 bg-slate-800 text-white px-4 py-2.5 rounded-xl text-xs font-medium shadow-lg translate-y-20 opacity-0 transition-all duration-300 z-50 pointer-events-none">
+  <span id="toastMsg">Done</span>
+</div>
 
-                const card = document.createElement('div');
-                card.className = "bg-white border border-slate-200/90 rounded-xl overflow-hidden shadow-sm transition-all";
+<script>
+const LETTERS = ['A','B','C','D'];
+const UNIT_TITLES = { 1: 'Language & learning' };
+const LESSON_TITLES = {
+  '1A': 'Italian by ear',
+  '1B': 'Language evolving',
+  '1C': "I'd much rather…",
+  '1R': 'Unit 1 Review'
+};
 
-                card.innerHTML = `
-                    <button onclick="toggleUnit(${unit.id})" class="w-full flex items-center justify-between p-4 sm:p-5 text-left hover:bg-slate-50/80 transition-colors focus:outline-none">
-                        <div class="flex items-center gap-3 sm:gap-4 flex-1 pr-2">
-                            <div class="w-9 h-9 rounded-lg ${unit.completed > 0 ? 'bg-teal-50 border border-teal-200 text-teal-700' : 'bg-slate-100 text-slate-500'} flex items-center justify-center font-bold text-sm shrink-0">
-                                ${unit.id}
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="font-semibold text-slate-800 text-sm sm:text-base leading-snug">${unit.title}</h3>
-                                <div class="flex items-center gap-3 mt-1">
-                                    <div class="w-24 sm:w-32 bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                                        <div class="bg-teal-500 h-1.5 rounded-full" style="width: ${progressPct}%"></div>
-                                    </div>
-                                    <span class="text-xs text-slate-400 font-medium">${unit.completed}/${totalLessons} Lessons</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-slate-400 shrink-0 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-teal-600' : ''}">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </div>
-                    </button>
-                    <div id="unit-content-${unit.id}" class="accordion-content ${isExpanded ? 'expanded' : ''} bg-slate-50/50 border-t border-slate-100">
-                        <div class="p-3 sm:p-4 space-y-1.5">
-                            ${unit.lessons.map(lesson => `
-                                <div onclick="openLesson('${unit.title}', '${lesson.id}', '${lesson.title}')" class="flex items-center justify-between p-3 bg-white border border-slate-200/70 rounded-lg hover:border-teal-300 hover:bg-teal-50/30 cursor-pointer transition-all group">
-                                    <div class="flex items-center gap-3">
-                                        <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600 group-hover:bg-teal-100 group-hover:text-teal-800 transition-colors">${lesson.id}</span>
-                                        <span class="text-xs sm:text-sm font-medium text-slate-700 group-hover:text-slate-900">${lesson.title}</span>
-                                    </div>
-                                    <svg class="w-4 h-4 text-slate-300 group-hover:text-teal-600 group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
+let expandedUnitId = 1;
+let filter = 'all';
+let query = '';
+let COURSE = [];
 
-        function toggleUnit(unitId) {
-            expandedUnitId = expandedUnitId === unitId ? null : unitId;
-            renderAccordion();
-        }
+function parseLessonFile(name) {
+  if (!name || !/\.html$/i.test(name) || /^index\.html$/i.test(name)) return null;
+  let m = name.match(/^Unit_?(\d{1,2})_?Review(?:[_.].*)?\.html$/i);
+  if (m) {
+    const unit = +m[1];
+    return { unit, slot: 'R', code: unit + 'R', title: titleFromName(name, unit + 'R'), file: name };
+  }
+  m = name.match(/^(\d{1,2})R(?:[_.-].*)?\.html$/i);
+  if (m) {
+    const unit = +m[1];
+    return { unit, slot: 'R', code: unit + 'R', title: titleFromName(name, unit + 'R'), file: name };
+  }
+  m = name.match(/^(\d{1,2})([A-Da-d])(?:[_.-](.*))?\.html$/);
+  if (m) {
+    const unit = +m[1], slot = m[2].toUpperCase();
+    if (!LETTERS.includes(slot)) return null;
+    return { unit, slot, code: unit + slot, title: titleFromName(name, unit + slot), file: name };
+  }
+  return null;
+}
 
-        function showIndexView() {
-            document.getElementById('courseIndexView').classList.remove('hidden');
-            document.getElementById('lessonView').classList.add('hidden');
-            document.getElementById('backToCourseBtn').classList.add('hidden');
-            document.getElementById('backToCourseBtn').classList.remove('flex');
-            document.getElementById('currentLessonBreadcrumb').textContent = "Course Overview";
-        }
+function titleFromName(filename, code) {
+  const bare = filename.replace(/\.html$/i, '');
+  if (code && LESSON_TITLES[code] && new RegExp('^' + code + '$', 'i').test(bare)) return LESSON_TITLES[code];
+  let t = bare.replace(/^\d{1,2}[A-DR]/i, '').replace(/^Unit_?\d{1,2}_?Review/i, '')
+    .replace(/^[_.\-\s]+/, '').replace(/_?Interactive$/i, '').replace(/_?Extension$/i, '')
+    .replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
+  if (!t) {
+    if (code && LESSON_TITLES[code]) return LESSON_TITLES[code];
+    if (code && /R$/.test(code)) return 'Unit Review';
+    if (code && /[A-D]$/.test(code)) return 'Lesson ' + code.slice(-1);
+    return 'Lesson';
+  }
+  return t.replace(/\b\w/g, c => c.toUpperCase());
+}
 
-        function openLesson(unitTitle, lessonId, lessonTitle) {
-            document.getElementById('courseIndexView').classList.add('hidden');
-            document.getElementById('lessonView').classList.remove('hidden');
-            document.getElementById('backToCourseBtn').classList.remove('hidden');
-            document.getElementById('backToCourseBtn').classList.add('flex');
-            
-            document.getElementById('lessonUnitBadge').textContent = `Unit ${lessonId.replace(/[^0-9]/g, '')}`;
-            document.getElementById('lessonTypeBadge').textContent = `Lesson ${lessonId.slice(-1)}`;
-            document.getElementById('lessonTitleHeading').textContent = lessonTitle;
-            document.getElementById('currentLessonBreadcrumb').textContent = ` > ${lessonId}`;
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+function detectRepo() {
+  const params = new URLSearchParams(location.search);
+  if (params.get('repo')) {
+    const [owner, repo] = params.get('repo').split('/');
+    if (owner && repo) return { owner, repo, branch: params.get('branch') || 'main' };
+  }
+  const host = location.hostname;
+  const path = location.pathname.replace(/\/index\.html$/i, '').replace(/\/$/, '');
+  if (host.endsWith('.github.io')) {
+    const owner = host.replace(/\.github\.io$/i, '');
+    const parts = path.split('/').filter(Boolean);
+    if (parts.length >= 1) return { owner, repo: parts[0], branch: 'main' };
+    return { owner, repo: owner + '.github.io', branch: 'main' };
+  }
+  return null;
+}
 
-        function updateWordCount(taskId) {
-            const text = document.getElementById(`${taskId}_input`).value.trim();
-            const count = text ? text.split(/\s+/).length : 0;
-            document.getElementById(`${taskId}_count`).textContent = count;
-        }
+async function listHtmlFiles(owner, repo, branch) {
+  const tried = new Set();
+  let lastErr = null;
+  for (const b of [branch, 'main', 'master'].filter(Boolean)) {
+    if (tried.has(b)) continue;
+    tried.add(b);
+    try {
+      const r = await fetch('https://api.github.com/repos/' + owner + '/' + repo + '/contents/?ref=' + encodeURIComponent(b), {
+        headers: { Accept: 'application/vnd.github+json' }
+      });
+      if (r.status === 404) { lastErr = 'Repo or branch not found'; continue; }
+      if (!r.ok) { lastErr = 'GitHub API ' + r.status; continue; }
+      const data = await r.json();
+      if (!Array.isArray(data)) { lastErr = 'Unexpected API response'; continue; }
+      return {
+        files: data.filter(i => i.type === 'file' && /\.html$/i.test(i.name)).map(i => i.name),
+        branch: b
+      };
+    } catch (e) { lastErr = e.message || String(e); }
+  }
+  throw new Error(lastErr || 'Could not list files');
+}
 
-        function switchSection(sectionId) {
-            const buttons = document.querySelectorAll('.section-nav-btn');
-            buttons.forEach(btn => {
-                btn.className = "section-nav-btn w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors";
-            });
-            event.currentTarget.className = "section-nav-btn active-nav w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-lg bg-teal-50 text-teal-700 font-semibold transition-colors";
-            showToast(`Loaded Empowe C1 section`);
-        }
+function buildCourse(discovered) {
+  const map = {};
+  discovered.forEach(l => { map[l.code] = l; });
+  const course = [];
+  for (let u = 1; u <= 12; u++) {
+    const lessons = [];
+    LETTERS.forEach(letter => {
+      const code = u + letter;
+      lessons.push(map[code] || { unit: u, slot: letter, code, title: 'Lesson ' + letter, file: null });
+    });
+    const rCode = u + 'R';
+    lessons.push(map[rCode] || { unit: u, slot: 'R', code: rCode, title: 'Unit Review', file: null });
+    course.push({ unit: u, title: UNIT_TITLES[u] || ('Unit ' + u), lessons });
+  }
+  return course;
+}
 
-        function saveStudentName(name) {
-            localStorage.setItem('empowerC1_student', name);
-        }
+function readyCount() {
+  let n = 0;
+  COURSE.forEach(u => u.lessons.forEach(l => { if (l.file) n++; }));
+  return n;
+}
 
-        function saveAnswers() {
-            showToast('Empower C1 draft saved!');
-        }
+function saveStudentName(name) {
+  localStorage.setItem('empowerC1_student', name);
+}
 
-        function triggerGrammarCheck(taskLabel = 'Writing') {
-            document.getElementById('modalTargetLabel').textContent = `Feedback for ${taskLabel}`;
-            document.getElementById('grammarModal').classList.remove('hidden');
-        }
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.remove('translate-y-20', 'opacity-0');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2500);
+}
 
-        function closeGrammarModal() {
-            document.getElementById('grammarModal').classList.add('hidden');
-        }
+function openProgressReport() {
+  const name = (document.getElementById('studentNameInput').value || '').trim();
+  document.getElementById('reportNameLine').textContent = name
+    ? 'Signed in as: ' + name
+    : 'Tip: type your name in the header so it carries into each lesson.';
+  document.getElementById('reportModal').classList.remove('hidden');
+}
 
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').textContent = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 2500);
-        }
+function closeReportModal() {
+  document.getElementById('reportModal').classList.add('hidden');
+}
 
-        function openProgressReport() {
-            showToast("Generating Empower C1 Student Report...");
-        }
 
-        window.onload = function() {
-            const savedName = localStorage.getItem('empowerC1_student');
-            if (savedName) {
-                document.getElementById('studentNameInput').value = savedName;
-            }
-            renderAccordion();
-        }
-    </script>
+const PROGRESS_KEY = 'empowerC1_lessonProgress';
+
+function readProgressMap() {
+  try { return JSON.parse(localStorage.getItem(PROGRESS_KEY) || '{}') || {}; }
+  catch (_) { return {}; }
+}
+
+/** Overall course % = average of saved lesson percentages (only lessons student touched),
+    weighted across all 60 slots so empty lessons count as 0 */
+function updateHeaderProgress() {
+  const map = readProgressMap();
+  const TOTAL_SLOTS = 12 * 5; // A–D + R
+  let sum = 0;
+  Object.keys(map).forEach(code => {
+    const p = Number(map[code] && map[code].pct);
+    if (!isNaN(p)) sum += Math.max(0, Math.min(100, p));
+  });
+  const pct = Math.round(sum / TOTAL_SLOTS);
+  const bar = document.getElementById('headerProgressBar');
+  const txt = document.getElementById('headerProgressPct');
+  if (bar) bar.style.width = pct + '%';
+  if (txt) txt.textContent = pct + '%';
+  const mb = document.getElementById('mobileProgressBar');
+  const mt = document.getElementById('mobileProgressPct');
+  if (mb) mb.style.width = pct + '%';
+  if (mt) mt.textContent = pct + '%';
+}
+
+function renderAccordion() {
+  const container = document.getElementById('unitsAccordionContainer');
+  container.innerHTML = '';
+  const q = query.trim().toLowerCase();
+  const pmap = readProgressMap();
+
+  COURSE.forEach(unit => {
+    // Full structure: always show A, B, C, D, Review
+    const lessons = unit.lessons.filter(l => {
+      if (!q) return true;
+      return (unit.title + ' ' + l.code + ' ' + l.title + ' unit ' + unit.unit).toLowerCase().includes(q);
+    });
+    if (!lessons.length) return;
+
+    let unitSum = 0;
+    unit.lessons.forEach(l => {
+      const p = Number(pmap[l.code] && pmap[l.code].pct);
+      if (!isNaN(p)) unitSum += Math.max(0, Math.min(100, p));
+    });
+    const unitPct = Math.round(unitSum / 5);
+    const isExpanded = unit.unit === expandedUnitId || !!q;
+
+    const displayTitle = UNIT_TITLES[unit.unit]
+      ? 'Unit ' + unit.unit + ': ' + UNIT_TITLES[unit.unit]
+      : 'Unit ' + unit.unit;
+
+    const card = document.createElement('div');
+    card.className = 'bg-white border border-slate-200/90 rounded-xl overflow-hidden shadow-sm transition-all';
+    card.innerHTML = `
+      <button type="button" class="w-full flex items-center justify-between p-4 sm:p-5 text-left hover:bg-slate-50/80 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/30" data-unit="${unit.unit}">
+        <div class="flex items-center gap-3 sm:gap-4 flex-1 pr-2 min-w-0">
+          <div class="w-9 h-9 rounded-lg ${unitPct > 0 ? 'bg-sky-50 border border-sky-200 text-sky-800' : 'bg-slate-100 text-slate-500'} flex items-center justify-center font-bold text-sm shrink-0">${unit.unit}</div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-semibold text-slate-800 text-sm sm:text-base leading-snug truncate">${displayTitle}</h3>
+            <div class="flex items-center gap-3 mt-1">
+              <div class="w-24 sm:w-32 bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                <div class="bg-emerald-500 h-1.5 rounded-full transition-all" style="width:${unitPct}%"></div>
+              </div>
+              <span class="text-xs text-slate-500 font-semibold tabular-nums">${unitPct}%</span>
+            </div>
+          </div>
+        </div>
+        <div class="text-slate-400 shrink-0 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-sky-700' : ''}">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+      </button>
+      <div class="accordion-content ${isExpanded ? 'expanded' : ''} bg-slate-50/50 border-t border-slate-100">
+        <div class="p-3 sm:p-4 space-y-1.5" data-lessons></div>
+      </div>`;
+
+    const list = card.querySelector('[data-lessons]');
+    lessons.forEach(lesson => {
+      const lp = Number(pmap[lesson.code] && pmap[lesson.code].pct) || 0;
+      if (lesson.file) {
+        const a = document.createElement('a');
+        a.href = lesson.file;
+        a.className = 'lesson-row flex items-center justify-between p-3 bg-white border border-slate-200/70 rounded-lg hover:border-sky-300 hover:bg-sky-50/40 transition-all group';
+        a.innerHTML = `
+          <div class="flex items-center gap-3 min-w-0">
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-sky-50 text-sky-800 border border-sky-100 group-hover:bg-sky-100 transition-colors shrink-0">${lesson.code}</span>
+            <span class="text-xs sm:text-sm font-medium text-slate-700 group-hover:text-slate-900 truncate">${lesson.title}</span>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="text-[11px] font-bold tabular-nums ${lp ? 'text-emerald-700' : 'text-slate-400'}">${lp}%</span>
+            <svg class="arrow w-4 h-4 text-slate-300 group-hover:text-sky-700 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>`;
+        list.appendChild(a);
+      } else {
+        // Full structure visible — not opened yet (no upload wording)
+        const d = document.createElement('div');
+        d.className = 'flex items-center justify-between p-3 bg-white/80 border border-slate-100 rounded-lg';
+        d.innerHTML = `
+          <div class="flex items-center gap-3 min-w-0">
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-500 shrink-0">${lesson.code}</span>
+            <span class="text-xs sm:text-sm font-medium text-slate-400 truncate">${lesson.title}</span>
+          </div>
+          <span class="text-[11px] font-bold tabular-nums text-slate-300">0%</span>`;
+        list.appendChild(d);
+      }
+    });
+
+    card.querySelector('button[data-unit]').addEventListener('click', () => {
+      expandedUnitId = expandedUnitId === unit.unit ? null : unit.unit;
+      renderAccordion();
+    });
+    container.appendChild(card);
+  });
+  updateHeaderProgress();
+}
+
+async function init() {
+  const saved = localStorage.getItem('empowerC1_student');
+  if (saved) document.getElementById('studentNameInput').value = saved;
+
+  const status = document.getElementById('status');
+  const LOCAL_FALLBACK = ['1A.html', '1B.html', '1C.html', '1R.html'];
+  const repo = detectRepo();
+
+  try {
+    if (!repo) throw new Error('local');
+    status.textContent = 'Reading ' + repo.owner + '/' + repo.repo + '…';
+    const { files, branch } = await listHtmlFiles(repo.owner, repo.repo, repo.branch);
+    const discovered = files.map(parseLessonFile).filter(Boolean);
+    COURSE = buildCourse(discovered);
+    status.textContent = '';
+    status.className = 'hidden';
+  } catch (e) {
+    COURSE = buildCourse(LOCAL_FALLBACK.map(parseLessonFile).filter(Boolean));
+    status.textContent = '';
+    status.className = 'hidden';
+  }
+
+  const firstReady = COURSE.find(u => u.lessons.some(l => l.file));
+  if (firstReady) expandedUnitId = firstReady.unit;
+  renderAccordion();
+}
+
+document.getElementById('q').addEventListener('input', e => {
+  query = e.target.value;
+  renderAccordion();
+});
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => {
+      c.classList.remove('on', 'bg-slate-800', 'text-white', 'border-slate-800');
+      c.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+    });
+    chip.classList.add('on', 'bg-slate-800', 'text-white', 'border-slate-800');
+    chip.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+    filter = chip.dataset.filter;
+    renderAccordion();
+  });
+});
+
+init();
+</script>
 </body>
 </html>
