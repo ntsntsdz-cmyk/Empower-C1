@@ -1,310 +1,373 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speakout B2 - Course Navigator</title>
-    <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            background: #f6f8fa; 
-            color: #24292f; 
-        }
-        
-        /* Sticky Top Navigation Bar (Visible inside lesson view) */
-        #top-bar {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50px;
-            background: #1f2328;
-            color: white;
-            padding: 0 20px;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .back-btn {
-            background: #0969da;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        .back-btn:hover { 
-            background: #085ed4; 
-        }
-
-        /* Dashboard Styles */
-        #main-container { 
-            max-width: 900px; 
-            margin: 40px auto; 
-            padding: 20px; 
-        }
-
-        h1 { 
-            text-align: center; 
-            color: #1f2328; 
-            margin-bottom: 30px; 
-        }
-
-        .unit-container { 
-            background: white; 
-            border: 1px solid #d0d7de; 
-            border-radius: 6px; 
-            margin-bottom: 20px; 
-            padding: 20px; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
-        }
-
-        .unit-title { 
-            font-size: 20px; 
-            font-weight: 600; 
-            margin-top: 0; 
-            margin-bottom: 15px; 
-            color: #0969da; 
-            border-bottom: 1px solid #d0d7de; 
-            padding-bottom: 8px; 
-        }
-
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); 
-            gap: 12px; 
-        }
-
-        .btn { 
-            display: block; 
-            text-align: center; 
-            padding: 12px 8px; 
-            background: #f6f8fa; 
-            color: #24292f; 
-            text-decoration: none; 
-            border: 1px solid #d0d7de; 
-            border-radius: 6px; 
-            font-weight: 500; 
-            font-size: 14px; 
-            transition: all 0.2s ease; 
-            cursor: pointer; 
-        }
-
-        .btn:hover { 
-            background: #238636; 
-            color: white; 
-            border-color: #238636; 
-            transform: translateY(-2px); 
-        }
-
-        /* Submit Section Styling */
-        .submit-section { 
-            background: white; 
-            border: 1px solid #d0d7de; 
-            border-radius: 6px; 
-            padding: 20px; 
-            margin-top: 30px; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
-        }
-
-        .submit-section input[type="text"] { 
-            padding: 8px 12px; 
-            border: 1px solid #d0d7de; 
-            border-radius: 6px; 
-            font-size: 14px; 
-            margin-right: 10px; 
-            width: 250px; 
-        }
-
-        .submit-btn { 
-            padding: 8px 16px; 
-            background: #238636; 
-            color: white; 
-            border: none; 
-            border-radius: 6px; 
-            font-weight: 600; 
-            font-size: 14px; 
-            cursor: pointer; 
-            transition: background 0.2s ease; 
-        }
-
-        .submit-btn:hover { 
-            background: #2ea043; 
-        }
-
-        #submissionStatus { 
-            margin-top: 10px; 
-            font-weight: 500; 
-            font-size: 14px; 
-        }
-
-        /* Embedded Lesson Frame */
-        #lesson-frame {
-            display: none;
-            width: 100%;
-            height: calc(100vh - 50px);
-            margin-top: 50px;
-            border: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1e3a5f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Empower Advanced C1 · Interactive Lessons</title>
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Empower%20Advanced%20C1%22%2C%22short_name%22%3A%22Empower%20C1%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f0f4f8%22%2C%22theme_color%22%3A%22%231e3a5f%22%7D">
+<style>
+:root {
+  --primary:#1e3a5f; --primary2:#2b6cb0; --accent:#3182ce;
+  --bg:#f0f4f8; --card:#fff; --border:#e2e8f0; --muted:#718096;
+  --ok:#38a169; --soon:#a0aec0; --radius:14px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif;background:var(--bg);color:#1a202c;line-height:1.55;min-height:100dvh;padding-bottom:3rem}
+.hero{background:linear-gradient(135deg,#1e3a5f 0%,#2b6cb0 55%,#3182ce 100%);color:#fff;padding:2rem 1.25rem 1.75rem;box-shadow:0 4px 24px rgba(30,58,95,.25)}
+.hero-inner{max-width:960px;margin:0 auto}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:.2rem .65rem;border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.75rem}
+.hero h1{font-size:clamp(1.35rem,4vw,1.85rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.35rem}
+.hero p{opacity:.9;font-size:.95rem;max-width:40rem}
+.stats{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.1rem}
+.stat{background:rgba(0,0,0,.18);padding:.4rem .75rem;border-radius:8px;font-size:.8rem;font-weight:600}
+.wrap{max-width:960px;margin:0 auto;padding:1.25rem 1rem 2rem}
+.toolbar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:1rem}
+.toolbar input{flex:1;min-width:180px;padding:.55rem .85rem;border:2px solid var(--border);border-radius:10px;font-size:.9rem;background:var(--card)}
+.toolbar input:focus{outline:none;border-color:var(--accent)}
+.chip{padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border);background:var(--card);font-size:.78rem;font-weight:600;color:var(--muted);cursor:pointer}
+.chip:hover,.chip.on{background:var(--primary);color:#fff;border-color:var(--primary)}
+.status-bar{font-size:.82rem;color:var(--muted);margin-bottom:1rem;min-height:1.3em}
+.status-bar.err{color:#c53030}
+.status-bar.ok{color:var(--ok)}
+.legend{display:flex;gap:1rem;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin-bottom:1rem}
+.legend span::before{content:'';display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:.35rem;vertical-align:middle}
+.legend .l-ready::before{background:#38a169}
+.legend .l-soon::before{background:#cbd5e0}
+.unit{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:1rem;overflow:hidden}
+.unit-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.9rem 1.1rem;background:linear-gradient(90deg,#edf2f7,#fff);border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
+.unit-head h2{font-size:1.05rem;color:var(--primary);font-weight:700}
+.unit-head .meta{font-size:.78rem;color:var(--muted)}
+.unit-head .chev{color:var(--muted);transition:transform .2s}
+.unit.open .chev{transform:rotate(180deg)}
+.unit-body{display:none;padding:.85rem 1rem 1.1rem}
+.unit.open .unit-body{display:block}
+.lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.65rem}
+.lesson{display:flex;flex-direction:column;gap:.25rem;padding:.85rem .9rem;border-radius:12px;border:1.5px solid var(--border);background:#f8fafc;text-decoration:none;color:inherit;transition:border-color .15s,box-shadow .15s,transform .15s;min-height:88px}
+.lesson.available{background:#fff;border-color:#bee3f8}
+.lesson.available:hover{border-color:var(--accent);box-shadow:0 4px 14px rgba(49,130,206,.15);transform:translateY(-1px)}
+.lesson.soon{opacity:.72;cursor:default;pointer-events:none}
+.lesson .code{font-size:.72rem;font-weight:800;letter-spacing:.04em;color:var(--accent);text-transform:uppercase}
+.lesson.soon .code{color:var(--soon)}
+.lesson .title{font-size:.86rem;font-weight:600;color:#2d3748;line-height:1.3}
+.lesson .status{margin-top:auto;font-size:.68rem;font-weight:700}
+.lesson.available .status{color:var(--ok)}
+.lesson.soon .status{color:var(--soon)}
+.footer{text-align:center;font-size:.78rem;color:var(--muted);padding:1.5rem 1rem}
+.help{background:#ebf8ff;border:1px solid #bee3f8;border-radius:10px;padding:.75rem 1rem;font-size:.82rem;color:#2c5282;margin-bottom:1rem}
+.help code{background:#fff;padding:.1rem .35rem;border-radius:4px;font-size:.78rem}
+@media(max-width:520px){.lessons{grid-template-columns:1fr 1fr}.hero{padding:1.4rem 1rem 1.25rem}}
+</style>
 </head>
 <body>
-
-    <!-- TOP NAVIGATION BAR (Visible when viewing a lesson) -->
-    <div id="top-bar">
-        <button class="back-btn" onclick="closeLesson()">← Back to Main Page</button>
-        <span id="current-lesson-title" style="font-weight: bold; font-size: 16px;"></span>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="badge">Cambridge Empower · Advanced C1</div>
+    <h1>Interactive Course Lessons</h1>
+    <p>Lessons appear automatically when you add HTML files to this GitHub repo. No need to edit this page.</p>
+    <div class="stats">
+      <div class="stat">12 units</div>
+      <div class="stat">A · B · C · D · Review</div>
+      <div class="stat" id="readyCount">…</div>
     </div>
+  </div>
+</header>
 
-    <!-- MAIN DASHBOARD NAVIGATOR -->
-    <div id="main-container">
-        <h1>📚 Speakout B2 Course Navigator</h1>
-        <div id="dashboard"></div>
+<main class="wrap">
+  <div class="help">
+    <strong>How to add a lesson:</strong> upload a short-named file to the repo root, e.g.
+    <code>1A.html</code>, <code>2B.html</code>, <code>1R.html</code> (review).
+    Optional longer form still works: <code>1A_Title.html</code>. Refresh — it appears automatically.
+  </div>
+  <div class="legend">
+    <span class="l-ready">Ready to open</span>
+    <span class="l-soon">Not uploaded yet</span>
+  </div>
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="Search units or lessons…" autocomplete="off">
+    <button type="button" class="chip on" data-filter="all">All</button>
+    <button type="button" class="chip" data-filter="ready">Ready only</button>
+  </div>
+  <div class="status-bar" id="status">Loading lessons from the repository…</div>
+  <div id="units"></div>
+</main>
 
-        <!-- STUDENT SUBMIT BAR -->
-        <div class="submit-section">
-            <h3>Submit Progress to Teacher</h3>
-            <label for="studentName"><strong>Student Name:</strong> </label>
-            <input type="text" id="studentName" placeholder="Enter your full name..." required>
-            <button class="submit-btn" onclick="submitWork()">Send Report</button>
-            <p id="submissionStatus"></p>
+<footer class="footer">
+  Empower Advanced · Auto-discovers lesson files on GitHub Pages<br>
+  Tip: Add this site to your phone Home Screen for a full-screen app feel.
+</footer>
+
+<script>
+const LETTERS = ['A','B','C','D'];
+const UNIT_TITLES = {
+  // Optional pretty names; unknown units show as "Unit N"
+  1: 'Language & learning'
+};
+
+/** Parse a filename into { unit, slot, code, title, file } or null */
+function parseLessonFile(name) {
+  if (!name || !name.toLowerCase().endsWith('.html')) return null;
+  if (/^index\.html$/i.test(name)) return null;
+
+  // Unit review: Unit1_Review.html, Unit_1_Review_Extension.html, 1R_Review.html
+  let m = name.match(/^Unit_?(\d{1,2})_?Review(?:[_.].*)?\.html$/i);
+  if (m) {
+    const unit = +m[1];
+    return { unit, slot: 'R', code: unit + 'R', title: titleFromName(name, unit + 'R'), file: name };
+  }
+  m = name.match(/^(\d{1,2})R(?:[_.-].*)?\.html$/i);
+  if (m) {
+    const unit = +m[1];
+    return { unit, slot: 'R', code: unit + 'R', title: titleFromName(name, unit + 'R'), file: name };
+  }
+
+  // Standard: 1A_Title.html, 12C-Something_Interactive.html
+  m = name.match(/^(\d{1,2})([A-Da-d])(?:[_.-](.*))?\.html$/);
+  if (m) {
+    const unit = +m[1];
+    const slot = m[2].toUpperCase();
+    if (!LETTERS.includes(slot)) return null;
+    return {
+      unit,
+      slot,
+      code: unit + slot,
+      title: titleFromName(name, unit + slot),
+      file: name
+    };
+  }
+  return null;
+}
+
+const LESSON_TITLES = {
+  '1A': 'Italian by ear',
+  '1B': 'Language evolving',
+  '1C': 'Everyday English',
+  '1R': 'Unit 1 Review'
+};
+
+function titleFromName(filename, code) {
+  const bare = filename.replace(/\.html$/i, '');
+  // Prefer known short titles when file is just 1A.html
+  if (code && LESSON_TITLES[code] && new RegExp('^' + code + '$', 'i').test(bare)) {
+    return LESSON_TITLES[code];
+  }
+  let t = bare;
+  t = t.replace(/^\d{1,2}[A-DR]/i, '');
+  t = t.replace(/^Unit_?\d{1,2}_?Review/i, '');
+  t = t.replace(/^[_.\-\s]+/, '');
+  t = t.replace(/_?Interactive$/i, '');
+  t = t.replace(/_?Extension$/i, '');
+  t = t.replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
+  if (!t) {
+    if (code && LESSON_TITLES[code]) return LESSON_TITLES[code];
+    if (/review/i.test(filename) || (code && /R$/.test(code))) return 'Unit Review';
+    if (code && /[A-D]$/.test(code)) return 'Lesson ' + code.slice(-1);
+    return 'Lesson';
+  }
+  return t.replace(/\b\w/g, c => c.toUpperCase());
+}
+
+/** Detect owner/repo from GitHub Pages URL */
+function detectRepo() {
+  const host = location.hostname;
+  const path = location.pathname.replace(/\/index\.html$/i, '').replace(/\/$/, '');
+
+  // Custom domain or local — allow override
+  const params = new URLSearchParams(location.search);
+  if (params.get('repo')) {
+    const [owner, repo] = params.get('repo').split('/');
+    if (owner && repo) return { owner, repo, branch: params.get('branch') || 'main' };
+  }
+
+  // username.github.io/repo-name/
+  if (host.endsWith('.github.io')) {
+    const owner = host.replace(/\.github\.io$/i, '');
+    const parts = path.split('/').filter(Boolean);
+    // Project site: /repo-name/ or /repo-name/subfolder/
+    // User site (repo = owner.github.io): files at root
+    if (parts.length >= 1 && parts[0].toLowerCase() !== owner.toLowerCase() + '.github.io') {
+      return { owner, repo: parts[0], branch: 'main' };
+    }
+    return { owner, repo: owner + '.github.io', branch: 'main' };
+  }
+  return null;
+}
+
+async function listHtmlFilesFromGitHub(owner, repo, branch) {
+  const files = [];
+  // Try branch main, then master
+  const branches = branch ? [branch, 'main', 'master'] : ['main', 'master'];
+  const tried = new Set();
+  let lastErr = null;
+
+  for (const b of branches) {
+    if (tried.has(b)) continue;
+    tried.add(b);
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/?ref=${encodeURIComponent(b)}`;
+    try {
+      const r = await fetch(url, {
+        headers: { Accept: 'application/vnd.github+json' }
+      });
+      if (r.status === 404) { lastErr = 'Repo or branch not found'; continue; }
+      if (!r.ok) { lastErr = `GitHub API ${r.status}`; continue; }
+      const data = await r.json();
+      if (!Array.isArray(data)) { lastErr = 'Unexpected API response'; continue; }
+      data.forEach(item => {
+        if (item.type === 'file' && /\.html$/i.test(item.name)) files.push(item.name);
+      });
+      return { files, branch: b };
+    } catch (e) {
+      lastErr = e.message || String(e);
+    }
+  }
+  throw new Error(lastErr || 'Could not list repository files');
+}
+
+/** Build full 12-unit grid and merge discovered files */
+function buildCourse(discovered) {
+  const map = {}; // code -> lesson
+  discovered.forEach(l => { map[l.code] = l; });
+
+  const course = [];
+  for (let u = 1; u <= 12; u++) {
+    const lessons = [];
+    LETTERS.forEach(letter => {
+      const code = u + letter;
+      if (map[code]) lessons.push(map[code]);
+      else lessons.push({ unit: u, slot: letter, code, title: 'Lesson ' + letter, file: null });
+    });
+    const rCode = u + 'R';
+    if (map[rCode]) lessons.push(map[rCode]);
+    else lessons.push({ unit: u, slot: 'R', code: rCode, title: 'Unit Review', file: null });
+
+    course.push({
+      unit: u,
+      title: UNIT_TITLES[u] || ('Unit ' + u),
+      lessons
+    });
+  }
+  // Orphan files that didn't match? show under unit if unit number parsed
+  return course;
+}
+
+let filter = 'all';
+let query = '';
+let COURSE = buildCourse([]);
+
+function readyCount(course) {
+  let n = 0;
+  course.forEach(u => u.lessons.forEach(l => { if (l.file) n++; }));
+  return n;
+}
+
+function render() {
+  document.getElementById('readyCount').textContent = readyCount(COURSE) + ' lessons ready';
+  const root = document.getElementById('units');
+  root.innerHTML = '';
+  const q = query.trim().toLowerCase();
+
+  COURSE.forEach((u, idx) => {
+    const lessons = u.lessons.filter(l => {
+      if (filter === 'ready' && !l.file) return false;
+      if (!q) return true;
+      const hay = (u.title + ' ' + l.code + ' ' + l.title + ' unit ' + u.unit).toLowerCase();
+      return hay.includes(q);
+    });
+    if (!lessons.length) return;
+
+    const hasReady = u.lessons.some(l => l.file);
+    const open = hasReady || idx === 0 || !!q;
+
+    const el = document.createElement('section');
+    el.className = 'unit' + (open ? ' open' : '');
+    const readyN = u.lessons.filter(l => l.file).length;
+    el.innerHTML = `
+      <div class="unit-head" role="button" tabindex="0">
+        <div>
+          <h2>Unit ${u.unit}${UNIT_TITLES[u] ? ' · ' + UNIT_TITLES[u] : ''}</h2>
+          <div class="meta">${readyN} / ${u.lessons.length} lessons ready</div>
         </div>
-    </div>
+        <span class="chev">▼</span>
+      </div>
+      <div class="unit-body"><div class="lessons"></div></div>`;
 
-    <!-- IFRAME FOR DISPLAYING LESSON PAGES -->
-    <iframe id="lesson-frame"></iframe>
+    const grid = el.querySelector('.lessons');
+    lessons.forEach(l => {
+      if (l.file) {
+        const a = document.createElement('a');
+        a.className = 'lesson available';
+        a.href = l.file;
+        a.innerHTML = `<span class="code">${l.code}</span><span class="title">${l.title}</span><span class="status">● Ready</span>`;
+        grid.appendChild(a);
+      } else {
+        const d = document.createElement('div');
+        d.className = 'lesson soon';
+        d.innerHTML = `<span class="code">${l.code}</span><span class="title">${l.title}</span><span class="status">Not uploaded</span>`;
+        grid.appendChild(d);
+      }
+    });
 
-    <script>
-        const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+    el.querySelector('.unit-head').addEventListener('click', () => el.classList.toggle('open'));
+    el.querySelector('.unit-head').addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.classList.toggle('open'); }
+    });
+    root.appendChild(el);
+  });
+}
 
-        const dashboard = document.getElementById('dashboard');
-        const mainContainer = document.getElementById('main-container');
-        const topBar = document.getElementById('top-bar');
-        const lessonFrame = document.getElementById('lesson-frame');
-        const lessonTitle = document.getElementById('current-lesson-title');
+async function init() {
+  const status = document.getElementById('status');
+  const repo = detectRepo();
 
-        // Render Dashboard
-        for (let unit = 1; unit <= 8; unit++) {
-            const unitDiv = document.createElement('div');
-            unitDiv.className = 'unit-container';
-            
-            const title = document.createElement('h2');
-            title.className = 'unit-title';
-            title.textContent = `Unit ${unit}`;
-            unitDiv.appendChild(title);
-            
-            const gridDiv = document.createElement('div');
-            gridDiv.className = 'grid';
-            
-            const letters = ['A', 'B', 'C', 'D'];
-            
-            letters.forEach(letter => {
-                const btn = document.createElement('button');
-                btn.className = 'btn';
-                btn.textContent = `Lesson ${unit}${letter}`;
-                btn.onclick = () => openLesson(`${unit}${letter}index.html`, `Lesson ${unit}${letter}`);
-                gridDiv.appendChild(btn);
-            });
-            
-            const reviewBtn = document.createElement('button');
-            reviewBtn.className = 'btn';
-            reviewBtn.textContent = `Unit ${unit} Review`;
-            reviewBtn.onclick = () => openLesson(`${unit} reviewindex.html`, `Unit ${unit} Review`);
-            gridDiv.appendChild(reviewBtn);
-            
-            unitDiv.appendChild(gridDiv);
-            dashboard.appendChild(unitDiv);
-        }
+  // Local fallback list (when opening file:// or API blocked) — still works with relative links if files sit beside index
+  const LOCAL_FALLBACK = [
+    '1A.html',
+    '1B.html',
+    '1C.html',
+    '1R.html'
+  ];
 
-        // Open Lesson in Frame
-        function openLesson(url, title) {
-            mainContainer.style.display = 'none';
-            topBar.style.display = 'flex';
-            lessonFrame.style.display = 'block';
-            lessonFrame.src = url;
-            lessonTitle.textContent = title;
-            window.scrollTo(0, 0);
-        }
+  if (!repo) {
+    status.className = 'status-bar';
+    status.textContent = 'Not on GitHub Pages — showing local fallback names. On GitHub, lessons are listed automatically.';
+    const discovered = LOCAL_FALLBACK.map(parseLessonFile).filter(Boolean);
+    COURSE = buildCourse(discovered);
+    render();
+    return;
+  }
 
-        // Return to Dashboard
-        function closeLesson() {
-            mainContainer.style.display = 'block';
-            topBar.style.display = 'none';
-            lessonFrame.style.display = 'none';
-            lessonFrame.src = '';
-            window.scrollTo(0, 0);
-        }
+  try {
+    status.textContent = `Reading ${repo.owner}/${repo.repo}…`;
+    const { files, branch } = await listHtmlFilesFromGitHub(repo.owner, repo.repo, repo.branch);
+    const discovered = files.map(parseLessonFile).filter(Boolean);
+    COURSE = buildCourse(discovered);
+    status.className = 'status-bar ok';
+    status.textContent = `Found ${discovered.length} lesson file(s) on branch “${branch}”. Upload more HTML files to the repo root to add lessons.`;
+    render();
+  } catch (e) {
+    status.className = 'status-bar err';
+    status.textContent = 'Could not auto-list files (' + e.message + '). Using fallback list. Check repo is public.';
+    const discovered = LOCAL_FALLBACK.map(parseLessonFile).filter(Boolean);
+    COURSE = buildCourse(discovered);
+    render();
+  }
+}
 
-        // Student Work Submission
-        async function submitWork() {
-            const nameInput = document.getElementById("studentName").value.trim();
-            const statusMsg = document.getElementById("submissionStatus");
+document.getElementById('q').addEventListener('input', e => { query = e.target.value; render(); });
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+    chip.classList.add('on');
+    filter = chip.dataset.filter;
+    render();
+  });
+});
 
-            if (!nameInput) {
-                alert("Please enter your name before submitting!");
-                return;
-            }
-
-            statusMsg.textContent = "Submitting your work...";
-            statusMsg.style.color = "#0969da";
-
-            const inputs = Array.from(document.querySelectorAll('input[data-correct], select[data-correct], textarea[data-correct]'));
-            
-            let score = 0;
-            const maxScore = inputs.length;
-            const mistakesList = [];
-
-            inputs.forEach(el => {
-                const studentVal = el.value.trim();
-                const correctVal = el.getAttribute('data-correct').trim();
-                const exerciseCategory = el.getAttribute('data-exercise') || el.name || el.id || "General Exercise";
-
-                if (studentVal.toLowerCase() === correctVal.toLowerCase()) {
-                    score++;
-                } else {
-                    mistakesList.push({
-                        exercise: exerciseCategory,
-                        studentInput: studentVal || "(Blank)",
-                        correctAnswer: correctVal
-                    });
-                }
-            });
-
-            const payload = {
-                studentName: nameInput,
-                course: "Speakout-B2",
-                unit: 1,
-                lesson: 4,
-                score: score,
-                maxScore: maxScore,
-                mistakes: mistakesList
-            };
-
-            try {
-                await fetch(GOOGLE_SCRIPT_URL, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
-
-                statusMsg.textContent = `Report submitted successfully! Total score recorded.`;
-                statusMsg.style.color = "#1a7f37";
-            } catch (err) {
-                statusMsg.textContent = "Submission failed. Please check your network connection.";
-                statusMsg.style.color = "#cf222e";
-            }
-        }
-    </script>
-
+init();
+</script>
 </body>
 </html>
