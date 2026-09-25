@@ -2,7 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1d3557">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="1R Review">
+<link rel="manifest" href='data:application/manifest+json,{"name":"Unit%201%20Review","short_name":"1R","start_url":".","display":"standalone","background_color":"%23f0f2f5","theme_color":"%231d3557"}'>
 <title>UNIT 1 – Review and extension | Empower Advanced</title>
 <style>
   :root {
@@ -412,14 +418,207 @@
 .btn-home:hover{background:rgba(0,0,0,.2)}
 .page-header .btn-home{display:inline-flex}
 
+
+/* ===== Shared interface (match 1A/1C) ===== */
+:root {
+  --sidebar-w: 240px;
+  --topbar-h: 36px;
+  --primary: #1d3557;
+  --accent: #277da1;
+}
+body {
+  display: grid !important;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  grid-template-rows: var(--topbar-h) minmax(0, 1fr);
+  grid-template-areas:
+    "side top"
+    "side main";
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+#sidebar {
+  grid-area: side;
+  width: var(--sidebar-w) !important;
+  position: relative !important;
+  top: auto !important; left: auto !important; bottom: auto !important;
+  height: 100vh;
+  height: 100dvh;
+}
+.topbar {
+  grid-area: top;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: 0 .75rem;
+  padding-right: calc(.75rem + env(safe-area-inset-right, 0px));
+  height: var(--topbar-h);
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  box-shadow: 0 1px 6px rgba(0,0,0,.18);
+}
+.topbar h1 {
+  font-size: .9rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+.topbar .btn-home {
+  background: rgba(255,255,255,.15);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.3);
+  padding: .25rem .5rem;
+  border-radius: 6px;
+  font-size: .72rem;
+  font-weight: 600;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.topbar .btn-home:hover { background: rgba(255,255,255,.28); color: #fff; }
+.hamburger-top {
+  display: none;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.45);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 1rem;
+  padding: .3rem .45rem;
+  cursor: pointer;
+}
+#main {
+  grid-area: main;
+  margin-left: 0 !important;
+  overflow-y: auto;
+  max-height: calc(100vh - var(--topbar-h));
+  max-height: calc(100dvh - var(--topbar-h));
+  padding: 1rem 1.15rem 2rem !important;
+}
+.side-field {
+  padding: 0 1.1rem .7rem;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  margin-bottom: .4rem;
+}
+.side-field label {
+  display: block;
+  font-size: .68rem;
+  color: #94a3b8;
+  margin-bottom: .25rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.side-field input {
+  width: 100%;
+  padding: .35rem .5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: .82rem;
+  margin-bottom: .4rem;
+}
+.side-report {
+  display: block;
+  width: calc(100% - 2.2rem);
+  margin: 0 1.1rem .5rem;
+  padding: .4rem .5rem;
+  border: none;
+  border-radius: 6px;
+  background: #f9c74f;
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: .78rem;
+  cursor: pointer;
+  text-align: center;
+}
+.side-report:hover { filter: brightness(1.05); }
+.page-header { padding: 1rem 1.25rem !important; margin-bottom: 1rem !important; }
+.page-header h1 { font-size: 1.35rem !important; }
+.student-bar { display: none !important; } /* name moved to sidebar */
+
+/* Word popup */
+.word-popup {
+  position: fixed; z-index: 2000; max-width: min(320px, 92vw);
+  background: #fff; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,.22);
+  border: 1px solid #e2e8f0; padding: .85rem 1rem; font-size: .88rem; line-height: 1.45;
+  display: none;
+}
+.word-popup.show { display: block; }
+.word-popup .wp-word { font-size: 1.05rem; font-weight: 700; color: var(--dark); margin-bottom: .15rem; }
+.word-popup .wp-pos {
+  display: inline-block; font-size: .68rem; font-weight: 700; text-transform: uppercase;
+  background: #e8f4f8; color: var(--blue); padding: .1rem .4rem; border-radius: 4px; margin-right: .35rem;
+}
+.word-popup .wp-def { margin: .35rem 0; color: #2d3748; }
+.word-popup .wp-ex { font-size: .82rem; color: #4a5568; font-style: italic; margin: .25rem 0 0; padding-left: .6rem; border-left: 2px solid #bee3f8; }
+.word-popup .wp-close { position: absolute; top: .35rem; right: .45rem; border: none; background: transparent; font-size: 1.1rem; cursor: pointer; color: #a0aec0; }
+.word-popup .wp-src { font-size: .68rem; color: #a0aec0; margin-top: .45rem; }
+.word-popup .wp-loading { color: #718096; font-size: .84rem; }
+
+/* Writing feedback */
+.writing-tools { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin-top: .45rem; }
+.btn-write {
+  background: #6b46c1; color: #fff; border: none; padding: .4rem .75rem;
+  border-radius: 7px; font-weight: 600; font-size: .8rem; cursor: pointer;
+}
+.btn-write:hover { filter: brightness(1.08); }
+.btn-write:disabled { opacity: .55; cursor: wait; }
+.write-fb {
+  margin-top: .55rem; padding: .7rem .85rem; border-radius: 8px;
+  background: #faf5ff; border: 1px solid #e9d8fd; font-size: .86rem; display: none;
+}
+.write-fb.show { display: block; }
+.write-fb .wf-ok { color: var(--green); font-weight: 600; }
+.write-fb .wf-item { margin: .45rem 0; padding: .45rem .55rem; background: #fff; border-radius: 6px; border-left: 3px solid #9f7aea; }
+.write-fb .wf-item.err { border-left-color: var(--red); }
+.write-fb .wf-item.style { border-left-color: #dd6b20; }
+.write-fb .wf-msg { font-weight: 600; }
+.write-fb .wf-why { font-size: .8rem; color: #718096; margin-top: .15rem; }
+.write-fb .wf-sug button {
+  margin: .15rem .25rem .15rem 0; padding: .2rem .45rem; border-radius: 5px;
+  border: 1px solid #c4b5fd; background: #ede9fe; cursor: pointer; font-size: .8rem;
+}
+.note-tip {
+  font-size: .82rem; color: #744210; background: #fffff0;
+  border-left: 3px solid #d69e2e; padding: .5rem .75rem; margin: .75rem 0; border-radius: 0 8px 8px 0;
+}
+@media (max-width: 820px) {
+  body {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: var(--topbar-h) 1fr;
+    grid-template-areas: "top" "main" !important;
+  }
+  #sidebar {
+    position: fixed !important;
+    transform: translateX(-105%);
+    z-index: 200;
+    width: min(280px, 82vw) !important;
+    transition: transform .25s;
+  }
+  #sidebar.open { transform: translateX(0); }
+  .hamburger-top { display: inline-flex; }
+  #main { max-height: none; }
+}
+
 </style>
 </head>
 <body>
-<button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+<div class="topbar">
+  <button type="button" class="hamburger-top" onclick="document.getElementById('sidebar').classList.toggle('open')" aria-label="Menu">☰</button>
+  <a class="btn-home" href="index.html" title="Back to main page">← Home</a>
+  <h1>Unit 1 · Review &amp; extension</h1>
+</div>
 
 <nav id="sidebar">
   <a class="side-home" href="index.html">← Main page</a>
   <h2>UNIT 1<br>Review &amp; Extension</h2>
+  <div class="side-field">
+    <label for="studentName">Your name</label>
+    <input type="text" id="studentName" placeholder="Type full name" oninput="saveProgress()">
+  </div>
+  <button type="button" class="side-report" onclick="showResults()">📊 Results Report</button>
   <div class="section-label">Main</div>
   <a href="#grammar" class="nav-link">1 Grammar</a>
   <a href="#vocabulary" class="nav-link">2 Vocabulary</a>
@@ -435,17 +634,10 @@
 
 <div id="main">
   <div class="page-header">
-    <a class="btn-home" href="index.html" title="Back to main page">← Home</a>
     <h1>UNIT 1</h1>
     <div class="subtitle">Review and extension</div>
   </div>
-
-  <div class="student-bar">
-    <label for="studentName">Student name:</label>
-    <input type="text" id="studentName" placeholder="Enter your name" oninput="saveProgress()">
-    <button class="btn btn-primary" onclick="showResults()">📊 Results Report</button>
-    <button class="btn btn-outline" onclick="clearAll()">Clear all answers</button>
-  </div>
+  <p class="note-tip">Tip: <strong>double-click</strong> any word (or long-press on phone) for a definition. Open text boxes have <strong>Check writing</strong> for grammar &amp; style.</p>
 
   <!-- ========== 1 GRAMMAR ========== -->
   <section id="grammar">
@@ -995,6 +1187,12 @@
   </div>
 </div>
 
+
+<div class="word-popup" id="wordPopup" role="dialog" aria-label="Word definition">
+  <button type="button" class="wp-close" id="wpClose" aria-label="Close">×</button>
+  <div id="wpBody"></div>
+</div>
+
 <script>
 // ===== LIVE CHECKING & SCORING =====
 const STORAGE_KEY = 'empower_u1_review_ext_v1';
@@ -1221,6 +1419,230 @@ document.querySelectorAll('.nav-link').forEach(a => {
     if (window.innerWidth < 800) document.getElementById('sidebar').classList.remove('open');
   });
 });
+
+
+/* ===== Shared features: dictionary + writing (1A/1C parity) ===== */
+const LESSON_GLOSSARY = {
+  "adverbial":{pos:"noun",def:"a word or phrase that functions like an adverb",ex:["In the end is an adverbial of time."]},
+  "idiom":{pos:"noun",def:"a group of words with a meaning that is different from the meanings of the individual words",ex:["'Break the ice' is an idiom."]},
+  "extension":{pos:"noun",def:"extra practice that builds on what you have already studied",ex:["Complete the extension exercises."]},
+  "review":{pos:"noun/verb",def:"to look again at something you have studied",ex:["This unit is a review of Units 1A–1C."]},
+  "preference":{pos:"noun",def:"something you like more than something else",ex:["Expressing preferences is a key skill."]},
+  "aspect":{pos:"noun",def:"in grammar, a form of a verb that shows how an action relates to time",ex:["The perfect aspect links past and present."]}
+};
+function cleanWord(w){ return (w||'').replace(/^[^\w']+|[^\w']+$/g,'').trim(); }
+function titleCaseWord(w){ if(!w)return w; return w.charAt(0).toUpperCase()+w.slice(1); }
+function lookupLocal(word){
+  const key=cleanWord(word).toLowerCase();
+  if(!key) return null;
+  if(LESSON_GLOSSARY[key]) return {word:key,...LESSON_GLOSSARY[key],src:'lesson'};
+  for(const suf of ['ing','ed','s','es','ly']){
+    if(key.endsWith(suf)&&key.length>suf.length+2){
+      const base=key.slice(0,-suf.length);
+      if(LESSON_GLOSSARY[base]) return {word:base,...LESSON_GLOSSARY[base],src:'lesson'};
+    }
+  }
+  return null;
+}
+function fetchWithTimeout(url,ms){
+  const c=new AbortController(); const t=setTimeout(()=>c.abort(),ms);
+  return fetch(url,{signal:c.signal}).finally(()=>clearTimeout(t));
+}
+async function lookupOnline(word){
+  const w=cleanWord(word).toLowerCase().replace(/[^\w'-]/g,'');
+  if(!w||w.length<2) return null;
+  try{
+    const r=await fetchWithTimeout('https://api.datamuse.com/words?sp='+encodeURIComponent(w)+'&md=d&max=1',8000);
+    if(r.ok){
+      const data=await r.json();
+      if(Array.isArray(data)&&data[0]&&data[0].defs&&data[0].defs.length){
+        const senses=[];
+        for(const line of data[0].defs){
+          if(senses.length>=2) break;
+          const tab=line.indexOf('\t');
+          let pos='',def=line;
+          if(tab>=0){pos=line.slice(0,tab).trim();def=line.slice(tab+1).trim();}
+          const posMap={n:'noun',v:'verb',adj:'adjective',adv:'adverb'};
+          senses.push({pos:posMap[pos]||pos,def,ex:[]});
+        }
+        if(senses.length) return {word:data[0].word||w,senses,pos:senses[0].pos,def:senses[0].def,ex:[],src:'dictionary'};
+      }
+    }
+  }catch(e){}
+  try{
+    const r=await fetchWithTimeout('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(w),6000);
+    if(r.ok){
+      const data=await r.json();
+      const e=Array.isArray(data)?data[0]:null;
+      if(e){
+        const senses=[];
+        for(const m of (e.meanings||[])){
+          for(const d of (m.definitions||[])){
+            if(senses.length>=2) break;
+            senses.push({pos:m.partOfSpeech||'',def:d.definition||'',ex:d.example?[d.example]:[]});
+          }
+          if(senses.length>=2) break;
+        }
+        if(senses.length) return {word:e.word||w,senses,pos:senses[0].pos,def:senses[0].def,ex:senses.reduce((a,s)=>a.concat(s.ex||[]),[]).slice(0,3),src:'dictionary'};
+      }
+    }
+  }catch(e){}
+  return null;
+}
+function renderPopup(info,queried){
+  const body=document.getElementById('wpBody');
+  if(!body) return;
+  if(!info){ body.innerHTML='<div class="wp-word">'+titleCaseWord(queried||'?')+'</div><div class="wp-def">No definition found.</div>'; return; }
+  let h='<div class="wp-word">'+titleCaseWord(info.word)+'</div>';
+  if(info.senses&&info.senses.length){
+    info.senses.forEach(s=>{
+      h+='<div class="wp-def">';
+      if(s.pos) h+='<span class="wp-pos">'+s.pos+'</span>';
+      h+=(s.def||'')+'</div>';
+      (s.ex||[]).forEach(ex=>{h+='<p class="wp-ex">"'+ex+'"</p>';});
+    });
+  } else {
+    h+='<div class="wp-def">'; if(info.pos) h+='<span class="wp-pos">'+info.pos+'</span>';
+    h+=(info.def||'')+'</div>';
+  }
+  h+='<div class="wp-src">'+(info.src==='lesson'?'Lesson glossary':'Dictionary')+'</div>';
+  body.innerHTML=h;
+}
+function positionPopup(x,y){
+  const pop=document.getElementById('wordPopup');
+  if(!pop) return;
+  pop.classList.add('show');
+  requestAnimationFrame(()=>{
+    const pad=8, rect=pop.getBoundingClientRect();
+    let left=x+12, top=y+12;
+    if(left+rect.width>window.innerWidth-pad) left=Math.max(pad,window.innerWidth-rect.width-pad);
+    if(top+rect.height>window.innerHeight-pad) top=Math.max(pad,y-rect.height-12);
+    if(left<pad) left=pad; if(top<pad) top=pad;
+    pop.style.left=left+'px'; pop.style.top=top+'px';
+  });
+}
+let _wpIgnore=0;
+async function showDefinition(word,cx,cy){
+  word=cleanWord(word);
+  if(!word||word.length<2) return;
+  const single=word.split(/\s+/)[0];
+  const body=document.getElementById('wpBody');
+  if(!body) return;
+  body.innerHTML='<div class="wp-loading">Looking up “'+word+'”…</div>';
+  _wpIgnore=Date.now()+800;
+  positionPopup(cx,cy);
+  try{
+    let info=lookupLocal(word)||lookupLocal(single);
+    if(!info) info=await lookupOnline(single);
+    renderPopup(info,word); positionPopup(cx,cy);
+  }catch(e){ renderPopup(null,word); positionPopup(cx,cy); }
+}
+function getSelectedWord(){ const s=window.getSelection(); if(!s||s.isCollapsed) return ''; return s.toString().trim(); }
+function wordFromPoint(x,y){
+  try{
+    let range=null;
+    if(document.caretRangeFromPoint) range=document.caretRangeFromPoint(x,y);
+    else if(document.caretPositionFromPoint){ const p=document.caretPositionFromPoint(x,y); if(p){ range=document.createRange(); range.setStart(p.offsetNode,p.offset); } }
+    if(!range||!range.startContainer||range.startContainer.nodeType!==3) return '';
+    const text=range.startContainer.textContent||''; const offset=range.startOffset;
+    const left=text.slice(0,offset).search(/[\w'-]+$/);
+    const right=text.slice(offset).match(/^[\w'-]+/);
+    const start=left>=0?left:offset; const end=offset+(right?right[0].length:0);
+    return text.slice(start,end);
+  }catch(e){ return ''; }
+}
+document.getElementById('main')?.addEventListener('dblclick', e=>{
+  if(/^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(e.target.tagName)) return;
+  const word=getSelectedWord()||wordFromPoint(e.clientX,e.clientY);
+  if(word) showDefinition(word,e.clientX,e.clientY);
+});
+let pressTimer=null, pressX=0, pressY=0;
+document.getElementById('main')?.addEventListener('touchstart', e=>{
+  if(e.touches.length!==1) return;
+  if(/^(INPUT|TEXTAREA|SELECT|BUTTON|AUDIO)$/.test(e.target.tagName)) return;
+  pressX=e.touches[0].clientX; pressY=e.touches[0].clientY;
+  pressTimer=setTimeout(()=>{
+    const word=getSelectedWord()||wordFromPoint(pressX,pressY);
+    if(word) showDefinition(word,pressX,pressY);
+  },550);
+},{passive:true});
+document.getElementById('main')?.addEventListener('touchend',()=>clearTimeout(pressTimer));
+document.getElementById('main')?.addEventListener('touchmove',()=>clearTimeout(pressTimer));
+document.getElementById('wpClose')?.addEventListener('click', e=>{ e.stopPropagation(); document.getElementById('wordPopup').classList.remove('show'); });
+document.addEventListener('click', e=>{
+  if(Date.now()<_wpIgnore) return;
+  const pop=document.getElementById('wordPopup');
+  if(pop&&!pop.contains(e.target)) pop.classList.remove('show');
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') document.getElementById('wordPopup')?.classList.remove('show'); });
+
+async function checkWriting(btn){
+  const box=btn.closest('.exercise')||btn.parentElement;
+  const ta=box.querySelector('textarea');
+  if(!ta) return;
+  const text=(ta.value||'').trim();
+  let panel=box.querySelector('.write-fb');
+  if(!panel){ panel=document.createElement('div'); panel.className='write-fb'; ta.insertAdjacentElement('afterend',panel); }
+  if(!text){ panel.classList.add('show'); panel.innerHTML='<span class="wf-why">Write a few sentences first, then check.</span>'; return; }
+  btn.disabled=true; const old=btn.textContent; btn.textContent='Checking…';
+  panel.classList.add('show'); panel.innerHTML='<span class="wf-why">Checking grammar and style…</span>';
+  const issues=[];
+  try{
+    const body=new URLSearchParams(); body.set('text',text); body.set('language','en-GB');
+    const r=await fetch('https://api.languagetool.org/v2/check',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body});
+    if(r.ok){
+      const data=await r.json();
+      for(const m of (data.matches||[]).slice(0,12)){
+        const repl=(m.replacements||[]).slice(0,3).map(x=>x.value);
+        const isStyle=/style|redundancy|clarity|wordiness/i.test(m.rule?.issueType||'')||/STYLE|REDUNDANCY/i.test(m.rule?.category?.id||'');
+        issues.push({type:isStyle?'style':'err',message:m.message||'Issue',why:m.rule?.description||m.shortMessage||'',offset:m.offset,length:m.length,snippet:text.substr(m.offset,m.length),suggestions:repl});
+      }
+    }
+  }catch(e){}
+  if(/\b(gonna|wanna|gotta)\b/i.test(text))
+    issues.push({type:'style',message:'Avoid informal forms (gonna/wanna).',why:'Use standard written English in lesson answers.',snippet:(text.match(/\b(gonna|wanna|gotta)\b/i)||[''])[0],suggestions:['going to','want to'],offset:0,length:0});
+  btn.disabled=false; btn.textContent=old;
+  function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  if(!issues.length){ panel.innerHTML='<div class="wf-ok">✓ Looking good — no major issues found.</div>'; return; }
+  let h='<div style="font-weight:700;margin-bottom:.35rem">Suggestions ('+issues.length+')</div>';
+  issues.forEach(iss=>{
+    h+='<div class="wf-item '+(iss.type==='style'?'style':'err')+'"><div class="wf-msg">'+(iss.type==='style'?'Style':'Grammar')+': '+esc(iss.message)+'</div>';
+    if(iss.snippet) h+='<div class="wf-why">In text: “'+esc(iss.snippet)+'”</div>';
+    if(iss.why) h+='<div class="wf-why">Why: '+esc(iss.why)+'</div>';
+    if(iss.suggestions&&iss.suggestions.length){
+      h+='<div class="wf-sug">Try: ';
+      iss.suggestions.forEach(s=>{ h+='<button type="button" data-off="'+iss.offset+'" data-len="'+iss.length+'" data-rep="'+esc(s)+'" onclick="applyWritingFix(this)">'+esc(s)+'</button>'; });
+      h+='</div>';
+    }
+    h+='</div>';
+  });
+  panel.innerHTML=h;
+}
+function applyWritingFix(btn){
+  const box=btn.closest('.exercise')||btn.parentElement;
+  const ta=box.querySelector('textarea');
+  if(!ta) return;
+  const off=parseInt(btn.getAttribute('data-off'),10);
+  const len=parseInt(btn.getAttribute('data-len'),10);
+  const rep=btn.getAttribute('data-rep')||'';
+  if(isNaN(off)||isNaN(len)||len<=0) return;
+  const v=ta.value; ta.value=v.slice(0,off)+rep+v.slice(off+len);
+  ta.dispatchEvent(new Event('input',{bubbles:true}));
+  const checkBtn=box.querySelector('.btn-write');
+  if(checkBtn) checkWriting(checkBtn);
+}
+function enhanceOpenTextareas(){
+  document.querySelectorAll('textarea').forEach(ta=>{
+    if(ta.dataset.writeEnhanced) return;
+    ta.dataset.writeEnhanced='1';
+    const tools=document.createElement('div');
+    tools.className='writing-tools';
+    tools.innerHTML='<button type="button" class="btn-write" onclick="checkWriting(this)">✨ Check writing</button><span style="font-size:.75rem;color:#718096">Grammar & style</span>';
+    ta.insertAdjacentElement('afterend',tools);
+  });
+}
+document.addEventListener('DOMContentLoaded', enhanceOpenTextareas);
+enhanceOpenTextareas();
 
 loadProgress();
 </script>
