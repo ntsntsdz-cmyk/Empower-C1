@@ -10,7 +10,7 @@
         .unit-container { background: white; border: 1px solid #d0d7de; border-radius: 6px; margin-bottom: 20px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .unit-title { font-size: 20px; font-weight: 600; margin-top: 0; margin-bottom: 15px; color: #0969da; border-bottom: 1px solid #d0d7de; padding-bottom: 8px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
-        .btn { display: block; text-align: center; padding: 12px 8px; background: #f6f8fa; color: #24292f; text-decoration: none; border: 1px solid #d0d7de; border-radius: 6px; font-weight: 500; font-size: 14px; transition: all 0.2s ease; }
+        .btn { display: block; text-align: center; padding: 12px 8px; background: #f6f8fa; color: #24292f; text-decoration: none; border: 1px solid #d0d7de; border-radius: 6px; font-weight: 500; }
         .btn:hover { background: #238636; color: white; border-color: #238636; transform: translateY(-2px); }
     </style>
 </head>
@@ -21,38 +21,89 @@
 
     <script>
         const dashboard = document.getElementById('dashboard');
-        
+
         for (let unit = 1; unit <= 8; unit++) {
             const unitDiv = document.createElement('div');
             unitDiv.className = 'unit-container';
-            
+
             const title = document.createElement('h2');
             title.className = 'unit-title';
             title.textContent = `Unit ${unit}`;
             unitDiv.appendChild(title);
-            
+
             const gridDiv = document.createElement('div');
             gridDiv.className = 'grid';
-            
+
             const letters = ['A', 'B', 'C', 'D'];
-            
+
             letters.forEach(letter => {
                 const link = document.createElement('a');
                 link.className = 'btn';
-                link.href = `${unit}${letter}index.html`; 
+                link.href = `${unit}${letter}index.html`;
                 link.textContent = `Lesson ${unit}${letter}`;
                 gridDiv.appendChild(link);
             });
-            
+
             const reviewLink = document.createElement('a');
             reviewLink.className = 'btn';
-            reviewLink.href = `${unit} reviewindex.html`; 
+            reviewLink.href = `${unit} reviewindex.html`;
             reviewLink.textContent = `Unit ${unit} Review`;
             gridDiv.appendChild(reviewLink);
-            
+
             unitDiv.appendChild(gridDiv);
             dashboard.appendChild(unitDiv);
         }
+
+        const ensureLessonBackButton = () => {
+            const isLessonPage = !location.pathname.endsWith('/index.html') && /index\.html$/i.test(location.pathname);
+            if (!isLessonPage) return;
+
+            if (document.querySelector('.lesson-back-btn')) return;
+
+            const style = document.createElement('style');
+            style.textContent = `
+                .lesson-back-btn {
+                    position: fixed;
+                    right: 18px;
+                    top: 18px;
+                    z-index: 10000;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    padding: 10px 16px;
+                    border-radius: 999px;
+                    background: linear-gradient(135deg, #f59e0b, #ea580c);
+                    color: #fff;
+                    text-decoration: none;
+                    font-size: 0.8rem;
+                    font-weight: 700;
+                    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
+                    transition: transform 0.15s ease, box-shadow 0.15s ease;
+                }
+                .lesson-back-btn:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 0 12px 22px rgba(15, 23, 42, 0.22);
+                }
+                @media (max-width: 820px) {
+                    .lesson-back-btn {
+                        right: 12px;
+                        top: 12px;
+                        padding: 8px 12px;
+                        font-size: 0.72rem;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            const link = document.createElement('a');
+            link.href = './index.html';
+            link.className = 'lesson-back-btn';
+            link.textContent = '← Go back';
+            document.body.appendChild(link);
+        };
+
+        ensureLessonBackButton();
     </script>
 
 </body>
