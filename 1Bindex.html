@@ -624,12 +624,29 @@ input[type="text"].live-bad,select.live-bad{border-color:var(--danger)!important
   #main-wrap{margin-left:0;padding:.6rem .7rem 1.5rem}
 }
 
+
+/* Back to main page */
+.btn-home{
+  display:inline-flex;align-items:center;gap:.35rem;
+  background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25);
+  padding:.28rem .55rem;border-radius:6px;font-size:.72rem;font-weight:600;
+  text-decoration:none;white-space:nowrap;cursor:pointer;flex-shrink:0;
+}
+.btn-home:hover{background:rgba(255,255,255,.28);color:#fff}
+.side-home{
+  display:block;margin:.35rem .85rem .5rem;padding:.4rem .55rem;text-align:center;
+  background:rgba(255,255,255,.1);color:#bee3f8;border:1px solid rgba(255,255,255,.15);
+  border-radius:6px;font-size:.75rem;font-weight:600;text-decoration:none;
+}
+.side-home:hover{background:rgba(255,255,255,.18);color:#fff}
+
 </style>
 </head>
 <body>
 
 <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
 <nav id="sidebar">
+  <a class="side-home" href="index.html">← Main page</a>
   <h2>1B · Language evolving</h2>
   <div class="side-student">
     <label for="studentName">Your name</label>
@@ -648,6 +665,8 @@ input[type="text"].live-bad,select.live-bad{border-color:var(--danger)!important
 <div id="main-wrap">
 
 <header class="compact">
+  <a class="btn-home" href="index.html" style="margin-bottom:.4rem;display:inline-flex">← Main page</a>
+  
   <h1>1B Language has been constantly evolving</h1>
   <p>Unit 1 | Lesson B · Grammar · Vocabulary · Pronunciation · Listening · Reading &amp; Speaking</p>
   </header>
