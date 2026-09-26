@@ -602,13 +602,345 @@ body {
   #main { max-height: none; }
 }
 
+
+/* ===== Shared UI polish (neat + user-friendly) ===== */
+:root {
+  --ui-radius: 12px;
+  --ui-gap: .65rem;
+  --ui-pad: 1rem 1.15rem;
+  --ui-border: #e2e8f0;
+  --ui-muted: #718096;
+  --ui-soft: #f7fafc;
+}
+/* Sidebar density */
+.sidebar, #sidebar, nav.sidebar {
+  font-size: .88rem;
+}
+.sidebar .sec-label, #sidebar .sec-label, #sidebar .section-label, .sidebar .section-label {
+  font-size: .65rem !important;
+  padding-top: .85rem !important;
+  padding-bottom: .2rem !important;
+  letter-spacing: .06em;
+  opacity: .9;
+}
+.sidebar a, #sidebar a, #sidebar .nav-link, .sidebar .nav-link,
+#sidebar nav button, .sidebar nav button {
+  padding: .48rem 1.1rem !important;
+  min-height: 40px;
+  line-height: 1.25;
+}
+.side-student, .side-field {
+  padding: .5rem 1rem .55rem !important;
+}
+.side-student input, .side-field input, #studentName {
+  padding: .38rem .55rem !important;
+  font-size: .84rem !important;
+}
+.side-report, .btn-report, #sidebar .side-report {
+  padding: .42rem .55rem !important;
+  font-size: .78rem !important;
+  font-weight: 700;
+  border-radius: 8px !important;
+  margin-top: .25rem !important;
+}
+.side-home {
+  margin: .4rem .85rem .45rem !important;
+  padding: .38rem .5rem !important;
+  font-size: .72rem !important;
+}
+/* Top bar */
+.topbar h1 {
+  font-size: .88rem !important;
+  font-weight: 650 !important;
+}
+.topbar .btn-home, .btn-home {
+  font-size: .7rem !important;
+  padding: .22rem .5rem !important;
+  border-radius: 6px !important;
+  opacity: .95;
+}
+/* Exercise cards */
+.exercise, .ex, section .exercise {
+  padding: var(--ui-pad) !important;
+  margin: .85rem 0 !important;
+  border-radius: var(--ui-radius) !important;
+  border: 1px solid var(--ui-border) !important;
+  background: #fff !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,.03) !important;
+}
+.exercise-num, .ex h3, .instruction {
+  margin-bottom: .55rem !important;
+  line-height: 1.4;
+}
+/* Open / speaking notes — softer */
+.exercise.ex-open, .ex.ex-open, .exercise[data-open], textarea {
+  /* textarea itself */
+}
+textarea {
+  border-radius: 10px !important;
+  border: 1.5px solid #cbd5e0 !important;
+  padding: .65rem .8rem !important;
+  min-height: 72px;
+  background: var(--ui-soft) !important;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+textarea:focus {
+  background: #fff !important;
+  border-color: #63b3ed !important;
+  box-shadow: 0 0 0 3px rgba(49,130,206,.12) !important;
+  outline: none;
+}
+/* Check writing = secondary action */
+.btn-write, button.btn-write {
+  background: transparent !important;
+  color: #6b46c1 !important;
+  border: 1.5px solid #c4b5fd !important;
+  padding: .32rem .65rem !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: .76rem !important;
+  box-shadow: none !important;
+}
+.btn-write:hover, button.btn-write:hover {
+  background: #faf5ff !important;
+  border-color: #9f7aea !important;
+  filter: none !important;
+}
+.writing-tools {
+  margin-top: .4rem !important;
+  gap: .5rem !important;
+}
+.writing-tools span {
+  font-size: .72rem !important;
+  color: var(--ui-muted) !important;
+}
+.write-fb {
+  border-radius: 10px !important;
+  margin-top: .5rem !important;
+}
+/* Primary check buttons stay strong */
+.btn-check, button.btn-check, button[onclick*="checkEx"] {
+  border-radius: 8px !important;
+  font-weight: 650 !important;
+}
+/* Tip / future skills / find-out — quieter */
+.tip, .find-out, .note, .note-tip, .skill-box, .future-skills, .green-box {
+  font-size: .84rem !important;
+  line-height: 1.45 !important;
+  padding: .7rem .9rem !important;
+  border-radius: 0 10px 10px 0 !important;
+}
+.future-skills h4, .skill-box h4, .tip strong, .find-out strong {
+  font-size: .8rem !important;
+  letter-spacing: .02em;
+  text-transform: none;
+  margin-bottom: .25rem !important;
+}
+/* Section titles */
+section h2, .main-wrap h2, #main h2 {
+  font-size: 1.12rem !important;
+  letter-spacing: -.01em;
+  margin-bottom: .75rem !important;
+}
+.page-ind, .slide-indicator, .section-progress {
+  font-size: .75rem;
+  color: var(--ui-muted);
+  font-weight: 600;
+}
+/* Inputs */
+input[type="text"], select {
+  border-radius: 8px !important;
+}
+input[type="text"]:focus, select:focus {
+  box-shadow: 0 0 0 3px rgba(49,130,206,.12) !important;
+}
+/* Mobile title shortening helper */
+@media (max-width: 640px) {
+  .topbar h1 .full-title { display: none; }
+  .topbar h1 .short-title { display: inline; }
+  .topbar h1 { font-size: .82rem !important; }
+}
+@media (min-width: 641px) {
+  .topbar h1 .short-title { display: none; }
+  .topbar h1 .full-title { display: inline; }
+}
+
+
+/* Lesson progress (student) */
+.lesson-progress {
+  margin: .35rem .85rem .55rem;
+  padding: .45rem .55rem;
+  background: rgba(255,255,255,.08);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.12);
+}
+.lesson-progress .lp-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: .3rem;
+}
+.lesson-progress .lp-label {
+  font-size: .62rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .05em; color: rgba(255,255,255,.65);
+}
+.lesson-progress .lp-pct {
+  font-size: .72rem; font-weight: 800; color: #68d391; tabular-nums;
+}
+.lesson-progress .lp-track {
+  height: 6px; background: rgba(0,0,0,.25); border-radius: 99px; overflow: hidden;
+}
+.lesson-progress .lp-fill {
+  height: 100%; width: 0%; background: linear-gradient(90deg, #38a169, #68d391);
+  border-radius: 99px; transition: width .4s ease;
+}
+
+
+/* ===== Lesson UI polish v2 ===== */
+.lesson-progress {
+  margin: .35rem .85rem .55rem !important;
+  padding: .5rem .6rem !important;
+  background: rgba(255,255,255,.1) !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+}
+.lesson-progress .lp-label { font-size: .62rem !important; color: rgba(255,255,255,.7) !important; }
+.lesson-progress .lp-pct { font-size: .75rem !important; color: #68d391 !important; }
+
+/* Quieter tip */
+.tip, .note-tip, .dict-tip, .find-out-tip {
+  font-size: .78rem !important;
+  line-height: 1.4 !important;
+  padding: .45rem .7rem !important;
+  margin: .5rem 0 .75rem !important;
+  background: #f7fafc !important;
+  border-left: 3px solid #a0aec0 !important;
+  color: #4a5568 !important;
+  border-radius: 0 8px 8px 0 !important;
+}
+.tip strong, .note-tip strong { color: #2d3748 !important; font-weight: 650 !important; }
+
+/* Collapsible tip */
+.tip-collapse {
+  font-size: .76rem;
+  color: #4a5568;
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin: .4rem 0 .85rem;
+  overflow: hidden;
+}
+.tip-collapse summary {
+  cursor: pointer;
+  padding: .4rem .7rem;
+  font-weight: 600;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.tip-collapse summary::-webkit-details-marker { display: none; }
+.tip-collapse summary::before { content: "▸"; font-size: .7rem; color: #718096; }
+.tip-collapse[open] summary::before { content: "▾"; }
+.tip-collapse .tip-body { padding: 0 .7rem .55rem; color: #4a5568; line-height: 1.4; }
+
+/* Legend quieter */
+.legend-row, .hl-legend {
+  font-size: .72rem !important;
+  color: #718096 !important;
+  margin: .35rem 0 .5rem !important;
+}
+.legend-row span, .hl-legend span {
+  font-size: .68rem !important;
+  padding: .1rem .35rem !important;
+}
+
+/* Hide duplicate home in topbar when sidebar has Main page */
+.topbar .btn-home { display: none !important; }
+@media (max-width: 820px) {
+  .topbar .btn-home { display: inline-flex !important; }
+}
+
+/* Control strip */
+.controls, .btn-row, .ex-controls {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: .4rem !important;
+  align-items: center !important;
+  margin-top: .65rem !important;
+}
+.controls .btn, .btn-row button, .ex-controls button {
+  min-height: 34px !important;
+  border-radius: 8px !important;
+  font-size: .8rem !important;
+  font-weight: 650 !important;
+  padding: .35rem .75rem !important;
+}
+
+/* Check writing secondary */
+.btn-write, button.btn-write {
+  background: transparent !important;
+  color: #6b46c1 !important;
+  border: 1.5px solid #c4b5fd !important;
+  padding: .3rem .65rem !important;
+  font-size: .74rem !important;
+  border-radius: 8px !important;
+}
+.btn-write:hover { background: #faf5ff !important; }
+
+/* Reading list */
+.agree-list, .stmt-list, ol.statements {
+  line-height: 1.65 !important;
+}
+.agree-list li, .stmt-list li {
+  padding: .2rem 0 !important;
+}
+
+/* Sidebar density */
+.sidebar nav a, #sidebar nav a, #sidebar .nav-link, .sidebar .nav-link,
+#sidebar nav button {
+  padding: .42rem 1rem !important;
+  min-height: 38px !important;
+  font-size: .84rem !important;
+}
+.side-report, #sidebar .side-report {
+  font-size: .74rem !important;
+  padding: .38rem .5rem !important;
+  margin: .2rem .85rem .45rem !important;
+}
+.side-home {
+  margin: .35rem .85rem .4rem !important;
+  padding: .35rem .5rem !important;
+  font-size: .7rem !important;
+}
+.side-field, .side-student {
+  padding: .4rem .85rem .45rem !important;
+}
+.side-field label, .side-student label {
+  font-size: .62rem !important;
+}
+
+/* Aims line quieter */
+.section-aims, .aims-line {
+  font-size: .8rem !important;
+  color: #718096 !important;
+  margin: .25rem 0 .6rem !important;
+}
+.page-chip, .pages-badge {
+  font-size: .68rem !important;
+  padding: .15rem .45rem !important;
+  border-radius: 999px !important;
+  background: #ebf8ff !important;
+  color: #2b6cb0 !important;
+  font-weight: 650 !important;
+  border: 1px solid #bee3f8 !important;
+}
+
 </style>
 </head>
 <body>
 <div class="topbar">
   <button type="button" class="hamburger-top" onclick="document.getElementById('sidebar').classList.toggle('open')" aria-label="Menu">☰</button>
   <a class="btn-home" href="index.html" title="Back to main page">← Home</a>
-  <h1>Unit 1 · Review &amp; extension</h1>
+  <h1><span class="full-title">Unit 1 · Review &amp; extension</span><span class="short-title">1R · Review</span></h1>
 </div>
 
 <nav id="sidebar">
@@ -637,7 +969,7 @@ body {
     <h1>UNIT 1</h1>
     <div class="subtitle">Review and extension</div>
   </div>
-  <p class="note-tip">Tip: <strong>double-click</strong> any word (or long-press on phone) for a definition. Open text boxes have <strong>Check writing</strong> for grammar &amp; style.</p>
+  <details class="tip-collapse"><summary>How to look up words</summary><div class="tip-body"><strong>double-click</strong> any word (or long-press on phone) for a definition. Open text boxes have <strong>Check writing</strong> for grammar &amp; style.</div></details>
 
   <!-- ========== 1 GRAMMAR ========== -->
   <section id="grammar">
@@ -1637,12 +1969,90 @@ function enhanceOpenTextareas(){
     ta.dataset.writeEnhanced='1';
     const tools=document.createElement('div');
     tools.className='writing-tools';
-    tools.innerHTML='<button type="button" class="btn-write" onclick="checkWriting(this)">✨ Check writing</button><span style="font-size:.75rem;color:#718096">Grammar & style</span>';
+    tools.innerHTML='<button type="button" class="btn-write" onclick="checkWriting(this)">✨ Check writing</button><span style="font-size:.75rem;color:#718096"></span>';
     ta.insertAdjacentElement('afterend',tools);
   });
 }
 document.addEventListener('DOMContentLoaded', enhanceOpenTextareas);
 enhanceOpenTextareas();
+
+
+/* ===== Course progress tracker ===== */
+const LESSON_CODE = '1R';
+const COURSE_PROGRESS_KEY = 'empowerC1_lessonProgress';
+
+function computeLessonProgressPct() {
+  let total = 0, score = 0;
+  document.querySelectorAll('input[data-answer], select[data-answer]').forEach(el => {
+    total += 1;
+    const v = (el.value || '').trim();
+    if (!v) return;
+    let ok = el.classList.contains('correct') || el.classList.contains('live-ok');
+    if (!ok && el.dataset.answer) {
+      try {
+        if (typeof isAnswerCorrect === 'function') ok = isAnswerCorrect(v, el.dataset.answer);
+        else if (typeof isCorrect === 'function') ok = isCorrect(v, el.dataset.answer);
+        else if (typeof normalize === 'function') {
+          const u = normalize(v);
+          ok = el.dataset.answer.split('|').map(normalize).some(a => a === u || (u.length > 2 && (a.includes(u) || u.includes(a))));
+        }
+      } catch (e) {}
+    }
+    score += ok ? 1 : 0.35; // partial credit for attempt
+  });
+  document.querySelectorAll('textarea').forEach(ta => {
+    if (ta.closest && ta.closest('#reportModal, .modal, .word-popup')) return;
+    total += 1;
+    const n = (ta.value || '').trim().length;
+    if (n > 40) score += 1;
+    else if (n > 10) score += 0.5;
+  });
+  if (total < 1) return 0;
+  return Math.max(0, Math.min(100, Math.round((score / total) * 100)));
+}
+
+function saveCourseProgress() {
+  const pct = computeLessonProgressPct();
+  let map = {};
+  try { map = JSON.parse(localStorage.getItem(COURSE_PROGRESS_KEY) || '{}') || {}; } catch (e) {}
+  map[LESSON_CODE] = { pct: pct, updated: new Date().toISOString() };
+  try { localStorage.setItem(COURSE_PROGRESS_KEY, JSON.stringify(map)); } catch (e) {}
+  const fill = document.getElementById('lessonProgressFill');
+  const txt = document.getElementById('lessonProgressPct');
+  if (fill) fill.style.width = pct + '%';
+  if (txt) txt.textContent = pct + '%';
+}
+
+function ensureLessonProgressUI() {
+  if (document.getElementById('lessonProgressFill')) return;
+  const host = document.querySelector('.side-student, .side-field, #sidebar, nav.sidebar, .sidebar');
+  if (!host) return;
+  const box = document.createElement('div');
+  box.className = 'lesson-progress';
+  box.innerHTML = '<div class="lp-top"><span class="lp-label">Your progress</span><span class="lp-pct" id="lessonProgressPct">0%</span></div><div class="lp-track"><div class="lp-fill" id="lessonProgressFill"></div></div>';
+  // prefer after name block
+  const after = document.querySelector('.side-student, .side-field');
+  if (after && after.parentNode) after.insertAdjacentElement('afterend', box);
+  else {
+    const home = document.querySelector('.side-home');
+    if (home) home.insertAdjacentElement('afterend', box);
+    else host.insertAdjacentElement('afterbegin', box);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  ensureLessonProgressUI();
+  saveCourseProgress();
+});
+document.addEventListener('input', () => { clearTimeout(window._progT); window._progT = setTimeout(saveCourseProgress, 400); });
+document.addEventListener('change', () => { clearTimeout(window._progT); window._progT = setTimeout(saveCourseProgress, 200); });
+// also after check buttons
+document.addEventListener('click', e => {
+  if (e.target && /check|show|clear|reset/i.test(e.target.className + e.target.textContent)) {
+    setTimeout(saveCourseProgress, 300);
+  }
+});
+setTimeout(() => { ensureLessonProgressUI(); saveCourseProgress(); }, 500);
 
 loadProgress();
 </script>
