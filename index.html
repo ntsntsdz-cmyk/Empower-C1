@@ -33,14 +33,13 @@ body { font-family: Inter, system-ui, sans-serif; }
   opacity: 0;
 }
 .accordion-content.expanded {
-  max-height: 720px;
+  max-height: 960px;
   opacity: 1;
 }
 .lesson-row:hover .arrow { transform: translateX(3px); color: #0d9488; }
 </style>
 </head>
 <body class="h-full bg-slate-50 text-slate-800 antialiased flex flex-col selection:bg-sky-100 selection:text-sky-900">
-
 <!-- Top Header -->
 <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
@@ -86,10 +85,8 @@ body { font-family: Inter, system-ui, sans-serif; }
   </div>
   <span id="mobileProgressPct" class="text-[11px] font-bold text-emerald-700 tabular-nums">0%</span>
 </div>
-
 <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
   <div class="space-y-6">
-
     <!-- Welcome Banner -->
     <div class="bg-gradient-to-r from-sky-50 via-blue-50/50 to-slate-50 border border-sky-100/80 p-6 sm:p-8 rounded-2xl relative overflow-hidden shadow-sm">
       <div class="max-w-2xl relative z-10">
@@ -100,11 +97,10 @@ body { font-family: Inter, system-ui, sans-serif; }
         </p>
         <div class="flex flex-wrap gap-2 mt-4">
           <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/80 border border-slate-200 text-slate-600">12 units</span>
-          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/80 border border-slate-200 text-slate-600">A · B · C · D · Review</span>
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/80 border border-slate-200 text-slate-600">A · B · C · D · Review · Review Ext · Reading</span>
         </div>
       </div>
     </div>
-
     <!-- Search / filter -->
     <div class="max-w-3xl mx-auto flex flex-col sm:flex-row gap-2 sm:items-center">
       <input type="search" id="q" placeholder="Search units or lessons…"
@@ -112,16 +108,13 @@ body { font-family: Inter, system-ui, sans-serif; }
       <div class="flex gap-1.5"></div>
     </div>
     <p id="status" class="max-w-3xl mx-auto text-xs text-slate-500 -mt-3">Loading lessons…</p>
-
     <!-- Accordion -->
     <div class="max-w-3xl mx-auto space-y-3" id="unitsAccordionContainer"></div>
-
     <p class="max-w-3xl mx-auto text-center text-xs text-slate-400 pt-2 pb-6">
       Your progress is saved on this device and updates as you work through each lesson.
     </p>
   </div>
 </main>
-
 <!-- Results info modal -->
 <div id="reportModal" class="fixed inset-0 bg-slate-900/30 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this)closeReportModal()">
   <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100 space-y-4">
@@ -141,29 +134,55 @@ body { font-family: Inter, system-ui, sans-serif; }
     </div>
   </div>
 </div>
-
 <div id="toast" class="fixed bottom-5 right-5 bg-slate-800 text-white px-4 py-2.5 rounded-xl text-xs font-medium shadow-lg translate-y-20 opacity-0 transition-all duration-300 z-50 pointer-events-none">
   <span id="toastMsg">Done</span>
 </div>
-
 <script>
 const LETTERS = ['A','B','C','D'];
+/** Extra slots after A–D + R: Review Extension (RE), Reading (Rd) */
+const EXTRA_SLOTS = [
+  { slot: 'RE', codeSuffix: 'RE', title: 'Review Extension' },
+  { slot: 'Rd', codeSuffix: 'Rd', title: 'Reading' }
+];
 const UNIT_TITLES = { 1: 'Language & learning' };
 const LESSON_TITLES = {
   '1A': 'Italian by ear',
   '1B': 'Language evolving',
   '1C': "I'd much rather…",
-  '1R': 'Unit 1 Review'
+  '1R': 'Unit 1 Review',
+  '1RE': 'Unit 1 Review Extension',
+  '1Rd': 'Unit 1 Reading'
 };
-
 let expandedUnitId = 1;
 let filter = 'all';
 let query = '';
 let COURSE = [];
-
 function parseLessonFile(name) {
   if (!name || !/\.html$/i.test(name) || /^index\.html$/i.test(name)) return null;
-  let m = name.match(/^Unit_?(\d{1,2})_?Review(?:[_.].*)?\.html$/i);
+  // Unit_N_Review_Extension / Unit_N_ReviewExtension / N_Review_Extension etc.
+  let m = name.match(/^Unit_?(\d{1,2})_?Review[_\s-]?Ext(?:ension)?(?:[_.].*)?\.html$/i);
+  if (m) {
+    const unit = +m[1];
+    return { unit, slot: 'RE', code: unit + 'RE', title: titleFromName(name, unit + 'RE'), file: name };
+  }
+  m = name.match(/^(\d{1,2})RE(?:[_.-].*)?\.html$/i);
+  if (m) {
+    const unit = +m[1];
+    return { unit, slot: 'RE', code: unit + 'RE', title: titleFromName(name, unit + 'RE'), file: name };
+  }
+  // Unit_N_Reading / NReading / N_Reading / NRd
+  m = name.match(/^Unit_?(\d{1,2})_?Reading(?:[_.].*)?\.html$/i);
+  if (m) {
+    const unit = +m[1];
+    return { unit, slot: 'Rd', code: unit + 'Rd', title: titleFromName(name, unit + 'Rd'), file: name };
+  }
+  m = name.match(/^(\d{1,2})(?:Rd|Reading)(?:[_.-].*)?\.html$/i);
+  if (m) {
+    const unit = +m[1];
+    return { unit, slot: 'Rd', code: unit + 'Rd', title: titleFromName(name, unit + 'Rd'), file: name };
+  }
+  // Review (must come after Review Extension patterns)
+  m = name.match(/^Unit_?(\d{1,2})_?Review(?:[_.].*)?\.html$/i);
   if (m) {
     const unit = +m[1];
     return { unit, slot: 'R', code: unit + 'R', title: titleFromName(name, unit + 'R'), file: name };
@@ -181,22 +200,22 @@ function parseLessonFile(name) {
   }
   return null;
 }
-
 function titleFromName(filename, code) {
   const bare = filename.replace(/\.html$/i, '');
   if (code && LESSON_TITLES[code] && new RegExp('^' + code + '$', 'i').test(bare)) return LESSON_TITLES[code];
-  let t = bare.replace(/^\d{1,2}[A-DR]/i, '').replace(/^Unit_?\d{1,2}_?Review/i, '')
+  let t = bare.replace(/^\d{1,2}(?:RE|Rd|Reading|[A-DR])/i, '').replace(/^Unit_?\d{1,2}_?(?:Review[_\s-]?Ext(?:ension)?|Review|Reading)/i, '')
     .replace(/^[_.\-\s]+/, '').replace(/_?Interactive$/i, '').replace(/_?Extension$/i, '')
     .replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
   if (!t) {
     if (code && LESSON_TITLES[code]) return LESSON_TITLES[code];
+    if (code && /RE$/.test(code)) return 'Review Extension';
+    if (code && /Rd$/.test(code)) return 'Reading';
     if (code && /R$/.test(code)) return 'Unit Review';
     if (code && /[A-D]$/.test(code)) return 'Lesson ' + code.slice(-1);
     return 'Lesson';
   }
   return t.replace(/\b\w/g, c => c.toUpperCase());
 }
-
 function detectRepo() {
   const params = new URLSearchParams(location.search);
   if (params.get('repo')) {
@@ -213,7 +232,6 @@ function detectRepo() {
   }
   return null;
 }
-
 async function listHtmlFiles(owner, repo, branch) {
   const tried = new Set();
   let lastErr = null;
@@ -236,7 +254,6 @@ async function listHtmlFiles(owner, repo, branch) {
   }
   throw new Error(lastErr || 'Could not list files');
 }
-
 function buildCourse(discovered) {
   const map = {};
   discovered.forEach(l => { map[l.code] = l; });
@@ -249,21 +266,28 @@ function buildCourse(discovered) {
     });
     const rCode = u + 'R';
     lessons.push(map[rCode] || { unit: u, slot: 'R', code: rCode, title: 'Unit Review', file: null });
+    EXTRA_SLOTS.forEach(extra => {
+      const code = u + extra.codeSuffix;
+      lessons.push(map[code] || {
+        unit: u,
+        slot: extra.slot,
+        code,
+        title: 'Unit ' + u + ' ' + extra.title,
+        file: null
+      });
+    });
     course.push({ unit: u, title: UNIT_TITLES[u] || ('Unit ' + u), lessons });
   }
   return course;
 }
-
 function readyCount() {
   let n = 0;
   COURSE.forEach(u => u.lessons.forEach(l => { if (l.file) n++; }));
   return n;
 }
-
 function saveStudentName(name) {
   localStorage.setItem('empowerC1_student', name);
 }
-
 function showToast(msg) {
   const toast = document.getElementById('toast');
   document.getElementById('toastMsg').textContent = msg;
@@ -271,7 +295,6 @@ function showToast(msg) {
   clearTimeout(showToast._t);
   showToast._t = setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2500);
 }
-
 function openProgressReport() {
   const name = (document.getElementById('studentNameInput').value || '').trim();
   document.getElementById('reportNameLine').textContent = name
@@ -279,24 +302,20 @@ function openProgressReport() {
     : 'Tip: type your name in the header so it carries into each lesson.';
   document.getElementById('reportModal').classList.remove('hidden');
 }
-
 function closeReportModal() {
   document.getElementById('reportModal').classList.add('hidden');
 }
-
-
 const PROGRESS_KEY = 'empowerC1_lessonProgress';
-
 function readProgressMap() {
   try { return JSON.parse(localStorage.getItem(PROGRESS_KEY) || '{}') || {}; }
   catch (_) { return {}; }
 }
-
 /** Overall course % = average of saved lesson percentages (only lessons student touched),
-    weighted across all 60 slots so empty lessons count as 0 */
+    weighted across all slots so empty lessons count as 0 */
 function updateHeaderProgress() {
   const map = readProgressMap();
-  const TOTAL_SLOTS = 12 * 5; // A–D + R
+  const SLOTS_PER_UNIT = 5 + EXTRA_SLOTS.length; // A–D + R + extras
+  const TOTAL_SLOTS = 12 * SLOTS_PER_UNIT;
   let sum = 0;
   Object.keys(map).forEach(code => {
     const p = Number(map[code] && map[code].pct);
@@ -312,33 +331,29 @@ function updateHeaderProgress() {
   if (mb) mb.style.width = pct + '%';
   if (mt) mt.textContent = pct + '%';
 }
-
 function renderAccordion() {
   const container = document.getElementById('unitsAccordionContainer');
   container.innerHTML = '';
   const q = query.trim().toLowerCase();
   const pmap = readProgressMap();
-
+  const slotsPerUnit = 5 + EXTRA_SLOTS.length;
   COURSE.forEach(unit => {
-    // Full structure: always show A, B, C, D, Review
+    // Full structure: always show A, B, C, D, Review, Review Extension, Reading
     const lessons = unit.lessons.filter(l => {
       if (!q) return true;
       return (unit.title + ' ' + l.code + ' ' + l.title + ' unit ' + unit.unit).toLowerCase().includes(q);
     });
     if (!lessons.length) return;
-
     let unitSum = 0;
     unit.lessons.forEach(l => {
       const p = Number(pmap[l.code] && pmap[l.code].pct);
       if (!isNaN(p)) unitSum += Math.max(0, Math.min(100, p));
     });
-    const unitPct = Math.round(unitSum / 5);
+    const unitPct = Math.round(unitSum / slotsPerUnit);
     const isExpanded = unit.unit === expandedUnitId || !!q;
-
     const displayTitle = UNIT_TITLES[unit.unit]
       ? 'Unit ' + unit.unit + ': ' + UNIT_TITLES[unit.unit]
       : 'Unit ' + unit.unit;
-
     const card = document.createElement('div');
     card.className = 'bg-white border border-slate-200/90 rounded-xl overflow-hidden shadow-sm transition-all';
     card.innerHTML = `
@@ -362,7 +377,6 @@ function renderAccordion() {
       <div class="accordion-content ${isExpanded ? 'expanded' : ''} bg-slate-50/50 border-t border-slate-100">
         <div class="p-3 sm:p-4 space-y-1.5" data-lessons></div>
       </div>`;
-
     const list = card.querySelector('[data-lessons]');
     lessons.forEach(lesson => {
       const lp = Number(pmap[lesson.code] && pmap[lesson.code].pct) || 0;
@@ -393,7 +407,6 @@ function renderAccordion() {
         list.appendChild(d);
       }
     });
-
     card.querySelector('button[data-unit]').addEventListener('click', () => {
       expandedUnitId = expandedUnitId === unit.unit ? null : unit.unit;
       renderAccordion();
@@ -402,15 +415,12 @@ function renderAccordion() {
   });
   updateHeaderProgress();
 }
-
 async function init() {
   const saved = localStorage.getItem('empowerC1_student');
   if (saved) document.getElementById('studentNameInput').value = saved;
-
   const status = document.getElementById('status');
-  const LOCAL_FALLBACK = ['1A.html', '1B.html', '1C.html', '1R.html'];
+  const LOCAL_FALLBACK = ['1A.html', '1B.html', '1C.html', '1R.html', '1RE.html', '1Rd.html'];
   const repo = detectRepo();
-
   try {
     if (!repo) throw new Error('local');
     status.textContent = 'Reading ' + repo.owner + '/' + repo.repo + '…';
@@ -424,12 +434,10 @@ async function init() {
     status.textContent = '';
     status.className = 'hidden';
   }
-
   const firstReady = COURSE.find(u => u.lessons.some(l => l.file));
   if (firstReady) expandedUnitId = firstReady.unit;
   renderAccordion();
 }
-
 document.getElementById('q').addEventListener('input', e => {
   query = e.target.value;
   renderAccordion();
@@ -446,7 +454,6 @@ document.querySelectorAll('.chip').forEach(chip => {
     renderAccordion();
   });
 });
-
 init();
 </script>
 </body>
