@@ -97,7 +97,7 @@ body { font-family: Inter, system-ui, sans-serif; }
         </p>
         <div class="flex flex-wrap gap-2 mt-4">
           <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/80 border border-slate-200 text-slate-600">12 units</span>
-          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/80 border border-slate-200 text-slate-600">A · B · C · D · Review · Review Ext · Reading</span>
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/80 border border-slate-200 text-slate-600">A · B · C · D · Review · Review Ext · Reading · Documentary</span>
         </div>
       </div>
     </div>
@@ -139,10 +139,11 @@ body { font-family: Inter, system-ui, sans-serif; }
 </div>
 <script>
 const LETTERS = ['A','B','C','D'];
-/** Extra slots after A–D + R: Review Extension (RE), Reading (Rd) */
+/** Extra slots after A–D + R: Review Extension (RE), Reading (Rd), Documentary Video (DV) */
 const EXTRA_SLOTS = [
   { slot: 'RE', codeSuffix: 'RE', title: 'Review Extension' },
-  { slot: 'Rd', codeSuffix: 'Rd', title: 'Reading' }
+  { slot: 'Rd', codeSuffix: 'Rd', title: 'Reading' },
+  { slot: 'DV', codeSuffix: 'DV', title: 'Documentary Video' }
 ];
 const UNIT_TITLES = { 1: 'Language & learning' };
 const LESSON_TITLES = {
@@ -151,7 +152,8 @@ const LESSON_TITLES = {
   '1C': "I'd much rather…",
   '1R': 'Unit 1 Review',
   '1RE': 'Unit 1 Review Extension',
-  '1Rd': 'Unit 1 Reading'
+  '1Rd': 'Unit 1 Reading',
+  '1DV': 'Unit 1 Documentary Video'
 };
 let expandedUnitId = 1;
 let filter = 'all';
@@ -181,6 +183,17 @@ function parseLessonFile(name) {
     const unit = +m[1];
     return { unit, slot: 'Rd', code: unit + 'Rd', title: titleFromName(name, unit + 'Rd'), file: name };
   }
+  // Unit_N_Documentary_Video / NDocumentary / N_Documentary / NDV
+  m = name.match(/^Unit_?(\d{1,2})_?Documentary(?:[_\s-]?Video)?(?:[_.].*)?\.html$/i);
+  if (m) {
+    const unit = +m[1];
+    return { unit, slot: 'DV', code: unit + 'DV', title: titleFromName(name, unit + 'DV'), file: name };
+  }
+  m = name.match(/^(\d{1,2})(?:DV|Documentary)(?:[_.-].*)?\.html$/i);
+  if (m) {
+    const unit = +m[1];
+    return { unit, slot: 'DV', code: unit + 'DV', title: titleFromName(name, unit + 'DV'), file: name };
+  }
   // Review (must come after Review Extension patterns)
   m = name.match(/^Unit_?(\d{1,2})_?Review(?:[_.].*)?\.html$/i);
   if (m) {
@@ -203,13 +216,14 @@ function parseLessonFile(name) {
 function titleFromName(filename, code) {
   const bare = filename.replace(/\.html$/i, '');
   if (code && LESSON_TITLES[code] && new RegExp('^' + code + '$', 'i').test(bare)) return LESSON_TITLES[code];
-  let t = bare.replace(/^\d{1,2}(?:RE|Rd|Reading|[A-DR])/i, '').replace(/^Unit_?\d{1,2}_?(?:Review[_\s-]?Ext(?:ension)?|Review|Reading)/i, '')
+  let t = bare.replace(/^\d{1,2}(?:RE|Rd|DV|Reading|Documentary|[A-DR])/i, '').replace(/^Unit_?\d{1,2}_?(?:Review[_\s-]?Ext(?:ension)?|Review|Reading|Documentary(?:[_\s-]?Video)?)/i, '')
     .replace(/^[_.\-\s]+/, '').replace(/_?Interactive$/i, '').replace(/_?Extension$/i, '')
     .replace(/[_-]+/g, ' ').replace(/\s+/g, ' ').trim();
   if (!t) {
     if (code && LESSON_TITLES[code]) return LESSON_TITLES[code];
     if (code && /RE$/.test(code)) return 'Review Extension';
     if (code && /Rd$/.test(code)) return 'Reading';
+    if (code && /DV$/.test(code)) return 'Documentary Video';
     if (code && /R$/.test(code)) return 'Unit Review';
     if (code && /[A-D]$/.test(code)) return 'Lesson ' + code.slice(-1);
     return 'Lesson';
@@ -338,7 +352,7 @@ function renderAccordion() {
   const pmap = readProgressMap();
   const slotsPerUnit = 5 + EXTRA_SLOTS.length;
   COURSE.forEach(unit => {
-    // Full structure: always show A, B, C, D, Review, Review Extension, Reading
+    // Full structure: always show A, B, C, D, Review, Review Extension, Reading, Documentary Video
     const lessons = unit.lessons.filter(l => {
       if (!q) return true;
       return (unit.title + ' ' + l.code + ' ' + l.title + ' unit ' + unit.unit).toLowerCase().includes(q);
@@ -419,7 +433,7 @@ async function init() {
   const saved = localStorage.getItem('empowerC1_student');
   if (saved) document.getElementById('studentNameInput').value = saved;
   const status = document.getElementById('status');
-  const LOCAL_FALLBACK = ['1A.html', '1B.html', '1C.html', '1R.html', '1RE.html', '1Rd.html'];
+  const LOCAL_FALLBACK = ['1A.html', '1B.html', '1C.html', '1R.html', '1RE.html', '1Rd.html', '1DV.html'];
   const repo = detectRepo();
   try {
     if (!repo) throw new Error('local');
