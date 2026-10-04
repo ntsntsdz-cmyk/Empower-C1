@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1e3a5f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="1R Unit 1 Review">
+<link rel="manifest" href='data:application/manifest+json,{"name":"1R · Unit 1 Review Extension","short_name":"1R","start_url":".","display":"standalone","orientation":"portrait","background_color":"%231e3a5f","theme_color":"%231e3a5f","icons":[{"src":"data:image/svg%2Bxml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27%3E%3Crect width=%27192%27 height=%27192%27 rx=%2732%27 fill=%27%231e3a5f%27/%3E%3Ctext x=%2796%27 y=%27124%27 font-size=%2790%27 font-family=%27sans-serif%27 font-weight=%27700%27 fill=%27%23ffffff%27 text-anchor=%27middle%27%3E1R%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"}]}'>
+<title>1R · Unit 1 Review Extension</title>
+<style>
+:root {
+  --primary: #1e3a5f;
+  --primary-light: #2c5282;
+  --accent: #3182ce;
+  --accent-soft: #ebf4ff;
+  --success: #38a169;
+  --success-bg: #f0fff4;
+  --danger: #e53e3e;
+  --danger-bg: #fff5f5;
+  --warning: #d69e2e;
+  --warning-bg: #fffff0;
+  --orange: #ed8936;
+  --surface: #ffffff;
+  --bg: #f7fafc;
+  --border: #e2e8f0;
+  --text: #1a202c;
+  --text-muted: #718096;
+  --sidebar-bg: #1e3a5f;
+  --sidebar-hover: rgba(255,255,255,0.08);
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+#sidebar {
+  width: 240px;
+  background: var(--sidebar-bg);
+  color: #fff;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  z-index: 200;
+  padding: 1.25rem 0;
+  transition: transform 0.25s ease;
+}
+#sidebar h2 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0 1.25rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 0.5rem;
+  line-height: 1.35;
+}
+#sidebar .sec-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #90cdf4;
+  padding: 0.75rem 1.25rem 0.35rem;
+  font-weight: 600;
+}
+#sidebar a.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #bee3f8;
+  text-decoration: none;
+  padding: 0.55rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+#sidebar a.nav-link:hover { background: var(--sidebar-hover); color: #fff; }
+#sidebar a.nav-link.active {
+  background: rgba(49, 130, 206, 0.25);
+  color: #fff;
+  border-left-color: #63b3ed;
+}
+#sidebar a.nav-link .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.1);
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+#sidebar a.nav-link.active .num { background: #3182ce; color: #fff; }
+.side-home {
+  display: block;
+  margin: .35rem .85rem .5rem;
+  padding: .4rem .55rem;
+  text-align: center;
+  background: rgba(255,255,255,.1);
+  color: #bee3f8;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 6px;
+  font-size: .75rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.side-home:hover { background: rgba(255,255,255,.18); color: #fff; }
+.side-student {
+  padding: .55rem 1.1rem .7rem;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  margin-bottom: .35rem;
+}
+.side-student label {
+  display: block;
+  font-size: .68rem;
+  color: #90cdf4;
+  margin-bottom: .25rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.side-student input {
+  width: 100%;
+  max-width: none;
+  padding: .35rem .5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: .82rem;
+  margin-bottom: .4rem;
+  background: #fff;
+  color: #1a202c;
+}
+.side-student .btn-report,
+.side-student .btn-clear {
+  width: 100%;
+  margin: .2rem 0 0;
+  padding: .4rem .5rem;
+  border-radius: 6px;
+  font-size: .75rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+.btn-report { background: #ed8936 !important; color: #1a202c !important; }
+.btn-clear { background: #e53e3e !important; color: #fff !important; }
+.save-indicator {
+  display: block;
+  margin: .25rem 0 0;
+  font-size: .7rem;
+  color: #9ae6b4;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.save-indicator.show { opacity: 1; }
+.lesson-progress {
+  margin: .35rem .85rem .55rem;
+  padding: .45rem .55rem;
+  background: rgba(0,0,0,.18);
+  border-radius: 8px;
+}
+.lesson-progress .lp-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: .3rem;
+}
+.lesson-progress .lp-label {
+  font-size: .62rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: rgba(255,255,255,.7);
+  font-weight: 600;
+}
+.lesson-progress .lp-pct {
+  font-size: .75rem;
+  font-weight: 700;
+  color: #68d391;
+}
+.lesson-progress .lp-track {
+  height: 6px;
+  background: rgba(255,255,255,.12);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.lesson-progress .lp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #38a169, #68d391);
+  border-radius: 4px;
+  width: 0%;
+  transition: width .35s ease;
+}
+#main-wrap {
+  margin-left: 240px;
+  max-width: 900px;
+  padding: 1rem 1.15rem 2rem;
+  min-height: 100vh;
+}
+header.compact {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2b6cb0 100%);
+  color: white;
+  padding: .55rem 1rem;
+  border-radius: var(--radius);
+  margin-bottom: .75rem;
+  box-shadow: var(--shadow-md);
+}
+header.compact h1 { font-size: 1.05rem; margin: 0; }
+header.compact p { font-size: .78rem; margin: 0; opacity: .85; }
+.btn-home {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  background: rgba(255,255,255,.15);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.25);
+  padding: .28rem .55rem;
+  border-radius: 6px;
+  font-size: .72rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: .4rem;
+}
+.btn-home:hover { background: rgba(255,255,255,.28); color: #fff; }
+section {
+  display: none;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+section.active { display: block; }
+h2 {
+  color: var(--primary);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 2px solid var(--accent);
+}
+h3 {
+  color: var(--primary-light);
+  font-size: 1.02rem;
+  font-weight: 600;
+  margin: 1.1rem 0 0.5rem;
+}
+.page-label {
+  display: inline-block;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  margin-bottom: 0.65rem;
+}
+.lead {
+  font-size: .88rem;
+  color: var(--text-muted);
+  margin-bottom: .65rem;
+}
+.exercise {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .9rem 1.05rem;
+  margin: .85rem 0;
+}
+.exercise-num {
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: .45rem;
+  font-size: .95rem;
+}
+p, li { margin-bottom: 0.35rem; }
+ul, ol { padding-left: 1.25rem; margin-bottom: .5rem; }
+.note {
+  font-size: 0.84rem;
+  color: #744210;
+  background: var(--warning-bg);
+  border-left: 3px solid var(--warning);
+  padding: 0.5rem 0.8rem;
+  margin: 0.65rem 0;
+  border-radius: 0 8px 8px 0;
+}
+.tip {
+  background: #faf5ff;
+  border-left: 3px solid #9f7aea;
+  padding: .55rem .8rem;
+  margin: .65rem 0;
+  border-radius: 0 8px 8px 0;
+  font-size: .86rem;
+  color: #44337a;
+}
+.green-box {
+  background: var(--success-bg);
+  border: 1px solid #c6f6d5;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  margin: 0.65rem 0;
+  font-size: 0.92rem;
+}
+.quote-box {
+  background: #edf2f7;
+  border-radius: 10px;
+  padding: .85rem 1rem;
+  margin: .5rem 0;
+  font-size: .92rem;
+  border-left: 4px solid var(--accent);
+}
+.quote-box .attr {
+  font-size: .82rem;
+  color: var(--text-muted);
+  margin-top: .35rem;
+}
+.adventure-cell {
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: .85rem 1rem;
+  margin: .7rem 0;
+  position: relative;
+}
+.adventure-cell .cell-num {
+  position: absolute;
+  top: -.55rem;
+  left: .75rem;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: .78rem;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.adventure-cell .choices {
+  margin-top: .55rem;
+}
+.adventure-cell .choice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  background: var(--accent-soft);
+  border: 1px solid #bee3f8;
+  color: var(--primary);
+  padding: .4rem .7rem;
+  border-radius: 8px;
+  font-size: .84rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: .25rem .3rem .25rem 0;
+  text-decoration: none;
+}
+.adventure-cell .choice-btn:hover { background: #bee3f8; }
+.gap {
+  display: inline-block;
+  min-width: 120px;
+  max-width: 220px;
+  margin: 0 .15rem;
+  vertical-align: middle;
+}
+input[type="text"], select, textarea {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.6rem;
+  border: 2px solid #cbd5e0;
+  border-radius: 8px;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input[type="text"]:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+}
+input.correct, select.correct, input.live-ok, select.live-ok {
+  border-color: var(--success) !important;
+  background: var(--success-bg) !important;
+}
+input.wrong, select.wrong, input.live-bad, select.live-bad {
+  border-color: var(--danger) !important;
+  background: var(--danger-bg) !important;
+}
+textarea {
+  width: 100%;
+  min-height: 70px;
+  resize: vertical;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.45rem 0.95rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0.3rem 0.25rem 0.3rem 0;
+  transition: background 0.15s;
+}
+.btn:hover { background: #2b6cb0; }
+.btn-check { background: var(--success); }
+.btn-check:hover { background: #2f855a; }
+.btn-reveal { background: #805ad5; }
+.btn-reveal:hover { background: #6b46c1; }
+.btn-reset { background: #718096; }
+.btn-reset:hover { background: #4a5568; }
+.btn-show { background: #805ad5; color: #fff; border: none; padding: .4rem .75rem; border-radius: 8px; font-weight: 600; font-size: .82rem; cursor: pointer; margin-right: .3rem; }
+.btn-write { background: #6b46c1; color: #fff; border: none; padding: .4rem .75rem; border-radius: 7px; font-weight: 600; font-size: .8rem; cursor: pointer; }
+.btn-write:hover { filter: brightness(1.08); }
+.btn-write:disabled { opacity: .55; cursor: wait; }
+.feedback {
+  margin-top: 0.5rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  display: none;
+}
+.feedback.show { display: block; }
+.feedback.ok {
+  background: var(--success-bg);
+  color: #276749;
+  border: 1px solid #c6f6d5;
+}
+.feedback.bad {
+  background: var(--danger-bg);
+  color: #9b2c2c;
+  border: 1px solid #fed7d7;
+}
+.score-pill {
+  display: inline-block;
+  background: #e2e8f0;
+  color: #334155;
+  border-radius: 20px;
+  padding: .12rem .5rem;
+  font-size: .76rem;
+  font-weight: 700;
+  margin-left: .3rem;
+}
+.score-pill.good { background: #d7f0dd; color: var(--success); }
+.score-pill.bad { background: #fbdcdc; color: var(--danger); }
+.answers-box {
+  display: none;
+  margin-top: .4rem;
+  padding: .5rem .7rem;
+  background: var(--accent-soft);
+  border: 1px dashed var(--accent);
+  border-radius: 8px;
+  font-size: .85rem;
+}
+.answers-box.show { display: block; }
+.find-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .88rem;
+  margin: .5rem 0;
+}
+.find-table th {
+  background: var(--primary);
+  color: #fff;
+  padding: .45rem .55rem;
+  text-align: left;
+  font-size: .8rem;
+}
+.find-table td {
+  border: 1px solid var(--border);
+  padding: .35rem .45rem;
+  vertical-align: middle;
+  background: #fff;
+}
+.find-table input[type="text"] {
+  width: 100%;
+  max-width: none;
+  padding: .3rem .4rem;
+  font-size: .85rem;
+}
+.find-table .prompt { font-weight: 500; min-width: 180px; }
+.stress-phrase {
+  font-weight: 700;
+  color: var(--primary);
+}
+.stress-word {
+  display: inline-block;
+  padding: .1rem .25rem;
+  margin: .1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  user-select: none;
+  font-weight: 700;
+}
+.stress-word:hover { background: #edf2f7; }
+.stress-word.selected {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: #d97706;
+}
+.stress-word.correct-mark {
+  background: var(--success-bg);
+  border-color: var(--success);
+}
+.stress-word.wrong-mark {
+  background: var(--danger-bg);
+  border-color: var(--danger);
+}
+.slide-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border);
+}
+.slide-indicator {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 32, 44, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: white;
+  border-radius: 16px;
+  max-width: 640px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+.modal h2 { margin-top: 0; border: none; padding: 0; }
+.modal pre {
+  background: #f7fafc;
+  padding: 1rem;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 48vh;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+}
+.modal-actions { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 0.75rem; left: 0.75rem;
+  z-index: 210;
+  background: var(--sidebar-bg);
+  color: #fff;
+  border: none;
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  font-size: 1.25rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+}
+.word-popup {
+  position: fixed;
+  z-index: 2000;
+  max-width: min(320px, 92vw);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.22);
+  border: 1px solid #e2e8f0;
+  padding: .85rem 1rem;
+  font-size: .88rem;
+  line-height: 1.45;
+  display: none;
+}
+.word-popup.show { display: block; }
+.word-popup .wp-word { font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-bottom: .15rem; }
+.word-popup .wp-phon { font-size: .78rem; color: var(--text-muted); margin-bottom: .35rem; }
+.word-popup .wp-def { margin-bottom: .45rem; color: #2d3748; }
+.word-popup .wp-pos {
+  display: inline-block;
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: #ebf8ff;
+  color: var(--accent);
+  padding: .1rem .4rem;
+  border-radius: 4px;
+  margin-right: .35rem;
+}
+.word-popup .wp-ex {
+  font-size: .82rem;
+  color: #4a5568;
+  font-style: italic;
+  margin: .25rem 0 0;
+  padding-left: .6rem;
+  border-left: 2px solid #bee3f8;
+}
+.word-popup .wp-close {
+  position: absolute;
+  top: .35rem;
+  right: .45rem;
+  border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #a0aec0;
+}
+.word-popup .wp-src { font-size: .68rem; color: #a0aec0; margin-top: .45rem; }
+.word-popup .wp-loading { color: var(--text-muted); font-size: .84rem; }
+.writing-tools { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin-top: .45rem; }
+.write-fb {
+  margin-top: .55rem;
+  padding: .7rem .85rem;
+  border-radius: 8px;
+  background: #faf5ff;
+  border: 1px solid #e9d8fd;
+  font-size: .86rem;
+  display: none;
+}
+.write-fb.show { display: block; }
+.write-fb .wf-ok { color: var(--success); font-weight: 600; }
+.write-fb .wf-item {
+  margin: .45rem 0;
+  padding: .45rem .55rem;
+  background: #fff;
+  border-radius: 6px;
+  border-left: 3px solid #9f7aea;
+}
+.write-fb .wf-item.err { border-left-color: #e53e3e; }
+.write-fb .wf-item.style { border-left-color: #dd6b20; }
+.write-fb .wf-msg { font-weight: 600; }
+.write-fb .wf-why { font-size: .8rem; color: var(--text-muted); margin-top: .15rem; }
+.write-fb .wf-sug button {
+  margin: .15rem .25rem .15rem 0;
+  padding: .2rem .45rem;
+  border-radius: 5px;
+  border: 1px solid #c4b5fd;
+  background: #ede9fe;
+  cursor: pointer;
+  font-size: .8rem;
+}
+.help-details {
+  font-size: .74rem;
+  color: #9fb6cc;
+  padding: 0 .85rem 1rem;
+  margin-top: .2rem;
+}
+.help-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #90cdf4;
+}
+@media (max-width: 820px) {
+  #sidebar { transform: translateX(-105%); width: min(260px, 82vw); }
+  #sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,0.2); }
+  #main-wrap { margin-left: 0; padding: .6rem .7rem 1.5rem; padding-top: 3.5rem; }
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  .btn-home { display: inline-flex !important; }
+}
+@media (min-width: 821px) {
+  header.compact .btn-home { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')" aria-label="Menu">☰</button>
+
+<nav id="sidebar">
+  <a class="side-home" href="index.html">← Main page</a>
+  <h2>1R · Unit 1 Review Extension</h2>
+  <div class="side-student">
+    <label for="studentName">Your name</label>
+    <input type="text" id="studentName" placeholder="Type full name" autocomplete="name">
+    <span class="save-indicator" id="saveIndicator">✓ Saved</span>
+    <button class="btn-report" onclick="openReport()">📊 Results Report</button>
+    <button class="btn-clear" onclick="clearAllAnswers()">🗑 Clear all</button>
+  </div>
+  <div class="lesson-progress" id="lessonProgressBox">
+    <div class="lp-top"><span class="lp-label">Your progress</span><span class="lp-pct" id="lessonProgressPct">0%</span></div>
+    <div class="lp-track"><div class="lp-fill" id="lessonProgressFill" style="width:0%"></div></div>
+  </div>
+  <div class="sec-label">Review sections</div>
+  <a href="#grammar" class="nav-link active" data-sec="grammar"><span class="num">1</span> Grammar · Adverbs</a>
+  <a href="#pron" class="nav-link" data-sec="pron"><span class="num">2</span> Pronunciation</a>
+  <a href="#speaking" class="nav-link" data-sec="speaking"><span class="num">3</span> Speaking · Find someone</a>
+  <div class="sec-label">Help</div>
+  <details class="help-details">
+    <summary>How to look up words</summary>
+    <div style="margin-top:.35rem;line-height:1.4;color:#bee3f8">Double-click (or long-press on a phone) any word to see a definition.</div>
+  </details>
+</nav>
+
+<div id="main-wrap">
+
+<header class="compact">
+  <a class="btn-home" href="index.html">← Main page</a>
+  <h1>1R · Unit 1 Review Extension</h1>
+  <p>Grammar · Pronunciation · Speaking — Extension practice</p>
+</header>
+
+<div class="modal-overlay" id="reportModal">
+  <div class="modal">
+    <h2>📊 Student Results Report</h2>
+    <p style="font-size:.9rem;color:#555;margin-bottom:.8rem;">Copy this report and send it to your teacher.</p>
+    <pre id="reportContent"></pre>
+    <div class="modal-actions">
+      <button class="btn btn-check" onclick="copyReport()">📋 Copy to clipboard</button>
+      <button class="btn" onclick="downloadReport()">⬇ Download .txt</button>
+      <button class="btn btn-reset" onclick="closeReport()">Close</button>
+    </div>
+    <p id="copyMsg" style="margin-top:.6rem;font-size:.85rem;color:var(--success);display:none;">✓ Copied!</p>
+  </div>
+</div>
+
+<main>
+
+<!-- ===================== 1 GRAMMAR ===================== -->
+<section id="grammar" class="active">
+  <span class="page-label">1A Extension</span>
+  <h2>1 Grammar — Adverbs and adverbial phrases</h2>
+  <p class="lead">Mountain adventure: complete the gaps with suitable adverbials, then choose your path. Numbers link to the next scene.</p>
+  <div class="tip"><strong>Tip:</strong> Gaps ask for time, manner, degree, comment, or place adverbials (e.g. <em>suddenly</em>, <em>extremely</em>, <em>unfortunately</em>, <em>in the cave</em>).</div>
+
+  <div class="exercise" data-ex="adv-path">
+    <div class="exercise-num">Adventure path <span class="score-pill" id="advScore">0/12</span></div>
+
+    <div class="adventure-cell" id="cell1">
+      <span class="cell-num">1</span>
+      <p>You are hiking through the mountains <input type="text" class="gap" data-sid="g1a" data-answer="when a storm is coming|at dusk|late in the afternoon|suddenly" placeholder="(when?)">. There's <input type="text" class="gap" data-sid="g1b" data-answer="clearly|obviously|probably|definitely" placeholder="(how likely?)"> going to be a storm. Do you …?</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell8">→ carry on walking → 8</a>
+        <a class="choice-btn" href="#cell20">→ take cover in a cave → 20</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell2">
+      <span class="cell-num">2</span>
+      <p>You move the rock <input type="text" class="gap" data-sid="g2a" data-answer="carefully|slowly|gently|cautiously" placeholder="(how?)">. <input type="text" class="gap" data-sid="g2b" data-answer="Surprisingly|Amazingly|Unexpectedly|Interestingly" placeholder="(comment?)"> Behind it there is a polished door. What do you do?</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell13">→ Put the rock back → 13</a>
+        <a class="choice-btn" href="#cell19">→ Go inside → 19</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell3">
+      <span class="cell-num">3</span>
+      <p>The figure approaches you <input type="text" class="gap" data-sid="g3a" data-answer="slowly|silently|suddenly|quietly" placeholder="(how?)">. Huge, white and hairy – <input type="text" class="gap" data-sid="g3b" data-answer="obviously|clearly|unbelievably|apparently" placeholder="(comment?)"> it is the famous Yeti! What do you do next?</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell6">→ Take a selfie of you and the Yeti → 6</a>
+        <a class="choice-btn" href="#cell21">→ Ask the Yeti to get you out of there → 21</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell4">
+      <span class="cell-num">4</span>
+      <p><input type="text" class="gap" data-sid="g4a" data-answer="Unfortunately|Sadly|Annoyingly" placeholder="(comment?)"> Your phone won't work. You're getting <input type="text" class="gap" data-sid="g4b" data-answer="increasingly|more and more|desperately" placeholder="(degree?)"> desperate when you see something or someone <input type="text" class="gap" data-sid="g4c" data-answer="in the distance|ahead|nearby|below" placeholder="(where?)">. Do you …?</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell17">→ go and see what is there → 17</a>
+        <a class="choice-btn" href="#cell10">→ walk on → 10</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell5">
+      <span class="cell-num">5</span>
+      <p>There is a wooden chest <input type="text" class="gap" data-sid="g5a" data-answer="in the corner|against the wall|near the door" placeholder="(where?)">. You open it <input type="text" class="gap" data-sid="g5b" data-answer="carefully|slowly|nervously|eagerly" placeholder="(how?)">. Inside is a pile of gold! You put …</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell18">→ all the gold in your rucksack and run → 18</a>
+        <a class="choice-btn" href="#cell11">→ half the gold in your rucksack and run → 11</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell6">
+      <span class="cell-num">6</span>
+      <p><input type="text" class="gap" data-sid="g6a" data-answer="Unfortunately|Sadly|Predictably" placeholder="(comment?)"> Yetis don't like publicity. The Yeti smashes the camera <input type="text" class="gap" data-sid="g6b" data-answer="angrily|furiously|violently" placeholder="(how?)"> and runs away <input type="text" class="gap" data-sid="g6c" data-answer="into the forest|up the mountain|into the distance" placeholder="(where?)">.</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell10">→ Go to 10</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell7">
+      <span class="cell-num">7</span>
+      <p>Two more hikers are stuck in the storm <input type="text" class="gap" data-sid="g7a" data-answer="fortunately|luckily|thankfully" placeholder="(comment?)">! They say they know a safe route <input type="text" class="gap" data-sid="g7b" data-answer="nearby|ahead|down the valley" placeholder="(where?)">. Do you …?</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell12">→ follow them → 12</a>
+        <a class="choice-btn" href="#cell8">→ try to get away alone → 8</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell8">
+      <span class="cell-num">8</span>
+      <p>You walk through the storm <input type="text" class="gap" data-sid="g8a" data-answer="bravely|determinedly|steadily" placeholder="(how?)">. <input type="text" class="gap" data-sid="g8b" data-answer="Suddenly|Unexpectedly|Meanwhile" placeholder="(comment?)"> Snow is falling <input type="text" class="gap" data-sid="g8c" data-answer="heavily|hard|thickly" placeholder="(how?)"> and the wind is blowing <input type="text" class="gap" data-sid="g8d" data-answer="strongly|furiously|violently" placeholder="(how?)">. What do you do?</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell15">→ Walk more quickly → 15</a>
+        <a class="choice-btn" href="#cell20">→ Take cover in a cave → 20</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell9">
+      <span class="cell-num">9</span>
+      <p>The hikers stop you <input type="text" class="gap" data-sid="g9a" data-answer="aggressively|rudely|abruptly" placeholder="(how?)">. <input type="text" class="gap" data-sid="g9b" data-answer="Suddenly|Unfortunately" placeholder="(comment?)"> they demand your money and valuables. They run away and leave you on the mountain.</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell10">→ Go to 10</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell10">
+      <span class="cell-num">10</span>
+      <p>Darkness comes <input type="text" class="gap" data-sid="g10a" data-answer="quickly|suddenly|early" placeholder="(when?)"> and you are <input type="text" class="gap" data-sid="g10b" data-answer="completely|totally|hopelessly" placeholder="(degree?)"> lost and <input type="text" class="gap" data-sid="g10c" data-answer="extremely|bitterly|terribly" placeholder="(degree?)"> cold. Mountain Rescue will find you <input type="text" class="gap" data-sid="g10d" data-answer="eventually|in the morning|if you are lucky" placeholder="(when?)"> if you are lucky. Your journey ends here.</p>
+    </div>
+
+    <div class="adventure-cell" id="cell11">
+      <span class="cell-num">11</span>
+      <p><input type="text" class="gap" data-sid="g11a" data-answer="Suddenly|Unexpectedly" placeholder="(comment?)"> This is stealing! Are you <input type="text" class="gap" data-sid="g11b" data-answer="absolutely|completely|quite" placeholder="(degree?)"> sure?</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell18">→ Yes, in fact I'll take more gold → 18</a>
+        <a class="choice-btn" href="#cell14">→ No, I'll just take a photo of it → 14</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell12">
+      <span class="cell-num">12</span>
+      <p>You walk together. The route seems <input type="text" class="gap" data-sid="g12a" data-answer="rather|quite|somewhat" placeholder="(degree?)"> strange and you walk for ages. Suddenly, one of the hikers says, <input type="text" class="gap" data-sid="g12b" data-answer="quietly|softly|nervously" placeholder="(how?)">, ‘we're lost’. You decide to …</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell10">→ run away from them → 10</a>
+        <a class="choice-btn" href="#cell9">→ keep with them → 9</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell13">
+      <span class="cell-num">13</span>
+      <p><input type="text" class="gap" data-sid="g13a" data-answer="Suddenly|Unexpectedly" placeholder="(comment?)"> You hear voices coming towards the cave. Someone is shouting something <input type="text" class="gap" data-sid="g13b" data-answer="loudly|angrily|urgently" placeholder="(how?)">.</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell10">→ Run away before the people see you → 10</a>
+        <a class="choice-btn" href="#cell7">→ Wait and see → 7</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell14">
+      <span class="cell-num">14</span>
+      <p>You leave the cave <input type="text" class="gap" data-sid="g14a" data-answer="quietly|carefully|quickly" placeholder="(how?)"> and <input type="text" class="gap" data-sid="g14b" data-answer="eventually|later|soon" placeholder="(when?)"> find your way down the mountain. You tell the authorities about the secret room and become famous for discovering it. Good choice!</p>
+    </div>
+
+    <div class="adventure-cell" id="cell15">
+      <span class="cell-num">15</span>
+      <p>The storm has become an icy blizzard! It's getting <input type="text" class="gap" data-sid="g15a" data-answer="extremely|increasingly|dangerously" placeholder="(degree?)"> dangerous. You …</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell4">→ telephone for help → 4</a>
+        <a class="choice-btn" href="#cell10">→ walk even more quickly → 10</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell16">
+      <span class="cell-num">16</span>
+      <p>You sleep <input type="text" class="gap" data-sid="g16a" data-answer="deeply|soundly|peacefully" placeholder="(how?)"> and wake up <input type="text" class="gap" data-sid="g16b" data-answer="suddenly|early|abruptly" placeholder="(when?)">. A huge white and hairy creature – the Yeti – is looking at you <input type="text" class="gap" data-sid="g16c" data-answer="curiously|intently|closely" placeholder="(how?)">. Do you …?</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell8">→ apologise and get out of the cave → 8</a>
+        <a class="choice-btn" href="#cell21">→ ask the Yeti to help you get home → 21</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell17">
+      <span class="cell-num">17</span>
+      <p>It is <input type="text" class="gap" data-sid="g17a" data-answer="probably|possibly|clearly" placeholder="(how likely?)"> a human but he or she is <input type="text" class="gap" data-sid="g17b" data-answer="extremely|incredibly|unbelievably" placeholder="(degree?)"> huge! You have <input type="text" class="gap" data-sid="g17c" data-answer="never|rarely|seldom" placeholder="(how often?)"> seen someone so big. You …</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell3">→ shout, ‘Help!’ → 3</a>
+        <a class="choice-btn" href="#cell10">→ run away → 10</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell18">
+      <span class="cell-num">18</span>
+      <p>You leave the cave <input type="text" class="gap" data-sid="g18a" data-answer="hurriedly|quickly|hastily" placeholder="(how?)"> and struggle through the storm but you don't get very far with all that weight on your back. <input type="text" class="gap" data-sid="g18b" data-answer="Unfortunately|Predictably|Inevitably" placeholder="(comment?)"> You have to abandon your rucksack.</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell10">→ Go to 10</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell19">
+      <span class="cell-num">19</span>
+      <p><input type="text" class="gap" data-sid="g19a" data-answer="Amazingly|Surprisingly|Incredibly" placeholder="(comment?)"> You find yourself in a palatial room! There's a vast four-poster bed <input type="text" class="gap" data-sid="g19b" data-answer="in the corner|against the wall|in the middle" placeholder="(where?)">. What do you do next?</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell16">→ Lie down and sleep → 16</a>
+        <a class="choice-btn" href="#cell5">→ Look around the room more → 5</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell20">
+      <span class="cell-num">20</span>
+      <p>You clamber <input type="text" class="gap" data-sid="g20a" data-answer="carefully|awkwardly|slowly" placeholder="(how?)"> into a nearby cave. There is a large rock <input type="text" class="gap" data-sid="g20b" data-answer="at the entrance|blocking the way|in front of you" placeholder="(where?)"> which seems to have been moved <input type="text" class="gap" data-sid="g20c" data-answer="recently|just now|a moment ago" placeholder="(when?)">. Do you …?</p>
+      <div class="choices">
+        <a class="choice-btn" href="#cell2">→ roll away the rock → 2</a>
+        <a class="choice-btn" href="#cell13">→ sit and wait for the storm to pass → 13</a>
+      </div>
+    </div>
+
+    <div class="adventure-cell" id="cell21">
+      <span class="cell-num">21</span>
+      <p>The Yeti takes you on a secret path <input type="text" class="gap" data-sid="g21a" data-answer="through the forest|over the mountains|down the valley" placeholder="(where?)">. You come out of the mountains <input type="text" class="gap" data-sid="g21b" data-answer="safely|at last|eventually|the next morning" placeholder="(when?)">. Well done, you're safe and you can say you met a Yeti!</p>
+    </div>
+
+    <div style="margin-top:.75rem">
+      <button class="btn btn-check" onclick="checkEx(this)">Check</button>
+      <button class="btn-show" onclick="showAns(this)">Show</button>
+      <button class="btn btn-reset" onclick="resetEx(this)">Clear</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="answers-box"></div>
+    <p class="note">Suggested adverbials are accepted; other sensible answers of the same type are fine in class. Path choices are free exploration.</p>
+  </div>
+
+  <div class="slide-nav">
+    <button class="btn btn-reset slide-prev" type="button">← Previous</button>
+    <span class="slide-indicator"></span>
+    <button class="btn slide-next" type="button">Next →</button>
+  </div>
+</section>
+
+<!-- ===================== 2 PRONUNCIATION ===================== -->
+<section id="pron">
+  <span class="page-label">1B Extension</span>
+  <h2>2 Pronunciation — Sentence stress</h2>
+  <p class="lead">Read the quotations and mark the stressed syllables in the perfect verb phrases in bold. Tap/click syllables to underline stress.</p>
+
+  <div class="exercise" data-ex="pron-a">
+    <div class="exercise-num">Student A — Quotations <span class="score-pill">0/6</span></div>
+    <p>Tap the syllables that carry sentence stress in the <strong>bold</strong> perfect phrases.</p>
+
+    <div class="quote-box" data-quote="a">
+      <p>a ‘Everyone <span class="stress-phrase" data-answer="has been MADE|HAS been MADE"><strong>has been made</strong></span> for some particular work, and the desire for that work <span class="stress-phrase" data-answer="has been PUT|HAS been PUT"><strong>has been put</strong></span> in every heart.’</p>
+      <p class="attr">— Rumi, Persian poet (1207–1273)</p>
+    </div>
+    <div class="quote-box" data-quote="b">
+      <p>b ‘Summer afternoon, summer afternoon; to me those <span class="stress-phrase" data-answer="have ALways been|HAVE always BEEN"><strong>have always been</strong></span> the most beautiful words in the English language.’</p>
+      <p class="attr">— Henry James, American novelist</p>
+    </div>
+    <div class="quote-box" data-quote="c">
+      <p>c ‘I <span class="stress-phrase" data-answer="have not FAILED|HAVE not FAILED"><strong>have not failed</strong></span>. I <span class="stress-phrase" data-answer="have just FOUND|HAVE just FOUND"><strong>have just found</strong></span> ten thousand ways that won’t work.’</p>
+      <p class="attr">— Thomas Edison, American inventor</p>
+    </div>
+    <div class="quote-box" data-quote="d">
+      <p>d ‘History is the version of events that people <span class="stress-phrase" data-answer="have deCIded|HAVE decided"><strong>have decided</strong></span> to agree upon.’</p>
+      <p class="attr">— Napoleon Bonaparte</p>
+    </div>
+    <div class="quote-box" data-quote="e">
+      <p>e ‘Much unhappiness <span class="stress-phrase" data-answer="has COME|HAS come"><strong>has come</strong></span> into the world because of bewilderment and things left unsaid.’</p>
+      <p class="attr">— Fyodor Dostoevsky</p>
+    </div>
+    <div class="quote-box" data-quote="f">
+      <p>f ‘After all is said and done, a lot more <span class="stress-phrase" data-answer="will have been SAID|WILL have been SAID"><strong>will have been said</strong></span> than done.’</p>
+      <p class="attr">— Author unknown</p>
+    </div>
+
+    <div class="tip"><strong>B</strong> Work in AB pairs. Read your quotations to your partner, paying attention to sentence stress. Don’t tell your partner who said them. Can they guess which quotation is more than 700 years old? (Answer: Rumi, 1207–1273.)</div>
+    <div class="tip"><strong>C</strong> Talk about each quotation. Do you like it? Why / Why not?</div>
+    <textarea data-sid="pron_a_notes" placeholder="Your notes on the quotations…"></textarea>
+  </div>
+
+  <div class="exercise" data-ex="pron-b">
+    <div class="exercise-num">Student B — Quotations</div>
+    <div class="quote-box">
+      <p>a ‘Better to <span class="stress-phrase" data-answer="have LOVED|HAVE loved"><strong>have loved</strong></span> and lost than never to <span class="stress-phrase" data-answer="have LOVED|HAVE loved"><strong>have loved</strong></span> at all.’</p>
+      <p class="attr">— Alfred Lord Tennyson</p>
+    </div>
+    <div class="quote-box">
+      <p>b ‘With confidence, you <span class="stress-phrase" data-answer="have WON|HAVE won"><strong>have won</strong></span> even before you <span class="stress-phrase" data-answer="have STARted|HAVE started"><strong>have started</strong></span>.’</p>
+      <p class="attr">— Cicero, Roman politician (106 BC–43 BC)</p>
+    </div>
+    <div class="quote-box">
+      <p>c ‘<span class="stress-phrase" data-answer="HAVing been|Having BEEN"><strong>Having been</strong></span> poor is no shame, but being ashamed of it, is.’</p>
+      <p class="attr">— Benjamin Franklin</p>
+    </div>
+    <div class="quote-box">
+      <p>d ‘To understand the heart and mind of a person, look not at what he <span class="stress-phrase" data-answer="has alREADy aCHIEVED|HAS already achieved"><strong>has already achieved</strong></span>, but at what he aspires to.’</p>
+      <p class="attr">— Khalil Gibran</p>
+    </div>
+    <div class="quote-box">
+      <p>e ‘If you <span class="stress-phrase" data-answer="have acCOMplished|HAVE accomplished"><strong>have accomplished</strong></span> all that you <span class="stress-phrase" data-answer="have PLANned|HAVE planned"><strong>have planned</strong></span> for yourself, you <span class="stress-phrase" data-answer="have not PLANned|HAVE not planned"><strong>have not planned</strong></span> enough.’</p>
+      <p class="attr">— Edward Hale</p>
+    </div>
+    <div class="quote-box">
+      <p>f ‘One never sees what <span class="stress-phrase" data-answer="has been DONE|HAS been DONE"><strong>has been done</strong></span>; one can only see what remains to be done.’</p>
+      <p class="attr">— Marie Curie</p>
+    </div>
+    <textarea data-sid="pron_b_notes" placeholder="Your notes…"></textarea>
+  </div>
+
+  <div class="slide-nav">
+    <button class="btn btn-reset slide-prev" type="button">← Previous</button>
+    <span class="slide-indicator"></span>
+    <button class="btn slide-next" type="button">Next →</button>
+  </div>
+</section>
+
+<!-- ===================== 3 SPEAKING ===================== -->
+<section id="speaking">
+  <span class="page-label">Extension · Perfect aspect</span>
+  <h2>3 Speaking — Find someone who…</h2>
+  <p class="lead">Walk around and find classmates who match each description. Write their name and a detail. Use perfect forms naturally.</p>
+
+  <div class="exercise" data-ex="find-past">
+    <div class="exercise-num">Past — Find someone who, by the time they started school, …</div>
+    <table class="find-table">
+      <thead><tr><th>#</th><th>Prompt</th><th>Name</th><th>Details</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td class="prompt"><strong>had moved</strong> flat/house more than once</td><td><input type="text" data-sid="fp1n" placeholder="Name"></td><td><input type="text" data-sid="fp1d" placeholder="Details"></td></tr>
+        <tr><td>2</td><td class="prompt"><strong>had started</strong> to speak two languages</td><td><input type="text" data-sid="fp2n"></td><td><input type="text" data-sid="fp2d"></td></tr>
+        <tr><td>3</td><td class="prompt"><strong>had met</strong> their best friend</td><td><input type="text" data-sid="fp3n"></td><td><input type="text" data-sid="fp3d"></td></tr>
+        <tr><td>4</td><td class="prompt"><strong>had learned</strong> how to read and write at home</td><td><input type="text" data-sid="fp4n"></td><td><input type="text" data-sid="fp4d"></td></tr>
+        <tr><td>5</td><td class="prompt"><strong>had thought</strong> about their future profession</td><td><input type="text" data-sid="fp5n"></td><td><input type="text" data-sid="fp5d"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="exercise" data-ex="find-present">
+    <div class="exercise-num">Present — Find someone who, this year, …</div>
+    <table class="find-table">
+      <thead><tr><th>#</th><th>Prompt</th><th>Name</th><th>Details</th></tr></thead>
+      <tbody>
+        <tr><td>6</td><td class="prompt"><strong>has won</strong> a prize or competition</td><td><input type="text" data-sid="fpr6n"></td><td><input type="text" data-sid="fpr6d"></td></tr>
+        <tr><td>7</td><td class="prompt"><strong>has worked</strong> or studied too hard</td><td><input type="text" data-sid="fpr7n"></td><td><input type="text" data-sid="fpr7d"></td></tr>
+        <tr><td>8</td><td class="prompt"><strong>has travelled</strong> to any really interesting places</td><td><input type="text" data-sid="fpr8n"></td><td><input type="text" data-sid="fpr8d"></td></tr>
+        <tr><td>9</td><td class="prompt"><strong>has not had</strong> much good luck</td><td><input type="text" data-sid="fpr9n"></td><td><input type="text" data-sid="fpr9d"></td></tr>
+        <tr><td>10</td><td class="prompt"><strong>has done</strong> something for the first time</td><td><input type="text" data-sid="fpr10n"></td><td><input type="text" data-sid="fpr10d"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="exercise" data-ex="find-future">
+    <div class="exercise-num">Future — Find someone who, by the end of the year, …</div>
+    <table class="find-table">
+      <thead><tr><th>#</th><th>Prompt</th><th>Name</th><th>Details</th></tr></thead>
+      <tbody>
+        <tr><td>11</td><td class="prompt"><strong>will have saved</strong> up enough money for something particular</td><td><input type="text" data-sid="ff11n"></td><td><input type="text" data-sid="ff11d"></td></tr>
+        <tr><td>12</td><td class="prompt"><strong>will have celebrated</strong> an important anniversary</td><td><input type="text" data-sid="ff12n"></td><td><input type="text" data-sid="ff12d"></td></tr>
+        <tr><td>13</td><td class="prompt"><strong>will have achieved</strong> something really worthwhile</td><td><input type="text" data-sid="ff13n"></td><td><input type="text" data-sid="ff13d"></td></tr>
+        <tr><td>14</td><td class="prompt"><strong>will have taken</strong> lessons in something new</td><td><input type="text" data-sid="ff14n"></td><td><input type="text" data-sid="ff14d"></td></tr>
+        <tr><td>15</td><td class="prompt"><strong>will have prepared</strong> or trained hard for something</td><td><input type="text" data-sid="ff15n"></td><td><input type="text" data-sid="ff15d"></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-num">Follow-up</div>
+    <p>Write 4–5 sentences reporting the most interesting things you found out. Use perfect forms.</p>
+    <textarea data-sid="find_report" placeholder="e.g. By the time she started school, Maria had already moved house three times…"></textarea>
+  </div>
+
+  <div class="slide-nav">
+    <button class="btn btn-reset slide-prev" type="button">← Previous</button>
+    <span class="slide-indicator"></span>
+    <button class="btn slide-next" type="button">Next →</button>
+  </div>
+</section>
+
+</main>
+</div>
+
+<div class="word-popup" id="wordPopup">
+  <button class="wp-close" id="wpClose" type="button">×</button>
+  <div id="wpBody"></div>
+</div>
+
+<script>
+const STORAGE_KEY = 'empowerC1_1R';
+const LESSON_CODE = '1R';
+const COURSE_PROGRESS_KEY = 'empowerC1_lessonProgress';
+const sectionOrder = ['grammar', 'pron', 'speaking'];
+
+function normalize(s) {
+  return (s || '').toString().trim().toLowerCase()
+    .replace(/[\u2018\u2019\u201A\u201B]/g, "'")
+    .replace(/[\u201C\u201D\u201E]/g, '"')
+    .replace(/[.,!?;:]+$/g, '')
+    .replace(/\s+/g, ' ');
+}
+function isAnswerCorrect(user, ansAttr) {
+  const u = normalize(user);
+  if (!u) return false;
+  return (ansAttr || '').split('|').map(normalize).filter(Boolean).some(a => {
+    if (u === a) return true;
+    if (u.length > 2 && (a.includes(u) || u.includes(a))) return true;
+    return false;
+  });
+}
+function fields() {
+  return [...document.querySelectorAll('input[data-sid], textarea[data-sid], select[data-sid]')];
+}
+function saveAll() {
+  try {
+    const d = { name: document.getElementById('studentName').value || '', fields: {} };
+    fields().forEach(el => { d.fields[el.dataset.sid] = el.value; });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
+    const ind = document.getElementById('saveIndicator');
+    ind.classList.add('show');
+    clearTimeout(window._si);
+    window._si = setTimeout(() => ind.classList.remove('show'), 1200);
+  } catch (e) {}
+  saveCourseProgress();
+}
+function loadAll() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const d = JSON.parse(raw);
+      if (d.name) document.getElementById('studentName').value = d.name;
+      fields().forEach(el => {
+        if (d.fields && d.fields[el.dataset.sid] !== undefined) {
+          el.value = d.fields[el.dataset.sid];
+          if (el.dataset.answer) liveCheckInput(el);
+        }
+      });
+    }
+  } catch (e) {}
+  const s = localStorage.getItem(STORAGE_KEY + '_slide');
+  if (s && sectionOrder.includes(s)) goToSection(s);
+  else goToSection('grammar');
+  saveCourseProgress();
+}
+function liveCheckInput(inp) {
+  if (!inp.dataset.answer) return;
+  const v = inp.value;
+  if (!v.trim()) {
+    inp.classList.remove('live-ok', 'live-bad', 'correct', 'wrong');
+    return;
+  }
+  if (isAnswerCorrect(v, inp.dataset.answer)) {
+    inp.classList.add('live-ok'); inp.classList.remove('live-bad');
+  } else {
+    const u = normalize(v);
+    const accepted = inp.dataset.answer.split('|').map(normalize);
+    if (accepted.some(a => a.startsWith(u) && u.length >= 2)) {
+      inp.classList.add('live-ok'); inp.classList.remove('live-bad');
+    } else {
+      inp.classList.add('live-bad'); inp.classList.remove('live-ok');
+    }
+  }
+}
+function checkEx(btn) {
+  const ex = btn.closest('.exercise');
+  if (!ex) return;
+  const items = [...ex.querySelectorAll('input[data-answer], select[data-answer]')];
+  let c = 0;
+  items.forEach(el => {
+    const ok = isAnswerCorrect(el.value, el.dataset.answer);
+    el.classList.remove('correct', 'wrong', 'live-ok', 'live-bad');
+    el.classList.add(ok ? 'correct' : 'wrong');
+    if (ok) c++;
+  });
+  const pill = ex.querySelector('.score-pill');
+  if (pill) {
+    pill.textContent = c + '/' + items.length;
+    pill.className = 'score-pill ' + (c === items.length ? 'good' : 'bad');
+  }
+  const fb = ex.querySelector('.feedback');
+  if (fb) {
+    fb.className = 'feedback show ' + (c === items.length ? 'ok' : 'bad');
+    fb.textContent = c === items.length ? 'All correct — well done.' : c + ' of ' + items.length + ' correct. Try the red ones again or use Show.';
+  }
+  saveAll();
+}
+function showAns(btn) {
+  const ex = btn.closest('.exercise');
+  if (!ex) return;
+  const box = ex.querySelector('.answers-box');
+  if (!box) return;
+  if (box.classList.contains('show')) { box.classList.remove('show'); return; }
+  const items = [...ex.querySelectorAll('input[data-answer], select[data-answer]')];
+  box.innerHTML = items.map((el, i) => {
+    const first = (el.dataset.answer || '').split('|')[0];
+    return '<div><b>' + (i + 1) + '</b> ' + first + '</div>';
+  }).join('');
+  box.classList.add('show');
+  items.forEach(el => {
+    const first = (el.dataset.answer || '').split('|')[0];
+    el.value = first;
+    el.classList.remove('wrong', 'live-bad');
+    el.classList.add('correct', 'live-ok');
+  });
+  saveAll();
+}
+function resetEx(btn) {
+  const ex = btn.closest('.exercise');
+  if (!ex) return;
+  ex.querySelectorAll('input[data-answer], select[data-answer]').forEach(el => {
+    el.value = '';
+    el.classList.remove('correct', 'wrong', 'live-ok', 'live-bad');
+  });
+  const fb = ex.querySelector('.feedback');
+  if (fb) { fb.className = 'feedback'; fb.textContent = ''; }
+  const box = ex.querySelector('.answers-box');
+  if (box) box.classList.remove('show');
+  const pill = ex.querySelector('.score-pill');
+  if (pill) {
+    const n = ex.querySelectorAll('input[data-answer], select[data-answer]').length;
+    pill.textContent = '0/' + n;
+    pill.className = 'score-pill';
+  }
+  saveAll();
+}
+function clearAllAnswers() {
+  if (!confirm('Clear all answers on every section?')) return;
+  fields().forEach(el => { el.value = ''; el.classList.remove('correct', 'wrong', 'live-ok', 'live-bad'); });
+  document.querySelectorAll('.feedback').forEach(f => { f.className = 'feedback'; f.textContent = ''; });
+  document.querySelectorAll('.answers-box').forEach(b => b.classList.remove('show'));
+  document.querySelectorAll('.score-pill').forEach(p => {
+    const m = p.textContent.match(/\/(\d+)/);
+    p.textContent = '0/' + (m ? m[1] : '0');
+    p.className = 'score-pill';
+  });
+  saveAll();
+}
+function goToSection(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  const sec = document.getElementById(id);
+  if (sec) sec.classList.add('active');
+  document.querySelectorAll('#sidebar .nav-link').forEach(a => {
+    a.classList.toggle('active', a.dataset.sec === id);
+  });
+  try { localStorage.setItem(STORAGE_KEY + '_slide', id); } catch (e) {}
+  updateSlideIndicators();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('sidebar').classList.remove('open');
+}
+function updateSlideIndicators() {
+  const active = document.querySelector('section.active');
+  const idx = sectionOrder.indexOf(active ? active.id : 'grammar');
+  document.querySelectorAll('.slide-indicator').forEach(el => {
+    el.textContent = (idx + 1) + ' / ' + sectionOrder.length;
+  });
+}
+document.querySelectorAll('#sidebar .nav-link').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    goToSection(a.dataset.sec);
+  });
+});
+document.querySelectorAll('.slide-next').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const active = document.querySelector('section.active');
+    const idx = sectionOrder.indexOf(active.id);
+    if (idx < sectionOrder.length - 1) goToSection(sectionOrder[idx + 1]);
+  });
+});
+document.querySelectorAll('.slide-prev').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const active = document.querySelector('section.active');
+    const idx = sectionOrder.indexOf(active.id);
+    if (idx > 0) goToSection(sectionOrder[idx - 1]);
+  });
+});
+document.addEventListener('input', e => {
+  if (e.target.matches && e.target.matches('input[data-answer], select[data-answer]')) liveCheckInput(e.target);
+  if (e.target.matches && e.target.matches('input, textarea, select')) {
+    clearTimeout(window._sv);
+    window._sv = setTimeout(saveAll, 400);
+  }
+});
+document.addEventListener('change', e => {
+  if (e.target.matches && e.target.matches('select[data-answer]')) liveCheckInput(e.target);
+  saveAll();
+});
+document.getElementById('studentName').addEventListener('input', saveAll);
+
+/* Report */
+function openReport() {
+  const name = document.getElementById('studentName').value.trim();
+  if (!name) { alert('Please enter your name in the sidebar first.'); return; }
+  let r = '1R · UNIT 1 REVIEW EXTENSION\nStudent: ' + name + '\nDate: ' + new Date().toLocaleString() + '\n\n';
+  let totC = 0, totT = 0;
+  document.querySelectorAll('section').forEach(sec => {
+    let txt = '▶ ' + (sec.querySelector('h2') ? sec.querySelector('h2').textContent : sec.id) + '\n';
+    let has = false;
+    sec.querySelectorAll('.exercise').forEach(ex => {
+      const items = [...ex.querySelectorAll('input[data-answer], select[data-answer]')];
+      if (!items.length) return;
+      has = true;
+      let c = 0;
+      const lines = [];
+      items.forEach((el, i) => {
+        const ok = isAnswerCorrect(el.value, el.dataset.answer);
+        if (ok) c++;
+        lines.push('    ' + (ok ? '✓' : '✗') + ' ' + (i + 1) + '. ' + (el.value || '(blank)') + (ok ? '' : '  → ' + (el.dataset.answer || '').split('|')[0]));
+      });
+      totC += c; totT += items.length;
+      const label = ex.dataset.ex || 'ex';
+      txt += '  ' + label + ': ' + c + '/' + items.length + '\n' + lines.join('\n') + '\n';
+    });
+    if (has) r += txt + '\n';
+  });
+  r += 'TOTAL (auto-scored only): ' + totC + '/' + totT + ' (' + (totT ? Math.round(totC / totT * 100) : 0) + '%)\n';
+  document.getElementById('reportContent').textContent = r;
+  document.getElementById('reportModal').classList.add('show');
+}
+function closeReport() {
+  document.getElementById('reportModal').classList.remove('show');
+  document.getElementById('copyMsg').style.display = 'none';
+}
+function copyReport() {
+  const t = document.getElementById('reportContent').textContent;
+  navigator.clipboard.writeText(t).then(() => {
+    document.getElementById('copyMsg').style.display = 'block';
+  }).catch(() => {
+    document.getElementById('copyMsg').textContent = 'Copy failed — select the text manually.';
+    document.getElementById('copyMsg').style.display = 'block';
+  });
+}
+function downloadReport() {
+  const name = (document.getElementById('studentName').value || 'student').replace(/\s+/g, '_');
+  const blob = new Blob([document.getElementById('reportContent').textContent], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '1R_Report_' + name + '.txt';
+  a.click();
+}
+document.getElementById('reportModal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeReport();
+});
+
+/* Progress */
+function computeLessonProgressPct() {
+  let total = 0, score = 0;
+  document.querySelectorAll('input[data-answer], select[data-answer]').forEach(el => {
+    total += 1;
+    const v = (el.value || '').trim();
+    if (!v) return;
+    let ok = el.classList.contains('correct') || el.classList.contains('live-ok');
+    if (!ok) ok = isAnswerCorrect(v, el.dataset.answer);
+    score += ok ? 1 : 0.35;
+  });
+  document.querySelectorAll('textarea[data-sid]').forEach(ta => {
+    total += 1;
+    const n = (ta.value || '').trim().length;
+    if (n > 40) score += 1;
+    else if (n > 10) score += 0.5;
+  });
+  // name/details fields in find-someone
+  document.querySelectorAll('input[data-sid]:not([data-answer])').forEach(el => {
+    if (el.id === 'studentName') return;
+    total += 0.25;
+    if ((el.value || '').trim()) score += 0.25;
+  });
+  if (total < 1) return 0;
+  return Math.max(0, Math.min(100, Math.round((score / total) * 100)));
+}
+function saveCourseProgress() {
+  const pct = computeLessonProgressPct();
+  let map = {};
+  try { map = JSON.parse(localStorage.getItem(COURSE_PROGRESS_KEY) || '{}') || {}; } catch (e) {}
+  map[LESSON_CODE] = { pct: pct, updated: new Date().toISOString() };
+  try { localStorage.setItem(COURSE_PROGRESS_KEY, JSON.stringify(map)); } catch (e) {}
+  const fill = document.getElementById('lessonProgressFill');
+  const txt = document.getElementById('lessonProgressPct');
+  if (fill) fill.style.width = pct + '%';
+  if (txt) txt.textContent = pct + '%';
+}
+
+/* Writing feedback */
+function enhanceOpenTextareas() {
+  document.querySelectorAll('textarea[data-sid]').forEach(ta => {
+    if (ta.dataset.writeEnhanced) return;
+    ta.dataset.writeEnhanced = '1';
+    const tools = document.createElement('div');
+    tools.className = 'writing-tools';
+    tools.innerHTML = '<button type="button" class="btn-write" onclick="checkWriting(this)">✨ Check writing</button>';
+    ta.insertAdjacentElement('afterend', tools);
+  });
+}
+async function checkWriting(btn) {
+  const box = btn.closest('.exercise') || btn.parentElement;
+  const ta = box.querySelector('textarea');
+  if (!ta) return;
+  const text = (ta.value || '').trim();
+  let panel = box.querySelector('.write-fb');
+  if (!panel) {
+    panel = document.createElement('div');
+    panel.className = 'write-fb';
+    ta.parentElement.insertBefore(panel, btn.parentElement.nextSibling);
+  }
+  if (!text) {
+    panel.classList.add('show');
+    panel.innerHTML = '<span class="wf-why">Write a few sentences first, then check.</span>';
+    return;
+  }
+  btn.disabled = true;
+  const old = btn.textContent;
+  btn.textContent = 'Checking…';
+  panel.classList.add('show');
+  panel.innerHTML = '<span class="wf-why">Checking grammar and style…</span>';
+  const issues = [];
+  try {
+    const body = new URLSearchParams();
+    body.set('text', text);
+    body.set('language', 'en-GB');
+    const r = await fetch('https://api.languagetool.org/v2/check', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body
+    });
+    if (r.ok) {
+      const data = await r.json();
+      for (const m of (data.matches || []).slice(0, 12)) {
+        const repl = (m.replacements || []).slice(0, 3).map(x => x.value);
+        const isStyle = /style|redundancy|clarity|wordiness/i.test(m.rule?.issueType || '') ||
+          /STYLE|REDUNDANCY/i.test(m.rule?.category?.id || '');
+        issues.push({
+          type: isStyle ? 'style' : 'err',
+          message: m.message || 'Issue found',
+          why: m.rule?.description || m.shortMessage || '',
+          offset: m.offset,
+          length: m.length,
+          snippet: text.substr(m.offset, m.length),
+          suggestions: repl
+        });
+      }
+    }
+  } catch (e) {}
+  btn.disabled = false;
+  btn.textContent = old;
+  function esc(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+  if (!issues.length) {
+    panel.innerHTML = '<div class="wf-ok">✓ Looking good — no major grammar or style issues found.</div>';
+    return;
+  }
+  let h = '<div style="font-weight:700;margin-bottom:.35rem">Suggestions (' + issues.length + ')</div>';
+  issues.forEach(iss => {
+    h += '<div class="wf-item ' + (iss.type === 'style' ? 'style' : 'err') + '"><div class="wf-msg">' +
+      (iss.type === 'style' ? 'Style' : 'Grammar') + ': ' + esc(iss.message) + '</div>';
+    if (iss.snippet) h += '<div class="wf-why">In text: “' + esc(iss.snippet) + '”</div>';
+    if (iss.why) h += '<div class="wf-why">Why: ' + esc(iss.why) + '</div>';
+    if (iss.suggestions && iss.suggestions.length) {
+      h += '<div class="wf-sug">Try: ';
+      iss.suggestions.forEach(s => {
+        h += '<button type="button" data-off="' + iss.offset + '" data-len="' + iss.length +
+          '" data-rep="' + esc(s) + '" onclick="applyWritingFix(this)">' + esc(s) + '</button>';
+      });
+      h += '</div>';
+    }
+    h += '</div>';
+  });
+  panel.innerHTML = h;
+}
+function applyWritingFix(btn) {
+  const box = btn.closest('.exercise') || btn.parentElement;
+  const ta = box.querySelector('textarea');
+  if (!ta) return;
+  const off = parseInt(btn.getAttribute('data-off'), 10);
+  const len = parseInt(btn.getAttribute('data-len'), 10);
+  const rep = btn.getAttribute('data-rep') || '';
+  if (isNaN(off) || isNaN(len) || len <= 0) return;
+  const v = ta.value;
+  ta.value = v.slice(0, off) + rep + v.slice(off + len);
+  ta.dispatchEvent(new Event('input', { bubbles: true }));
+  const checkBtn = box.querySelector('.btn-write');
+  if (checkBtn) checkWriting(checkBtn);
+}
+
+/* Word lookup */
+const LESSON_GLOSSARY = {
+  adverbial: { pos: 'noun', def: 'a word or phrase that functions as an adverb', ex: ['Adverbial phrases tell us when, how, or where.'] },
+  degree: { pos: 'noun', def: 'the intensity or amount of something', ex: ['extremely cold — degree adverb'] },
+  comment: { pos: 'noun', def: 'a speaker’s attitude (e.g. surprisingly, unfortunately)', ex: ['Unfortunately, the phone won’t work.'] },
+  stress: { pos: 'noun', def: 'emphasis on a syllable in speech', ex: ['Sentence stress falls on content words.'] },
+  perfect: { pos: 'adj', def: 'verb form linking past and present (have + past participle)', ex: ['I have finished.'] },
+  yeti: { pos: 'noun', def: 'a large hairy creature said to live in the Himalayas', ex: ['They say they met a Yeti.'] },
+  blizzard: { pos: 'noun', def: 'a severe snowstorm with strong winds', ex: ['The storm became an icy blizzard.'] },
+  clamber: { pos: 'verb', def: 'to climb with difficulty using hands and feet', ex: ['She clambered into the cave.'] },
+  palatial: { pos: 'adj', def: 'like a palace; very large and impressive', ex: ['a palatial room'] }
+};
+function cleanWord(word) {
+  return (word || '').replace(/^[^\w']+|[^\w']+$/g, '').trim();
+}
+function lookupLocal(word) {
+  const key = cleanWord(word).toLowerCase();
+  if (!key) return null;
+  if (LESSON_GLOSSARY[key]) return { word: key, ...LESSON_GLOSSARY[key], src: 'lesson' };
+  return null;
+}
+async function lookupOnline(word) {
+  const w = cleanWord(word).toLowerCase().replace(/[^\w'-]/g, '');
+  if (!w || w.length < 2) return null;
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 8000);
+    const r = await fetch('https://api.datamuse.com/words?sp=' + encodeURIComponent(w) + '&md=d&max=1', { signal: ctrl.signal });
+    clearTimeout(t);
+    if (r.ok) {
+      const data = await r.json();
+      if (Array.isArray(data) && data[0] && data[0].defs && data[0].defs.length) {
+        const line = data[0].defs[0];
+        const tab = line.indexOf('\t');
+        let pos = '', def = line;
+        if (tab >= 0) { pos = line.slice(0, tab).trim(); def = line.slice(tab + 1).trim(); }
+        const posMap = { n: 'noun', v: 'verb', adj: 'adjective', adv: 'adverb' };
+        return { word: data[0].word || w, pos: posMap[pos] || pos, def, ex: [], src: 'dictionary' };
+      }
+    }
+  } catch (e) {}
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 6000);
+    const r = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + encodeURIComponent(w), { signal: ctrl.signal });
+    clearTimeout(t);
+    if (r.ok) {
+      const data = await r.json();
+      const e = Array.isArray(data) ? data[0] : null;
+      if (e && e.meanings && e.meanings[0]) {
+        const m = e.meanings[0];
+        const d = m.definitions[0];
+        return { word: e.word || w, pos: m.partOfSpeech || '', def: d.definition || '', ex: d.example ? [d.example] : [], src: 'dictionary' };
+      }
+    }
+  } catch (e) {}
+  return null;
+}
+function renderPopup(info, queried) {
+  const body = document.getElementById('wpBody');
+  if (!body) return;
+  if (!info) {
+    body.innerHTML = '<div class="wp-word">' + (queried || '?') + '</div><div class="wp-def">No definition found.</div>';
+    return;
+  }
+  let h = '<div class="wp-word">' + info.word + '</div>';
+  if (info.pos) h += '<span class="wp-pos">' + info.pos + '</span>';
+  h += '<div class="wp-def">' + (info.def || '') + '</div>';
+  (info.ex || []).slice(0, 2).forEach(ex => { h += '<p class="wp-ex">"' + ex + '"</p>'; });
+  h += '<div class="wp-src">' + (info.src === 'lesson' ? 'Lesson glossary' : 'Dictionary') + '</div>';
+  body.innerHTML = h;
+}
+function positionPopup(x, y) {
+  const pop = document.getElementById('wordPopup');
+  if (!pop) return;
+  pop.classList.add('show');
+  requestAnimationFrame(() => {
+    const pad = 8, rect = pop.getBoundingClientRect();
+    let left = x + 12, top = y + 12;
+    if (left + rect.width > window.innerWidth - pad) left = Math.max(pad, window.innerWidth - rect.width - pad);
+    if (top + rect.height > window.innerHeight - pad) top = Math.max(pad, y - rect.height - 12);
+    pop.style.left = left + 'px';
+    pop.style.top = top + 'px';
+  });
+}
+let _wpIgnore = 0;
+async function showDefinition(word, clientX, clientY) {
+  word = cleanWord(word);
+  if (!word || word.length < 2) return;
+  const body = document.getElementById('wpBody');
+  if (!body) return;
+  body.innerHTML = '<div class="wp-loading">Looking up “' + word + '”…</div>';
+  _wpIgnore = Date.now() + 800;
+  positionPopup(clientX, clientY);
+  try {
+    let info = lookupLocal(word) || await lookupOnline(word.split(/\s+/)[0]);
+    renderPopup(info, word);
+    positionPopup(clientX, clientY);
+  } catch (e) {
+    renderPopup(null, word);
+    positionPopup(clientX, clientY);
+  }
+}
+document.getElementById('main-wrap').addEventListener('dblclick', e => {
+  if (e.target.closest('input, textarea, button, .choice-btn')) return;
+  const sel = window.getSelection().toString().trim();
+  const word = sel || '';
+  if (word) showDefinition(word.split(/\s+/)[0], e.clientX, e.clientY);
+});
+let pressTimer = null, pressX = 0, pressY = 0;
+document.getElementById('main-wrap').addEventListener('touchstart', e => {
+  if (e.touches.length !== 1) return;
+  if (e.target.closest('input, textarea, button')) return;
+  pressX = e.touches[0].clientX;
+  pressY = e.touches[0].clientY;
+  pressTimer = setTimeout(() => {
+    const sel = window.getSelection().toString().trim();
+    if (sel) showDefinition(sel.split(/\s+/)[0], pressX, pressY);
+  }, 550);
+}, { passive: true });
+document.getElementById('main-wrap').addEventListener('touchend', () => clearTimeout(pressTimer));
+document.getElementById('main-wrap').addEventListener('touchmove', () => clearTimeout(pressTimer));
+document.getElementById('wpClose').addEventListener('click', e => {
+  e.stopPropagation();
+  document.getElementById('wordPopup').classList.remove('show');
+});
+document.addEventListener('click', e => {
+  if (Date.now() < _wpIgnore) return;
+  const pop = document.getElementById('wordPopup');
+  if (pop && !pop.contains(e.target)) pop.classList.remove('show');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('wordPopup').classList.remove('show');
+    closeReport();
+  }
+});
+
+enhanceOpenTextareas();
+loadAll();
+updateSlideIndicators();
+</script>
+</body>
+</html>
