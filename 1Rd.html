@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1e3a5f">
+<title>1A · Unit 1 Reading</title>
+<link rel="manifest" href="data:application/manifest+json,{"name":"1A Unit 1 Reading","short_name":"1A","start_url":".","display":"standalone","background_color":"#1e3a5f","theme_color":"#1e3a5f","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%231e3a5f' width='100' height='100' rx='20'/%3E%3Ctext x='50' y='62' text-anchor='middle' fill='white' font-size='36' font-family='sans-serif' font-weight='bold'%3E1A%3C/text%3E%3C/svg%3E","sizes":"any","type":"image/svg+xml"}]}">
+<style>
+:root{--primary:#1e3a5f;--primary2:#2b6cb0;--accent:#3182ce;--ok:#38a169;--okbg:#f0fff4;--bad:#e53e3e;--badbg:#fff5f5;--bg:#f0f4f8;--card:#fff;--border:#e2e8f0;--muted:#718096;--sidebar-w:210px;--topbar-h:36px;--radius:10px;--shadow:0 1px 3px rgba(0,0,0,.06)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif;background:var(--bg);color:#1a202c;line-height:1.55;-webkit-text-size-adjust:100%}
+body{display:grid;grid-template-columns:var(--sidebar-w) minmax(0,1fr);grid-template-rows:var(--topbar-h) minmax(0,1fr);grid-template-areas:"side top" "side main";overflow:hidden;min-height:100dvh;min-height:100vh}
+.topbar{grid-area:top;background:linear-gradient(135deg,#1e3a5f,#2b6cb0);color:#fff;display:flex;align-items:center;gap:.45rem;padding:0 .65rem;z-index:100;height:var(--topbar-h);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.topbar h1{font-size:.8rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;margin:0}
+.btn-menu{display:none;background:rgba(255,255,255,.15);border:none;color:#fff;width:36px;height:36px;border-radius:8px;font-size:1.2rem;cursor:pointer}
+.btn-home{color:#bee3f8;text-decoration:none;font-size:.78rem;font-weight:600;padding:.2rem .4rem;border-radius:5px}
+.btn-home:hover{background:rgba(255,255,255,.12);color:#fff}
+.sidebar{grid-area:side;background:#1a365d;color:#fff;overflow-y:auto;padding:.5rem 0;min-height:0}
+.sidebar .brand{padding:0 .85rem .45rem;font-size:.75rem;font-weight:700;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:.3rem}
+.sidebar .sec-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.07em;color:#90cdf4;padding:.5rem 1rem .15rem;font-weight:600}
+.sidebar a{display:flex;align-items:center;gap:.35rem;color:#bee3f8;text-decoration:none;padding:.32rem .8rem;font-size:.78rem;font-weight:500;border-left:3px solid transparent}
+.sidebar a:hover,.sidebar a.active{background:rgba(49,130,206,.25);color:#fff;border-left-color:#63b3ed}
+.sidebar a .n{width:20px;height:20px;border-radius:5px;background:rgba(255,255,255,.1);display:inline-flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0}
+.sidebar a.active .n{background:#3182ce}
+.side-home{color:#90cdf4!important;font-size:.76rem!important;padding:.25rem .85rem .4rem!important;border-left:none!important}
+.side-student{padding:.45rem .85rem .55rem;border-bottom:1px solid rgba(255,255,255,.12)}
+.side-student label{display:block;font-size:.65rem;color:#90cdf4;margin-bottom:.2rem;font-weight:600;text-transform:uppercase}
+.side-student input{width:100%;padding:.3rem .45rem;border:none;border-radius:5px;font-size:.8rem;margin-bottom:.35rem;background:#fff;color:#1a202c}
+.side-student .btn-report{width:100%;padding:.35rem;border-radius:5px;font-size:.72rem;margin:0;background:#ed8936;color:#1a202c;border:none;font-weight:700;cursor:pointer}
+.lesson-progress{padding:.35rem .85rem .5rem;border-bottom:1px solid rgba(255,255,255,.1)}
+.lesson-progress .lp-top{display:flex;justify-content:space-between;margin-bottom:.2rem}
+.lesson-progress .lp-label{font-size:.65rem;color:#90cdf4;font-weight:600;text-transform:uppercase}
+.lesson-progress .lp-pct{font-size:.75rem;font-weight:700;color:#9ae6b4}
+.lesson-progress .lp-track{height:6px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden}
+.lesson-progress .lp-fill{height:100%;background:linear-gradient(90deg,#38a169,#68d391);width:0%;transition:width .35s}
+.main{grid-area:main;overflow-y:auto;padding:.5rem .65rem 1.2rem;min-width:0}
+section{display:none;background:var(--card);border-radius:var(--radius);padding:.8rem .95rem;box-shadow:var(--shadow);border:1px solid var(--border);max-width:860px;margin:0 auto}
+section.active{display:block}
+h2{color:var(--primary);font-size:1.05rem;font-weight:700;margin-bottom:.4rem;padding-bottom:.25rem;border-bottom:2px solid var(--accent)}
+h3{color:var(--primary2);font-size:.95rem;margin:.9rem 0 .4rem}
+.page-tag{display:inline-block;background:#ebf8ff;color:var(--accent);font-size:.68rem;font-weight:700;padding:.12rem .5rem;border-radius:20px;margin-bottom:.5rem}
+.section-aims{font-size:.82rem;color:var(--muted);margin-bottom:.55rem;font-style:italic}
+.exercise{background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:.55rem .7rem;margin:.45rem 0}
+.exercise-num{font-weight:700;color:var(--primary);margin-bottom:.35rem;font-size:.9rem}
+p,li{margin-bottom:.3rem;font-size:.9rem}
+ul,ol{padding-left:1.15rem;margin-bottom:.4rem}
+.green-box{background:#f0fff4;border:1px solid #c6f6d5;border-radius:10px;padding:.7rem .9rem;margin:.5rem 0;font-size:.88rem}
+.blue-box{background:#ebf8ff;border:1px solid #bee3f8;border-radius:10px;padding:.7rem .9rem;margin:.5rem 0;font-size:.88rem}
+.purple-box{background:#faf5ff;border:1px solid #e9d8fd;border-radius:10px;padding:.7rem .9rem;margin:.5rem 0;font-size:.86rem}
+.yellow-box{background:#fffff0;border:1px solid #f6e05e;border-radius:10px;padding:.7rem .9rem;margin:.5rem 0;font-size:.86rem}
+.article{background:#f0f7ff;border-left:4px solid var(--accent);padding:.7rem .9rem;margin:.5rem 0;border-radius:0 8px 8px 0;font-size:.86rem}
+.article h4{color:var(--primary);margin:.4rem 0 .25rem;font-size:.9rem}
+.tip-collapse{background:#fffaf0;border:1px solid #fbd38d;border-radius:8px;margin-bottom:.6rem;font-size:.8rem}
+.tip-collapse summary{cursor:pointer;padding:.4rem .65rem;font-weight:600;color:#c05621;list-style:none}
+.tip-collapse .tip-body{padding:0 .65rem .5rem;color:#744210}
+.vocab{font-weight:700;color:var(--primary)}
+input[type=text],select,textarea{font-family:inherit;font-size:.88rem;padding:.35rem .5rem;border:2px solid #cbd5e0;border-radius:7px;width:100%;max-width:260px;background:#fff}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(49,130,206,.15)}
+input.live-ok,select.live-ok{border-color:var(--ok)!important;background:var(--okbg)!important}
+input.live-bad,select.live-bad{border-color:var(--bad)!important;background:var(--badbg)!important}
+input.correct,select.correct{border-color:var(--ok)!important;background:var(--okbg)!important}
+input.wrong,select.wrong{border-color:var(--bad)!important;background:var(--badbg)!important}
+textarea{max-width:100%;min-height:70px;resize:vertical}
+.btn{display:inline-flex;align-items:center;gap:.2rem;background:var(--accent);color:#fff;border:none;padding:.38rem .8rem;border-radius:7px;font-size:.82rem;font-weight:600;cursor:pointer;margin:.25rem .2rem .25rem 0}
+.btn:hover{background:#2b6cb0}
+.btn-check{background:var(--ok)}.btn-show{background:#805ad5}.btn-clear{background:#718096}
+.btn-write{background:transparent;color:#6b46c1;border:1.5px solid #6b46c1;padding:.28rem .6rem;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer}
+.score-pill{display:inline-block;background:#edf2f7;padding:.15rem .45rem;border-radius:16px;font-size:.76rem;font-weight:700;color:var(--primary);margin-left:.25rem}
+.feedback{margin-top:.4rem;padding:.4rem .6rem;border-radius:7px;font-size:.84rem;display:none}
+.feedback.show{display:block}.feedback.ok{background:var(--okbg);color:#276749;border:1px solid #c6f6d5}.feedback.bad{background:var(--badbg);color:#9b2c2c;border:1px solid #fed7d7}
+.slide-nav{display:flex;align-items:center;justify-content:space-between;gap:.4rem;margin-top:.7rem;padding-top:.55rem;border-top:1px solid var(--border)}
+.slide-nav .btn{margin:0}.slide-ind{font-size:.76rem;color:var(--muted);font-weight:600}
+.check-row{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;margin:.3rem 0}
+.match-grid{display:grid;gap:.35rem;margin:.4rem 0}
+.match-row{display:grid;grid-template-columns:auto 1fr auto;gap:.4rem;align-items:start;padding:.3rem 0;border-bottom:1px solid #edf2f7;font-size:.86rem}
+.match-row select{max-width:130px;min-width:100px}
+table{width:100%;border-collapse:collapse;font-size:.84rem;margin:.35rem 0}
+th,td{border:1px solid var(--border);padding:.35rem .5rem;text-align:left}th{background:#edf2f7;font-weight:600;color:var(--primary)}
+.faq-item{margin-bottom:.55rem;padding-bottom:.4rem;border-bottom:1px dashed #cbd5e0}
+.faq-item:last-child{border-bottom:none}.faq-item strong{color:var(--primary);display:block;margin-bottom:.15rem;font-size:.86rem}
+.faq-item p{font-size:.84rem;color:#4a5568;margin:0}
+.tf-list label{display:flex;align-items:flex-start;gap:.4rem;margin:.3rem 0;font-size:.88rem;cursor:pointer}
+.gap-line{margin:.35rem 0;font-size:.88rem;line-height:1.8}
+.gap-line input[type=text]{display:inline-block;width:110px;margin:0 .2rem;padding:.2rem .35rem;font-size:.84rem}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,32,44,.55);z-index:1000;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:14px;max-width:540px;width:100%;max-height:88vh;overflow-y:auto;padding:1.25rem;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.modal h2{border:none;padding:0;margin-bottom:.4rem}.modal pre{background:#f7fafc;padding:.7rem;border-radius:8px;font-size:.76rem;white-space:pre-wrap;max-height:42vh;overflow-y:auto;border:1px solid var(--border)}
+.modal-actions{margin-top:.8rem;display:flex;gap:.35rem}
+.word-popup{position:fixed;z-index:2000;max-width:min(300px,92vw);background:#fff;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.22);border:1px solid #e2e8f0;padding:.75rem .9rem;font-size:.86rem;display:none}
+.word-popup.show{display:block}
+.word-popup .wp-word{font-size:1rem;font-weight:700;color:var(--primary)}
+.word-popup .wp-pos{font-size:.75rem;color:var(--muted);font-style:italic}
+.word-popup .wp-def{margin-top:.25rem}.word-popup .wp-ex{font-size:.8rem;color:#4a5568;margin-top:.2rem}
+.word-popup .wp-close{position:absolute;top:.3rem;right:.4rem;background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--muted)}
+.write-fb{margin-top:.4rem;padding:.5rem .65rem;background:#faf5ff;border:1px solid #e9d8fd;border-radius:7px;font-size:.8rem;display:none}
+.write-fb.show{display:block}
+.write-fb .wf-item{margin-bottom:.35rem;padding-bottom:.3rem;border-bottom:1px solid #e9d8fd}
+.write-fb .wf-msg{font-weight:600}.write-fb .wf-why{color:#6b7280;font-size:.76rem}
+.write-fb .wf-sug button{background:#e9d8fd;color:#553c9a;border:none;padding:.1rem .35rem;border-radius:4px;margin:.1rem .15rem 0 0;cursor:pointer;font-size:.74rem}
+.write-fb .wf-ok{color:#276749;font-weight:600}
+.writing-tools{margin-top:.25rem}
+@media(max-width:820px){body{grid-template-columns:1fr;grid-template-areas:"top" "main"}
+.sidebar{position:fixed;top:var(--topbar-h);left:0;bottom:0;width:min(270px,85vw);transform:translateX(-105%);z-index:90;transition:transform .25s;box-shadow:4px 0 24px rgba(0,0,0,.2)}
+.sidebar.open{transform:translateX(0)}.btn-menu{display:flex;align-items:center;justify-content:center}
+.match-row{grid-template-columns:1fr;gap:.2rem}}
+@media(min-width:1200px){.main{display:grid;grid-template-columns:minmax(0,860px);justify-content:center}section{max-width:none;width:100%}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <button class="btn-menu" id="menuBtn" aria-label="Menu">☰</button>
+  <a class="btn-home" href="index.html">← Home</a>
+  <h1>1A · Unit 1 Reading</h1>
+</div>
+<nav class="sidebar" id="sidebar">
+  <a class="side-home" href="index.html">← Main page</a>
+  <div class="brand">Empower C1 · 1A Reading</div>
+  <div class="side-student">
+    <label for="studentName">Your name</label>
+    <input type="text" id="studentName" placeholder="Type full name" autocomplete="name">
+    <button class="btn-report" onclick="openReport()">📊 Results Report</button>
+  </div>
+  <div class="lesson-progress">
+    <div class="lp-top"><span class="lp-label">Your progress</span><span class="lp-pct" id="lessonProgressPct">0%</span></div>
+    <div class="lp-track"><div class="lp-fill" id="lessonProgressFill"></div></div>
+  </div>
+  <div class="sec-label">Reading Plus · Charity</div>
+  <a href="#c1" class="nav-link active" data-sec="c1"><span class="n">1</span> Speaking & Vocab</a>
+  <a href="#c2" class="nav-link" data-sec="c2"><span class="n">2</span> Reading 1–2</a>
+  <a href="#c3" class="nav-link" data-sec="c3"><span class="n">3</span> Speaking</a>
+  <div class="sec-label">Reading Plus · Language</div>
+  <a href="#l1" class="nav-link" data-sec="l1"><span class="n">4</span> Speaking & Reading</a>
+  <a href="#l2" class="nav-link" data-sec="l2"><span class="n">5</span> Text & MCQ</a>
+  <div class="sec-label">Academic Skills Plus</div>
+  <a href="#a1" class="nav-link" data-sec="a1"><span class="n">6</span> How do we read?</a>
+  <a href="#a2" class="nav-link" data-sec="a2"><span class="n">7</span> Lexical cohesion</a>
+  <a href="#a3" class="nav-link" data-sec="a3"><span class="n">8</span> Reading fluency</a>
+</nav>
+<div class="main" id="main">
+
+<!-- ========== CHARITY 1 ========== -->
+<section id="c1" class="active">
+  <span class="page-tag">Reading Plus · Pages 36–37 · Charity challenge</span>
+  <details class="tip-collapse"><summary>How to look up words</summary><div class="tip-body"><strong>Double-click</strong> (or long-press) any word for a definition. Unit words work offline.</div></details>
+  <h2>1 Speaking & Vocabulary</h2>
+  <p class="section-aims">Discuss charities · Match key vocabulary</p>
+  <div class="exercise">
+    <div class="exercise-num">1a 💬 Work in pairs. Discuss the questions together.</div>
+    <ol>
+      <li>What are popular charities in your country?</li>
+      <li>What different projects do they manage or support?</li>
+      <li>What are typical ways that they try to raise money?</li>
+    </ol>
+    <textarea data-key="c1a" placeholder="Discussion notes…" rows="2"></textarea>
+  </div>
+  <div class="exercise" data-ex="c2a">
+    <div class="exercise-num">2a Match the words in <strong>bold</strong> to definitions 1–3.</div>
+    <p style="font-size:.86rem;margin-bottom:.4rem">I spent last weekend working as a <span class="vocab">fundraiser</span> for a local charity that helps pay for a rescue helicopter. … it was a really <span class="vocab">rewarding</span> experience. Supporting the helicopter is a good <span class="vocab">cause</span> because it can really save lives.</p>
+    <div class="match-grid">
+      <div class="match-row"><span>1</span><span class="def">An idea which people think has social value and which they support</span>
+        <select data-answer="cause" data-key="c2a1"><option value="">—</option><option value="fundraiser">fundraiser</option><option value="cause">cause</option><option value="rewarding">rewarding</option></select></div>
+      <div class="match-row"><span>2</span><span class="def">A person who collects money for a charity organisation</span>
+        <select data-answer="fundraiser" data-key="c2a2"><option value="">—</option><option value="fundraiser">fundraiser</option><option value="cause">cause</option><option value="rewarding">rewarding</option></select></div>
+      <div class="match-row"><span>3</span><span class="def">Makes you feel satisfied because you have done something important or useful</span>
+        <select data-answer="rewarding" data-key="c2a3"><option value="">—</option><option value="fundraiser">fundraiser</option><option value="cause">cause</option><option value="rewarding">rewarding</option></select></div>
+    </div>
+    <div class="check-row"><button class="btn btn-check" onclick="checkEx('c2a')">Check</button><button class="btn btn-show" onclick="showEx('c2a')">Show</button><button class="btn btn-clear" onclick="clearEx('c2a')">Clear</button><span class="score-pill" id="score-c2a"></span></div>
+    <div class="feedback" id="fb-c2a"></div>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">2b Discuss the questions together.</div>
+    <ol>
+      <li>What kinds of charities do you think are good causes?</li>
+      <li>In what ways would it be rewarding to support a charity?</li>
+      <li>Would you like to work as a charity fundraiser?</li>
+    </ol>
+    <textarea data-key="c2b" placeholder="Your ideas…" rows="2"></textarea>
+  </div>
+  <div class="slide-nav"><span></span><span class="slide-ind">1 / 8</span><button class="btn" onclick="showSec('c2')">Next →</button></div>
+</section>
+
+<!-- ========== CHARITY 2 ========== -->
+<section id="c2">
+  <span class="page-tag">Reading Plus · Pages 36–37</span>
+  <h2>2 Reading 1 & 2</h2>
+  <div class="exercise">
+    <div class="exercise-num">3a 💬 In pairs, discuss the questions.</div>
+    <ol>
+      <li>What’s your idea of a perfect holiday? Where would you go? What would you do?</li>
+      <li>How do you think holidays might be able to help raise funds for charities?</li>
+    </ol>
+    <textarea data-key="c3a" placeholder="Notes…" rows="2"></textarea>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">3b Read the information. Answer the questions.</div>
+    <ol>
+      <li>Have you ever thought about having a holiday like this?</li>
+      <li>What do you think are the advantages and disadvantages of going on a holiday like this?</li>
+    </ol>
+    <textarea data-key="c3b" placeholder="Your answers…" rows="2"></textarea>
+  </div>
+  <div class="green-box">
+    <h3 style="margin:0 0 .3rem;color:#276749;font-size:.95rem">Face a challenge – lend a hand!</h3>
+    <p style="font-weight:600;margin-bottom:.3rem">Challenge to Help – What we do</p>
+    <p>Are you the kind of person who likes … travelling to exotic places and having adventures? making new friends from all around the world? raising money for charity?</p>
+    <p style="margin:.35rem 0">OK, you’re ready to go – come and meet the Challenge to Help!</p>
+    <p style="font-size:.86rem">For the past 20 years, we’ve been helping people to help those in need. We organise adventures and expeditions for fundraisers who want a motivating challenge. Maybe you want to go on a long trek or cycle ride, or perhaps you want to climb a mountain or help a community in the developing world. All you have to do is choose the charity you want to help and then find people to sponsor your challenge. So far, we’ve helped people raise more than £30 million for over 1,500 different charities.</p>
+    <p style="font-weight:600;color:#276749;margin-top:.35rem">Make your next holiday a rewarding experience: face a challenge – lend the world a helping hand.</p>
+  </div>
+  <div class="purple-box">
+    <strong style="color:#553c9a">BETTER READING: PREDICTING INFORMATION IN A TEXT</strong>
+    <p style="margin:.3rem 0 0;font-size:.84rem">Before you read a text for the first time, it can help your understanding if you think about the kind of information you might find in the text. 1 Read only the questions. 2 Discuss possible answers. 3 Read the text quickly. Does it include similar ideas to yours?</p>
+  </div>
+  <div class="exercise" data-ex="c4a">
+    <div class="exercise-num">4a Match summaries a–e to questions and answers 1–5.</div>
+    <div class="match-grid">
+      <div class="match-row"><span>1</span><span class="def">How difficult are the challenges?</span><select data-answer="c" data-key="c4a1"><option value="">—</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select></div>
+      <div class="match-row"><span>2</span><span class="def">Can you tell me what kind of people take part in these challenges?</span><select data-answer="e" data-key="c4a2"><option value="">—</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select></div>
+      <div class="match-row"><span>3</span><span class="def">I’m not sure if I’m fit enough. How will I know?</span><select data-answer="b" data-key="c4a3"><option value="">—</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select></div>
+      <div class="match-row"><span>4</span><span class="def">Can I do a challenge with a friend?</span><select data-answer="a" data-key="c4a4"><option value="">—</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select></div>
+      <div class="match-row"><span>5</span><span class="def">How do I choose a charity?</span><select data-answer="d" data-key="c4a5"><option value="">—</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option></select></div>
+    </div>
+    <p style="font-size:.82rem;margin:.4rem 0 .25rem"><strong>Summaries</strong></p>
+    <ul style="font-size:.82rem">
+      <li><strong>a</strong> When people do a challenge with someone they know, it’s usually successful.</li>
+      <li><strong>b</strong> You’ll need to do some training to get ready for your challenge.</li>
+      <li><strong>c</strong> Very fit people can do a challenge that’s tough, while others can choose something easier.</li>
+      <li><strong>d</strong> There are lots of charity organisations who would like your support.</li>
+      <li><strong>e</strong> These challenges can be done by anyone.</li>
+    </ul>
+    <div class="check-row"><button class="btn btn-check" onclick="checkEx('c4a')">Check</button><button class="btn btn-show" onclick="showEx('c4a')">Show</button><button class="btn btn-clear" onclick="clearEx('c4a')">Clear</button><span class="score-pill" id="score-c4a"></span></div>
+    <div class="feedback" id="fb-c4a"></div>
+  </div>
+  <div class="blue-box">
+    <h3 style="margin:0 0 .4rem;color:#2a4365;font-size:.92rem">FAQs</h3>
+    <div class="faq-item"><strong>1 How difficult are the challenges?</strong><p>We have a whole range, and you can choose the level that’s right for you. You can go trekking in the Brazilian Rainforest – that’s quite manageable. Or take the maxi-challenge of a cycle ride through the Atlas Mountains in Morocco. But remember, it’s a challenge and you’ll have to push yourself a bit.</p></div>
+    <div class="faq-item"><strong>2 Can you tell me what kind of people take part in these challenges?</strong><p>All sorts! We’ve had all ages from 17 to 70 take part in our challenges. They all have a desire for adventure and the motivation to help people who are less fortunate than themselves.</p></div>
+    <div class="faq-item"><strong>3 I’m not sure if I’m fit enough. How will I know?</strong><p>We can give you advice on the kind of preparation and training that you need to do in order to get ready. But remember, you’ve got to have both physical and emotional strength and stamina. The key thing is that you give yourself time to prepare for your challenge.</p></div>
+    <div class="faq-item"><strong>4 Can I do a challenge with a friend?</strong><p>It’s often the best way because you can support each other before and during the challenge. We also organise challenges for groups. When a group of people all have the same motivation to succeed and really support a cause, they really put their heart and soul into it.</p></div>
+    <div class="faq-item"><strong>5 How do I choose a charity?</strong><p>It should be something that you really care and feel passionate about. On our website, you’ll find an extensive list to choose from – they would all be delighted if you wanted to support any one of them.</p></div>
+  </div>
+  <div class="slide-nav"><button class="btn" onclick="showSec('c1')">← Prev</button><span class="slide-ind">2 / 8</span><button class="btn" onclick="showSec('c3')">Next →</button></div>
+</section>
+
+<!-- ========== CHARITY 3 ========== -->
+<section id="c3">
+  <span class="page-tag">Reading Plus · Page 37</span>
+  <h2>3 Speaking – Choose a challenge</h2>
+  <div class="exercise">
+    <div class="exercise-num">5a Choose one of the challenges. Think about why this is a good challenge for you.</div>
+    <table>
+      <thead><tr><th>Country</th><th>Challenge</th><th>Time</th><th>Difficulty</th></tr></thead>
+      <tbody>
+        <tr><td>Brazil</td><td>Amazon jungle trek</td><td>8 days</td><td>Maxi-challenge</td></tr>
+        <tr><td>Cambodia</td><td>Cycling to Angkor Wat</td><td>6 days</td><td>Manageable</td></tr>
+        <tr><td>China</td><td>Trek along the Great Wall</td><td>7 days</td><td>Challenging</td></tr>
+        <tr><td>Ethiopia</td><td>Help build a medical centre</td><td>10 days</td><td>Manageable</td></tr>
+      </tbody>
+    </table>
+    <select data-key="c5a-choice" style="max-width:280px;margin:.35rem 0">
+      <option value="">— select —</option>
+      <option value="Brazil">Brazil – Amazon jungle trek</option>
+      <option value="Cambodia">Cambodia – Cycling to Angkor Wat</option>
+      <option value="China">China – Trek along the Great Wall</option>
+      <option value="Ethiopia">Ethiopia – Help build a medical centre</option>
+    </select>
+    <textarea data-key="c5a" placeholder="Why this is a good challenge for you…" rows="2"></textarea>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">5b 💬 In groups, tell each other about the challenge you have chosen and say why.</div>
+    <textarea data-key="c5b" placeholder="Speaking notes…" rows="2"></textarea>
+  </div>
+  <div class="blue-box"><strong>Your turn now – meet the Challenge to Help!</strong><p style="margin:.25rem 0 0;font-size:.86rem">It’s very easy to have your own once-in-a-lifetime experience. Have an adventure like you’ve never had before and do something good for other people. Get in touch with us and meet the Challenge to Help.</p></div>
+  <div class="slide-nav"><button class="btn" onclick="showSec('c2')">← Prev</button><span class="slide-ind">3 / 8</span><button class="btn" onclick="showSec('l1')">Next →</button></div>
+</section>
+
+<!-- ========== LANGUAGE READING PLUS 1 ========== -->
+<section id="l1">
+  <span class="page-tag">Reading Plus · Unit 1 Language · Page 1</span>
+  <h2>4 Speaking & Reading – How Did Language Begin?</h2>
+  <p class="section-aims">Discuss early human developments · Match questions to answers · MCQ</p>
+  <div class="exercise">
+    <div class="exercise-num">1a 💬 Work in groups. Discuss the questions.</div>
+    <ol>
+      <li>What advantages would these developments have given early humans over other animals? (fire · tools · art · social structures · language)</li>
+      <li>Which development do you think was most important to human survival? Why?</li>
+    </ol>
+    <textarea data-key="l1a" placeholder="Discussion notes…" rows="2"></textarea>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">2a Read the text on the next page. According to the author, which development was most important? Why?</div>
+    <textarea data-key="l2a" placeholder="Your answer…" rows="2"></textarea>
+  </div>
+  <div class="exercise" data-ex="l2b">
+    <div class="exercise-num">2b Match the questions (1–8) with the answers (a–h).</div>
+    <div class="match-grid">
+      <div class="match-row"><span>1</span><span class="def">What is not the main issue, according to the text?</span><select data-answer="a" data-key="l2b1"><option value="">—</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option><option value="f">f</option><option value="g">g</option><option value="h">h</option></select></div>
+      <div class="match-row"><span>2</span><span class="def">What is a feasible explanation for the origins of speech?</span><select data-answer="b" data-key="l2b2"><option value="">—</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option><option value="f">f</option><option value="g">g</option><option value="h">h</option></select></div>
+      <div class="match-row"><span>3</span><span class="def">What is a barrier to research in this area?</span><select data-answer="e" data-key="l2b3"><option value="">—</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option><option value="f">f</option><option value="g">g</option><option value="h">h</option></select></div>
+      <div class="match-row"><span>4</span><span class="def">What do fossil skulls not tell us?</span><select data-answer="c" data-key="l2b4"><option value="">—</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option><option value="f">f</option><option value="g">g</option><option value="h">h</option></select></div>
+      <div class="match-row"><span>5</span><span class="def">What does study of the vocal tract show?</span><select data-answer="d" data-key="l2b5"><option value="">—</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option><option value="f">f</option><option value="g">g</option><option value="h">h</option></select></div>
+      <div class="match-row"><span>6</span><span class="def">What can we agree on about the parallels between humans and animals?</span><select data-answer="g" data-key="l2b6"><option value="">—</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option><option value="f">f</option><option value="g">g</option><option value="h">h</option></select></div>
+      <div class="match-row"><span>7</span><span class="def">What is meant by the ‘single leap’?</span><select data-answer="f" data-key="l2b7"><option value="">—</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option><option value="f">f</option><option value="g">g</option><option value="h">h</option></select></div>
+      <div class="match-row"><span>8</span><span class="def">What does the ability to tell stories signify?</span><select data-answer="h" data-key="l2b8"><option value="">—</option><option value="a">a</option><option value="b">b</option><option value="c">c</option><option value="d">d</option><option value="e">e</option><option value="f">f</option><option value="g">g</option><option value="h">h</option></select></div>
+    </div>
+    <p style="font-size:.8rem;margin:.35rem 0"><strong>Answers</strong></p>
+    <ul style="font-size:.8rem">
+      <li><strong>a</strong> Real language was impossible more than 100,000 years ago.</li>
+      <li><strong>b</strong> There are key differences between them.</li>
+      <li><strong>c</strong> Sounds of pain and other emotions</li>
+      <li><strong>d</strong> The creation of the unique human nature of speech</li>
+      <li><strong>e</strong> The lack of evidence</li>
+      <li><strong>f</strong> Humans had become more intelligent.</li>
+      <li><strong>g</strong> The way that different languages developed</li>
+      <li><strong>h</strong> The way that the mind processes information</li>
+    </ul>
+    <div class="check-row"><button class="btn btn-check" onclick="checkEx('l2b')">Check</button><button class="btn btn-show" onclick="showEx('l2b')">Show</button><button class="btn btn-clear" onclick="clearEx('l2b')">Clear</button><span class="score-pill" id="score-l2b"></span></div>
+    <div class="feedback" id="fb-l2b"></div>
+  </div>
+  <div class="purple-box">
+    <strong>BETTER READING: USING REFERENCE DEVICES TO UNDERSTAND HOW TEXT LINKS TOGETHER</strong>
+    <p style="margin:.25rem 0 0;font-size:.84rem">Writers use linking words to help readers follow the flow of information and understand references. Look at <em>it</em> in the first paragraph. What does <em>it</em> refer to? Work out what the underlined reference devices refer to.</p>
+  </div>
+  <div class="slide-nav"><button class="btn" onclick="showSec('c3')">← Prev</button><span class="slide-ind">4 / 8</span><button class="btn" onclick="showSec('l2')">Next →</button></div>
+</section>
+
+<!-- ========== LANGUAGE READING PLUS 2 ========== -->
+<section id="l2">
+  <span class="page-tag">Reading Plus · Unit 1 Language · Page 2</span>
+  <h2>5 Text & Multiple choice</h2>
+  <div class="article">
+    <h4 style="text-align:center;font-size:1.15rem;margin-bottom:.5rem">How Did Language Begin?</h4>
+    <p>In asking about the origins of human language, we first have to make clear what the question is. The question is not how languages gradually developed over time into the languages of the world today. Rather, it is how the human species developed over time so that we – and not our closest relatives, the chimpanzees and bonobos – became capable of using language.</p>
+    <p>The question, then, is how the properties of human language got their start. Obviously, it couldn’t have been a bunch of cavemen sitting around and deciding to make up a language, since in order to do so, they would have to have had a language to start with! Intuitively, one might reasonably speculate that hominids (human ancestors) started by grunting or hooting or crying out, and ‘gradually’ this ‘somehow’ developed into the sort of language we have today. The problem is in the ‘gradually’ and the ‘somehow’. Chimps grunt and hoot and cry out, too. What happened to humans in the 6 million years or so since the hominid and chimpanzee lines diverged, and when and how did hominid communication begin to have the properties of modern language?</p>
+    <p>The basic difficulty with studying the evolution of language is that the evidence is so sparse. Spoken languages don’t leave fossils, and fossil skulls only tell us the overall shape and size of hominid brains, not what the brains could do. About the only definitive evidence we have is the shape of the vocal tract (the mouth, tongue, and throat). Until anatomically modern humans, about 100,000 years ago, the shape of hominid vocal tracts didn’t permit the modern range of speech sounds. But that doesn’t mean that language necessarily began then. Earlier hominids could have had a sort of language that used a more restricted range of consonants and vowels, and the changes in the vocal tract may only have had the effect of making speech faster and more expressive. Some researchers even propose that language began as sign language, then (gradually or suddenly) switched to the vocal modality.</p>
+    <p>These issues and many others are undergoing lively investigation among linguists, psychologists, and biologists. One important question is the degree to which precursors of human language ability are found in animals. For instance, how similar are apes’ systems of thought to ours? A related question is what aspects of language are unique to language and what aspects draw on other human abilities not shared with other primates. This issue is particularly controversial. Some researchers claim that everything in language is built out of other human abilities: the ability for vocal imitation, the ability to memorize vast amounts of information (both needed for learning words), the desire to communicate, the understanding of others’ intentions and beliefs, and the ability to cooperate. Current research seems to show that these human abilities are absent or less highly developed in apes. Other researchers acknowledge the importance of these factors but argue that hominid brains required additional changes that adapted them specifically for language.</p>
+    <p>How did these changes take place? Some researchers claim that they came in a single leap, creating through one mutation the complete system in the brain by which humans express complex meanings through combinations of sounds. These people also tend to claim that there are few aspects of language that are not already present in animals. As for when this all happened, again, it’s very hard to tell. We do know that something important happened in the human line between 100,000 and 50,000 years ago: this is when we start to find cultural artefacts such as art and ritual objects, evidence of what we would call civilization. What was the nature of this transformation in the species at that point? Did they just get smarter (even if their brains didn’t suddenly get larger)? Did they develop language all of a sudden? Did they become smarter because of the intellectual advantages that language affords (such as the ability to maintain an oral history over generations)? At the moment, we don’t know, and, perhaps more intriguingly, we cannot predict how language as a communication system will develop in the future.</p>
+  </div>
+  <div class="exercise" data-ex="l2c">
+    <div class="exercise-num">2c Choose the best answer.</div>
+    <div class="match-grid">
+      <div class="match-row"><span>1</span><span class="def">It is impossible that humans …</span><select data-answer="A" data-key="l2c1"><option value="">—</option><option value="A">A are directly related to chimpanzees.</option><option value="B">B created language by themselves.</option><option value="C">C would confuse sounds and language.</option></select></div>
+      <div class="match-row"><span>2</span><span class="def">The evolution of language must have …</span><select data-answer="B" data-key="l2c2"><option value="">—</option><option value="A">A been a long process.</option><option value="B">B started millions of years ago.</option><option value="C">C been connected to chimpanzees.</option></select></div>
+      <div class="match-row"><span>3</span><span class="def">Why couldn’t we speak 100,000 years ago as we can today?</span><select data-answer="C" data-key="l2c3"><option value="">—</option><option value="A">A We could not produce as many sounds as we can today.</option><option value="B">B Our brains were not large enough to process information quickly.</option><option value="C">C We were reliant on sign language.</option></select></div>
+      <div class="match-row"><span>4</span><span class="def">What kind of language could early humans have had?</span><select data-answer="C" data-key="l2c4"><option value="">—</option><option value="A">A None was possible.</option><option value="B">B one which was more emotional</option><option value="C">C one with a smaller set of sounds</option></select></div>
+      <div class="match-row"><span>5</span><span class="def">What is one of the factors important in learning vocabulary?</span><select data-answer="B" data-key="l2c5"><option value="">—</option><option value="A">A being able to empathize with others</option><option value="B">B being able to copy what you hear</option><option value="C">C being able to form close relationships</option></select></div>
+      <div class="match-row"><span>6</span><span class="def">What is most generally believed today?</span><select data-answer="A" data-key="l2c6"><option value="">—</option><option value="A">A Communication is a way for animals to build relationships.</option><option value="B">B The ability to cooperate is a recent human development.</option><option value="C">C Humans have better social skills than other primates.</option></select></div>
+      <div class="match-row"><span>7</span><span class="def">What is the status of the ‘single leap’ theory?</span><select data-answer="C" data-key="l2c7"><option value="">—</option><option value="A">A It has the support of a number of scientists.</option><option value="B">B It is the only theory which explains the development of language.</option><option value="C">C It has no scientific credibility.</option></select></div>
+      <div class="match-row"><span>8</span><span class="def">What does the creation of works of art show?</span><select data-answer="B" data-key="l2c8"><option value="">—</option><option value="A">A the importance of ritual to language</option><option value="B">B Language must have evolved after a process of civilization.</option><option value="C">C Humans changed so language became possible.</option></select></div>
+    </div>
+    <div class="check-row"><button class="btn btn-check" onclick="checkEx('l2c')">Check</button><button class="btn btn-show" onclick="showEx('l2c')">Show</button><button class="btn btn-clear" onclick="clearEx('l2c')">Clear</button><span class="score-pill" id="score-l2c"></span></div>
+    <div class="feedback" id="fb-l2c"></div>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">3a 💬 Work in pairs. Discuss how you would like to change either English or one of your native languages to make it more effective for communication and easier for children and foreigners to learn.</div>
+    <p style="font-size:.84rem">Consider: grammar · vocabulary · pronunciation · spelling</p>
+    <textarea data-key="l3a" placeholder="Your ideas…" rows="3"></textarea>
+  </div>
+  <div class="slide-nav"><button class="btn" onclick="showSec('l1')">← Prev</button><span class="slide-ind">5 / 8</span><button class="btn" onclick="showSec('a1')">Next →</button></div>
+</section>
+
+<!-- ========== ACADEMIC SKILLS 1 ========== -->
+<section id="a1">
+  <span class="page-tag">Academic Skills Plus · Unit 1 Language · Pages 1–2</span>
+  <h2>6 How do we read?</h2>
+  <p class="section-aims">True/False · Summarising main ideas · Critical thinking</p>
+  <div class="exercise">
+    <div class="exercise-num">1a 💬 Discuss the questions in pairs.</div>
+    <ol>
+      <li>When did you learn to read in your first language?</li>
+      <li>What do you remember about the process of learning? (who taught you · materials · silent/aloud · special techniques)</li>
+      <li>What kind of free time reading do you currently do? (online · print newspapers/magazines · fiction/non-fiction)</li>
+    </ol>
+    <textarea data-key="a1a" placeholder="Notes…" rows="2"></textarea>
+  </div>
+  <div class="exercise" data-ex="a2a">
+    <div class="exercise-num">2a Do you think these sentences about reading are true or false?</div>
+    <div class="tf-list">
+      <label>1 The ability to recognise words is a core reading skill. <select data-answer="true" data-key="a2a1"><option value="">—</option><option value="true">True</option><option value="false">False</option></select></label>
+      <label>2 It is extremely difficult to understand language if you can’t read it. <select data-answer="false" data-key="a2a2"><option value="">—</option><option value="true">True</option><option value="false">False</option></select></label>
+      <label>3 It can take a reader about one tenth of a second to recognise a word. <select data-answer="true" data-key="a2a3"><option value="">—</option><option value="true">True</option><option value="false">False</option></select></label>
+      <label>4 Fluent readers can read an average of 350 words per minute. <select data-answer="false" data-key="a2a4"><option value="">—</option><option value="true">True</option><option value="false">False</option></select></label>
+      <label>5 Recognising a word is a simple, one-step reading skill. <select data-answer="false" data-key="a2a5"><option value="">—</option><option value="true">True</option><option value="false">False</option></select></label>
+    </div>
+    <div class="check-row"><button class="btn btn-check" onclick="checkEx('a2a')">Check</button><button class="btn btn-show" onclick="showEx('a2a')">Show</button><button class="btn btn-clear" onclick="clearEx('a2a')">Clear</button><span class="score-pill" id="score-a2a"></span></div>
+    <div class="feedback" id="fb-a2a"></div>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">2b Read the text quickly to check your predictions. Is the text talking mostly about first or second language reading?</div>
+    <textarea data-key="a2b" placeholder="First / Second / Both – and why…" rows="1"></textarea>
+  </div>
+  <div class="article">
+    <h4>How do we read?</h4>
+    <p><strong>1</strong> Reading and understanding a text involves a series of complex cognitive skills that work in tandem. In order to understand the nature of reading, it is useful to isolate these skills and look at them individually. To begin with, we will consider some of the lower level processes where our brain tracks individual words or phrases in order to build up the overall meaning of a text.</p>
+    <p><strong>Word recognition</strong></p>
+    <p><strong>2</strong> Word recognition is now widely accepted by researchers as one of the most important lower level processes that contributes to reading comprehension. Many studies over the past 20 years have demonstrated that effective word recognition skills are a major predictor of well-developed reading ability later on. This suggests that developing good word recognition skills is an important first step in becoming a fluent reader. Because so much research has been dedicated to word recognition, it is possible to hear critics of cognitive research sometimes say that word recognition is not, in fact, reading comprehension. However, we will not find any researchers who have said that reading comprehension is word recognition. What most researchers do say is that fluent reading comprehension is not possible without rapid and automatic recognition of a large vocabulary. They also say that word recognition represents that part of comprehension that is unique to reading. In other words, many non-readers have listening comprehension abilities associated with language more generally; what they are missing is the capability to activate comprehension specifically from graphic symbols and their combinations.</p>
+    <p><strong>3</strong> The importance of word recognition for reading is hard to overestimate. When we read, we actually focus on almost all (about 80%) of the content words that we read and about 50 percent of the small function words (Adams, 1990; Perfetti, 1999; Pressley, 2006). We are able to do this because we are such extraordinary word recognizers. We can often recognize a word in well less than 100 milliseconds (Ashby & Rayner, 2006; Brysbaert, 2006), and we tend to maintain our focal vision on words for an average time of 200–300 milliseconds (Perfetti 1999). Keeping these numbers in mind, it is not hard to see how a fluent reader can read a text comfortably at 250–300 wpm. It should also be evident that inefficient word-recognition processes are a major obstacle for learners.</p>
+    <p><strong>4</strong> In order for fluent recognition to occur, a reader must first be able to do the following: recognize the actual words on the page very rapidly, activate links between the way the word is written (the graphic form) and the way it sounds (the phonological information), then access resources associated with the meaning of the word and where it appears in a phrase, while also recognizing features such as prefixes and suffixes in more complex word forms, and then finally access her or his mental lexicon. These subskills represent a standard way to describe word recognition skills. Perfetti & Hart (2001) have described these processes as ‘constituents’ of word recognition; that is, word recognition involves the interaction of different activated processes associated with writing, pronunciation, meaning and grammar. Fast and automatic word recognition occurs when visual input from the word on the page activates lexical entries in the reader’s lexicon that have well-represented information of all these four processes. In cases of word recognition difficulty or encounters with unknown words, the impact of contextual information plays an important role in word recognition.</p>
+    <p style="font-size:.8rem;color:var(--muted);margin-top:.4rem">From: Grabe, W. 2009. <em>Reading in a Second Language: Moving from Theory to Practice</em>. Cambridge University Press. pp. 22–23.</p>
+  </div>
+  <div class="exercise" data-ex="a2c">
+    <div class="exercise-num">2c Skills focus – Summarising main ideas. Read paragraphs 1 and 2 again. Choose the best summary (A or B).</div>
+    <label style="display:block;margin:.3rem 0;font-size:.86rem"><input type="radio" name="a2c" data-answer="B" data-key="a2c" value="A"> <strong>A</strong> Word recognition is an isolated reading skill that researchers say is important to develop in children so they become fluent readers. There is some criticism of this idea because word recognition on its own does not necessarily mean that a reader understands the word she or he recognises.</label>
+    <label style="display:block;margin:.3rem 0;font-size:.86rem"><input type="radio" name="a2c" data-answer="B" data-key="a2c" value="B"> <strong>B</strong> Word recognition is one of a number of cognitive skills that are activated when someone reads a text. It is an important low level skill and researchers agree that it’s impossible to read fluently without good word recognition skills. These skills relate only to reading and not the comprehension of oral language.</label>
+    <div class="check-row"><button class="btn btn-check" onclick="checkEx('a2c')">Check</button><button class="btn btn-show" onclick="showEx('a2c')">Show</button><button class="btn btn-clear" onclick="clearEx('a2c')">Clear</button><span class="score-pill" id="score-a2c"></span></div>
+    <div class="feedback" id="fb-a2c"></div>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">2d Read and summarise paragraphs 3 and 4 of the text. Write about 50 words for each paragraph.</div>
+    <textarea data-key="a2d3" placeholder="Paragraph 3 summary (~50 words)…" rows="3"></textarea>
+    <textarea data-key="a2d4" placeholder="Paragraph 4 summary (~50 words)…" rows="3" style="margin-top:.35rem"></textarea>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">2e 💡 Critical thinking – Extending ideas. At the end of paragraph 2, the writer indicates that a key difference between listening and reading is the use of graphic symbols in reading. What other differences between listening and reading can you think of?</div>
+    <textarea data-key="a2e" placeholder="Your ideas…" rows="2"></textarea>
+  </div>
+  <div class="slide-nav"><button class="btn" onclick="showSec('l2')">← Prev</button><span class="slide-ind">6 / 8</span><button class="btn" onclick="showSec('a2')">Next →</button></div>
+</section>
+
+<!-- ========== ACADEMIC SKILLS 2 ========== -->
+<section id="a2">
+  <span class="page-tag">Academic Skills Plus · Page 3</span>
+  <h2>7 LANGUAGE FOCUS: Lexical cohesion</h2>
+  <div class="exercise">
+    <div class="exercise-num">3a The text discusses different kinds of skills. For example: <em>Reading and understanding a text involves a series of complex cognitive skills that work in tandem.</em> Find other skills that are mentioned in the text.</div>
+    <textarea data-key="a3a" placeholder="List skills mentioned…" rows="2"></textarea>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">3b Which words or phrases refer to …?</div>
+    <ol>
+      <li>skills associated with seeing words on the page</li>
+      <li>thinking</li>
+      <li>smaller, detailed skills</li>
+    </ol>
+    <textarea data-key="a3b" placeholder="Your answers…" rows="2"></textarea>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">3c In paragraph 4, what two other words are used to mean ‘skills’? Why does the writer use these different words?</div>
+    <textarea data-key="a3c" placeholder="Your answer…" rows="2"></textarea>
+  </div>
+  <div class="exercise" data-ex="a3d">
+    <div class="exercise-num">3d Cover the text. Complete the gaps with the words in the box. You can use each word more than once. Change the form of the verb if necessary.</div>
+    <p style="font-size:.84rem;margin-bottom:.3rem"><strong>access · recognise · activate</strong></p>
+    <div class="gap-line">In order for fluent recognition to occur, a reader must be able to do the following: <input type="text" data-answer="recognise|recognize" data-key="a3d1"> the actual words on the page very rapidly, <input type="text" data-answer="activate" data-key="a3d2"> links between the way the word is written (the graphic form) and the way it sounds (the phonological information), then <input type="text" data-answer="access" data-key="a3d3"> resources associated with the meaning of the word and where it appears in a phrase, while also recognizing features such as prefixes and suffixes in more complex word forms, and then finally <input type="text" data-answer="access" data-key="a3d4"> her or his mental lexicon.</div>
+    <p style="font-size:.84rem;margin-top:.3rem">How are these words related in meaning? Do they help make the text cohesive?</p>
+    <div class="check-row"><button class="btn btn-check" onclick="checkEx('a3d')">Check</button><button class="btn btn-show" onclick="showEx('a3d')">Show</button><button class="btn btn-clear" onclick="clearEx('a3d')">Clear</button><span class="score-pill" id="score-a3d"></span></div>
+    <div class="feedback" id="fb-a3d"></div>
+  </div>
+  <div class="exercise" data-ex="a3e">
+    <div class="exercise-num">3e Replace the words in the gaps in 3d with the phrases in the box and make other necessary changes so the text so it reads correctly. Then answer the question below.</div>
+    <p style="font-size:.84rem"><strong>link this to · match the word to · use effective word recognition skills · being able to identify · make connections</strong></p>
+    <textarea data-key="a3e" placeholder="Rewritten paragraph…" rows="4"></textarea>
+    <p style="font-size:.84rem;margin-top:.3rem">Is the text still cohesive with these phrases?</p>
+  </div>
+  <div class="yellow-box">
+    <strong>STUDY SKILLS: USING VOCABULARY FOR COHESIVE WRITING</strong>
+    <p style="margin:.25rem 0 0;font-size:.84rem">Before you begin writing, it can help to list key words you need to use in your writing and think of words and phrases with a similar meaning. This will also mean you can use a good range of vocabulary.<br>1 What resources can you use to help?<br>2 What should you check carefully when using these words?</p>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">3f The paragraph below is about handwriting. Read the paragraph and underline every instance of the word <em>handwriting</em>. Think of words and phrases with a similar meaning.</div>
+    <div class="article" style="font-size:.84rem">
+      Handwriting is in danger of becoming a forgotten skill because a lot of written communication is now carried out by using electronic tools. However, there are still some situations where handwriting is useful. For example, handwriting is still necessary in order to sit many school and university exams. Also, sometimes it is faster to use handwriting to write a quick note for someone, and there are many application forms that need to be completed with handwriting. Students still complete handwriting exercises at primary school, but they are less likely to use handwriting outside a study environment.
+    </div>
+    <textarea data-key="a3f" placeholder="Alternative words/phrases for ‘handwriting’…" rows="2"></textarea>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">3g Replace some repetitions of the word <em>handwriting</em> in 3f. You may not change a few other words. You can sometimes use the pronoun <em>it</em>.</div>
+    <textarea data-key="a3g" placeholder="Rewritten paragraph…" rows="4"></textarea>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">4 Writing</div>
+    <p style="font-size:.86rem"><strong>a</strong> Work in pairs and think of different words and phrases that mean the same as <em>language learning</em>.</p>
+    <textarea data-key="a4a" placeholder="Synonyms / related phrases…" rows="1"></textarea>
+    <p style="font-size:.86rem;margin-top:.35rem"><strong>b</strong> Write a paragraph on language learning using the notes below.</p>
+    <ul style="font-size:.84rem">
+      <li>important life skill – opportunities for study, work, personal development</li>
+      <li>many students begin in formal classroom – primary/secondary school</li>
+      <li>some students – private language school</li>
+      <li>some travel to country where language is spoken</li>
+      <li>native speaking country provides opportunities</li>
+    </ul>
+    <textarea data-key="a4b" placeholder="Your paragraph…" rows="4"></textarea>
+    <p style="font-size:.86rem;margin-top:.35rem"><strong>c</strong> Write another paragraph outlining <em>My language learning experience</em> … and begin key aspects of your English language learning background.</p>
+    <textarea data-key="a4c" placeholder="My language learning experience…" rows="4"></textarea>
+    <p style="font-size:.86rem;margin-top:.35rem"><strong>d</strong> 💬 In pairs, compare your paragraphs in 4b and 4c. How are your English language learning backgrounds different? Is your partner’s use of vocabulary about language learning varied and cohesive?</p>
+    <textarea data-key="a4d" placeholder="Comparison notes…" rows="2"></textarea>
+  </div>
+  <div class="slide-nav"><button class="btn" onclick="showSec('a1')">← Prev</button><span class="slide-ind">7 / 8</span><button class="btn" onclick="showSec('a3')">Next →</button></div>
+</section>
+
+<!-- ========== ACADEMIC SKILLS 3 ========== -->
+<section id="a3">
+  <span class="page-tag">Academic Skills Plus · Page 4</span>
+  <h2>8 READING EXTENSION: Reading fluency</h2>
+  <div class="exercise">
+    <div class="exercise-num">5a Make notes on what you think it means to read fluently.</div>
+    <textarea data-key="a5a" placeholder="Your ideas about reading fluency…" rows="2"></textarea>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">5b Read the text below. Does it talk about your ideas in 5a?</div>
+    <textarea data-key="a5b" placeholder="Yes / No / Partly – comments…" rows="1"></textarea>
+  </div>
+  <div class="article">
+    <h4>Reading fluency</h4>
+    <p>Fluency in reading is the ability to read rapidly with ease and accuracy, and to read with appropriate expression and phrasing. It involves a long incremental learning process, and text comprehension is an expected outcome of fluent reading. Fluency also involves certain assumptions about comprehension. In almost all reviews of reading fluency, the relationship between fluency and comprehension assumes that comprehension is a capacity-limited cognitive process. Fluency, and especially automaticity, allows readers to attend to the meaning of the text, the textual context, and required background knowledge without being slowed down by attentional word-recognition demands (Kuhn & Stahl, 2003; National Reading Panel, 2000; Samuels, 2002; Segalowitz, 2000). The assumption that reading is a capacity-limited cognitive process has led to the study of many subcomponents of reading fluency. Three central subcategories are automaticity, accuracy, and rate (Kuhn & Stahl, 2003).</p>
+    <p>The concept of <em>automaticity</em> has been reviewed in earlier chapters. However, a brief account of automaticity definitions provides one important foundation for discussing fluency. There are, in fact, many ways to define automaticity of information processing (DeKeyser, 2001; Logan, 1997, 2002; National Reading Panel, 2000; Segalowitz & Hulstijn, 2005). In discussions of fluency, automaticity is defined as processing operations that are rapid, relatively resource-free, not subject to interference, unconscious, and hard to suppress. It is also assumed to require long periods of training (National Reading Panel, 2000). Fluent reading would seem to require all of the above criteria. No matter how automaticity is defined, it is generally accepted that it entails more than simply processing text rapidly.</p>
+    <p><em>Accuracy</em> is also seen as an essential component of reading fluency, whether it involves recognition skills at the subword level, word level, or text level (Breznitz, 2006; Perfetti, 2007; Torgesen, Rashotte, & Alexander, 2001; Wolf & Katzir-Cohen, 2001). Accuracy, as a component of reading fluency, is most closely associated with word recognition in that fluent word recognition must not only be rapid and automatic, it must also be complete and accurate.</p>
+    <p>There is growing evidence that the quality of lexical representations for words strongly influences reading comprehension abilities (Perfetti, 1992, 2007). For L2 readers, however, complete and accurate word retrieval cannot be expected. Lexical access of frequent, practised words may be rapid and automatic to a point, retrieving what is available from the lexicon. But without word-reading accuracy, comprehension would quickly become degraded. Both fluency and advanced comprehension require fully specified lexical entries and accurate recognition.</p>
+    <p>A third component that is needed for reading fluency is a rapid overall rate of reading for comprehension. Fluency requires an ability to maintain ease of comprehension throughout an extended text. Such an ability assumes the above skill components as well as a large recognition vocabulary, automaticity with basic syntactic processing, and plenty of practice. Finally, this conception of fluency ability connects directly with reading efficiency. It is at the level of extended fluent reading that the concept of reading efficiency connects fluency with reading comprehension (Breznitz, 2006; Carver, 1997, 2000; Perfetti 1985).</p>
+    <p style="font-size:.8rem;color:var(--muted);margin-top:.35rem">From: Grabe, W. 2009. <em>Reading in a Second Language</em>. Cambridge University Press. pp. 291–292.</p>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">5c Read the text again and define these terms in your own words.</div>
+    <ol>
+      <li>Fluent reading skills:</li>
+      <li>Automaticity in reading:</li>
+      <li>Reading accuracy:</li>
+    </ol>
+    <textarea data-key="a5c" placeholder="Your definitions…" rows="4"></textarea>
+  </div>
+  <div class="exercise">
+    <div class="exercise-num">5d 💡 Critical thinking – Applying knowledge</div>
+    <ol>
+      <li>How ‘complete and accurate’ is your ability to retrieve words in English compared to your first language?</li>
+      <li>How fluent a reader are you in English? Rate yourself on a scale of 1 to 10 where 10 is a very fluent reader of English.</li>
+      <li>How can you improve your reading fluency?</li>
+    </ol>
+    <textarea data-key="a5d" placeholder="Your reflections…" rows="4"></textarea>
+  </div>
+  <div class="slide-nav"><button class="btn" onclick="showSec('a2')">← Prev</button><span class="slide-ind">8 / 8</span><span></span></div>
+</section>
+
+</div><!-- /main -->
+
+<div class="modal-overlay" id="reportModal">
+  <div class="modal">
+    <h2>Results Report</h2>
+    <p>Student: <strong id="reportName">—</strong></p>
+    <pre id="reportPre"></pre>
+    <div class="modal-actions">
+      <button class="btn btn-check" onclick="copyReport()">Copy summary</button>
+      <button class="btn btn-clear" onclick="closeReport()">Close</button>
+    </div>
+  </div>
+</div>
+<div class="word-popup" id="wordPopup">
+  <button class="wp-close" id="wpClose">×</button>
+  <div class="wp-word" id="wpWord"></div>
+  <div class="wp-pos" id="wpPos"></div>
+  <div class="wp-def" id="wpDef"></div>
+  <div class="wp-ex" id="wpEx"></div>
+</div>
+
+<script>
+const LESSON_CODE='1A',STORAGE_KEY='empowerC1_1A',COURSE_PROGRESS_KEY='empowerC1_lessonProgress';
+const GLOSSARY={fundraiser:{pos:'noun',def:'A person who collects money for a charity organisation.',ex:'She works as a fundraiser for charity.'},cause:{pos:'noun',def:'An idea or organisation people support for its social value.',ex:'a good cause'},rewarding:{pos:'adjective',def:'Making you feel satisfied because you did something important.',ex:'a rewarding experience'},stamina:{pos:'noun',def:'Physical or mental strength to keep going.',ex:'You need stamina for the trek.'},manageable:{pos:'adjective',def:'Possible to deal with without too much difficulty.',ex:'a manageable challenge'},fluency:{pos:'noun',def:'The ability to read or speak smoothly and easily.',ex:'reading fluency'},automaticity:{pos:'noun',def:'The ability to perform a skill rapidly and without conscious effort.',ex:'automaticity of word recognition'},cohesion:{pos:'noun',def:'The way parts of a text link together to form a unified whole.',ex:'lexical cohesion'},recognition:{pos:'noun',def:'The ability to identify something previously seen or known.',ex:'word recognition'}};
+function normalize(s){if(!s)return'';return String(s).trim().toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u201C\u201D]/g,'"').replace(/[.,;:!?]+$/g,'').replace(/\s+/g,' ')}
+function isAnswerCorrect(user,answer){const u=normalize(user);if(!u)return false;return answer.split('|').map(normalize).some(a=>a===u)}
+function showSec(id){document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));const s=document.getElementById(id);if(s)s.classList.add('active');document.querySelectorAll('.nav-link').forEach(a=>a.classList.toggle('active',a.dataset.sec===id));document.getElementById('main').scrollTop=0;document.getElementById('sidebar').classList.remove('open');saveAll()}
+document.querySelectorAll('.nav-link').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();showSec(a.dataset.sec)}));
+document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
+function liveCheck(el){if(!el.dataset.answer)return;const ok=isAnswerCorrect(el.value,el.dataset.answer);el.classList.remove('live-ok','live-bad','correct','wrong');if(!el.value)return;el.classList.add(ok?'live-ok':'live-bad')}
+function checkEx(id){const ex=document.querySelector(`[data-ex="${id}"]`);if(!ex)return;let c=0,t=0;ex.querySelectorAll('[data-answer]').forEach(el=>{t++;const ok=el.type==='radio'?el.checked&&isAnswerCorrect(el.value,el.dataset.answer):isAnswerCorrect(el.value,el.dataset.answer);if(el.type!=='radio'){el.classList.remove('live-ok','live-bad','correct','wrong');el.classList.add(ok?'correct':'wrong')}if(ok)c++});if(ex.querySelector('input[type=radio]')){const checked=ex.querySelector('input[type=radio]:checked');t=1;c=(checked&&isAnswerCorrect(checked.value,checked.dataset.answer))?1:0}const pill=document.getElementById('score-'+id);if(pill)pill.textContent=c+'/'+t;const fb=document.getElementById('fb-'+id);if(fb){fb.className='feedback show '+(c===t?'ok':'bad');fb.textContent=c===t?'All correct!':`You got ${c}/${t}.`}saveAll();saveCourseProgress()}
+function showEx(id){const ex=document.querySelector(`[data-ex="${id}"]`);if(!ex)return;let t=0;ex.querySelectorAll('[data-answer]').forEach(el=>{t++;const ans=(el.dataset.answer||'').split('|')[0].trim();if(el.type==='radio'){if(normalize(el.value)===normalize(ans))el.checked=true}else{el.value=ans;el.classList.remove('live-ok','live-bad','wrong');el.classList.add('correct')}});const pill=document.getElementById('score-'+id);if(pill)pill.textContent=t+'/'+t;const fb=document.getElementById('fb-'+id);if(fb){fb.className='feedback show ok';fb.textContent='Answers shown.'}saveAll();saveCourseProgress()}
+function clearEx(id){const ex=document.querySelector(`[data-ex="${id}"]`);if(!ex)return;ex.querySelectorAll('[data-answer]').forEach(el=>{if(el.type==='radio')el.checked=false;else{el.value='';el.classList.remove('live-ok','live-bad','correct','wrong')}});const pill=document.getElementById('score-'+id);if(pill)pill.textContent='';const fb=document.getElementById('fb-'+id);if(fb){fb.className='feedback';fb.textContent=''}saveAll();saveCourseProgress()}
+function saveAll(){const data={name:document.getElementById('studentName').value||'',answers:{}};document.querySelectorAll('[data-key]').forEach(el=>{if(el.type==='radio'){if(el.checked)data.answers[el.dataset.key]=el.value}else data.answers[el.dataset.key]=el.value});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}catch(e){}}
+function loadAll(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;const data=JSON.parse(raw);if(data.name)document.getElementById('studentName').value=data.name;if(data.answers)Object.entries(data.answers).forEach(([k,v])=>{const els=document.querySelectorAll(`[data-key="${k}"]`);els.forEach(el=>{if(el.type==='radio')el.checked=(el.value===v);else el.value=v})});document.querySelectorAll('[data-answer]').forEach(liveCheck)}catch(e){}}
+document.getElementById('studentName').addEventListener('input',saveAll);
+document.querySelectorAll('[data-key]').forEach(el=>{el.addEventListener('input',()=>{liveCheck(el);saveAll();saveCourseProgress()});el.addEventListener('change',()=>{liveCheck(el);saveAll();saveCourseProgress()})});
+function openReport(){document.getElementById('reportName').textContent=document.getElementById('studentName').value||'—';let lines=[],tc=0,tt=0;document.querySelectorAll('[data-ex]').forEach(ex=>{const id=ex.dataset.ex;let c=0,t=0;ex.querySelectorAll('[data-answer]').forEach(el=>{if(el.type==='radio')return;t++;if(isAnswerCorrect(el.value,el.dataset.answer))c++});const radios=ex.querySelectorAll('input[type=radio][data-answer]');if(radios.length){t=1;const ch=ex.querySelector('input[type=radio]:checked');c=(ch&&isAnswerCorrect(ch.value,ch.dataset.answer))?1:0}tc+=c;tt+=t;lines.push(`Ex ${id}: ${c}/${t}`)});let od=0,ot=0;document.querySelectorAll('textarea[data-key]').forEach(ta=>{ot++;if((ta.value||'').trim().length>15)od++});lines.push(`Open responses: ${od}/${ot}`);lines.push(`Auto-scored: ${tc}/${tt} (${tt?Math.round(tc/tt*100):0}%)`);document.getElementById('reportPre').textContent=lines.join('\n');document.getElementById('reportModal').classList.add('show')}
+function closeReport(){document.getElementById('reportModal').classList.remove('show')}
+function copyReport(){const t=`Empower C1 – ${LESSON_CODE}\nStudent: ${document.getElementById('reportName').textContent}\n\n`+document.getElementById('reportPre').textContent;navigator.clipboard.writeText(t).then(()=>{event.target.textContent='Copied!';setTimeout(()=>event.target.textContent='Copy summary',1400)})}
+document.getElementById('reportModal').addEventListener('click',e=>{if(e.target.id==='reportModal')closeReport()});
+function computeLessonProgressPct(){let total=0,score=0;document.querySelectorAll('[data-answer]').forEach(el=>{if(el.type==='radio')return;total++;const v=(el.value||'').trim();if(!v)return;if(isAnswerCorrect(v,el.dataset.answer))score+=1;else score+=.25});document.querySelectorAll('input[type=radio][data-answer]').forEach(el=>{if(el.checked){total++;score+=isAnswerCorrect(el.value,el.dataset.answer)?1:.25}});document.querySelectorAll('textarea[data-key]').forEach(ta=>{total++;const n=(ta.value||'').trim().length;if(n>40)score+=1;else if(n>10)score+=.5});return total<1?0:Math.max(0,Math.min(100,Math.round(score/total*100)))}
+function saveCourseProgress(){const pct=computeLessonProgressPct();let map={};try{map=JSON.parse(localStorage.getItem(COURSE_PROGRESS_KEY)||'{}')||{}}catch(e){}map[LESSON_CODE]={pct,updated:new Date().toISOString()};try{localStorage.setItem(COURSE_PROGRESS_KEY,JSON.stringify(map))}catch(e){}const f=document.getElementById('lessonProgressFill'),t=document.getElementById('lessonProgressPct');if(f)f.style.width=pct+'%';if(t)t.textContent=pct+'%'}
+function showDefinition(word,x,y){const clean=word.replace(/[^a-zA-Z'-]/g,'').toLowerCase();if(clean.length<2)return;const pop=document.getElementById('wordPopup');document.getElementById('wpWord').textContent=clean;document.getElementById('wpPos').textContent='';document.getElementById('wpDef').textContent='Looking up…';document.getElementById('wpEx').textContent='';pop.classList.add('show');pop.style.left=Math.min(x,innerWidth-280)+'px';pop.style.top=(y+12)+'px';if(GLOSSARY[clean]){const g=GLOSSARY[clean];document.getElementById('wpPos').textContent=g.pos||'';document.getElementById('wpDef').textContent=g.def;document.getElementById('wpEx').textContent=g.ex?'e.g. '+g.ex:'';return}const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),7000);fetch('https://api.datamuse.com/words?sp='+encodeURIComponent(clean)+'&md=d&max=1',{signal:ctrl.signal}).then(r=>r.json()).then(d=>{if(d&&d[0]&&d[0].defs&&d[0].defs[0]){const p=d[0].defs[0].split('\t');document.getElementById('wpPos').textContent=p[0]||'';document.getElementById('wpDef').textContent=p[1]||d[0].defs[0];return}return fetch('https://api.dictionaryapi.dev/api/v2/entries/en/'+encodeURIComponent(clean),{signal:ctrl.signal}).then(r=>r.json()).then(d=>{if(Array.isArray(d)&&d[0]?.meanings){const m=d[0].meanings[0];document.getElementById('wpPos').textContent=m.partOfSpeech||'';document.getElementById('wpDef').textContent=m.definitions[0]?.definition||'Not found.';document.getElementById('wpEx').textContent=m.definitions[0]?.example?'e.g. '+m.definitions[0].example:''}else document.getElementById('wpDef').textContent='Not found.'})}).catch(()=>document.getElementById('wpDef').textContent='Unavailable offline.').finally(()=>clearTimeout(to))}
+document.getElementById('main').addEventListener('dblclick',e=>{if(e.target.closest('input,textarea,select,button,a'))return;const w=(window.getSelection()||'').toString().trim();if(w&&w.split(/\s+/).length<=2)showDefinition(w,e.clientX,e.clientY)});
+let pt=null;document.getElementById('main').addEventListener('touchstart',e=>{if(e.touches.length!==1||e.target.closest('input,textarea,select,button,a'))return;const t=e.touches[0];pt=setTimeout(()=>{const w=(window.getSelection()||'').toString().trim();if(w)showDefinition(w,t.clientX,t.clientY)},550)},{passive:true});
+document.getElementById('main').addEventListener('touchend',()=>clearTimeout(pt));document.getElementById('main').addEventListener('touchmove',()=>clearTimeout(pt));
+document.getElementById('wpClose').addEventListener('click',()=>document.getElementById('wordPopup').classList.remove('show'));
+document.addEventListener('click',e=>{const p=document.getElementById('wordPopup');if(p&&!p.contains(e.target))p.classList.remove('show')});
+async function checkWriting(btn){const box=btn.closest('.exercise')||btn.parentElement;const ta=box.querySelector('textarea');if(!ta)return;const text=(ta.value||'').trim();let panel=box.querySelector('.write-fb');if(!panel){panel=document.createElement('div');panel.className='write-fb';ta.insertAdjacentElement('afterend',panel)}if(!text){panel.classList.add('show');panel.innerHTML='Write something first.';return}btn.disabled=true;btn.textContent='Checking…';panel.classList.add('show');panel.innerHTML='Checking…';const issues=[];try{const body=new URLSearchParams({text,language:'en-GB'});const r=await fetch('https://api.languagetool.org/v2/check',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body});if(r.ok){const data=await r.json();(data.matches||[]).slice(0,8).forEach(m=>issues.push({message:m.message,why:m.rule?.description||'',snippet:text.substr(m.offset,m.length),suggestions:(m.replacements||[]).slice(0,3).map(x=>x.value),offset:m.offset,length:m.length}))}}catch(e){}btn.disabled=false;btn.textContent='✨ Check writing';if(!issues.length){panel.innerHTML='<div class="wf-ok">✓ Looking good.</div>';return}let h='<div style="font-weight:700;margin-bottom:.25rem">Suggestions ('+issues.length+')</div>';issues.forEach(iss=>{h+='<div class="wf-item"><div class="wf-msg">'+esc(iss.message)+'</div>';if(iss.snippet)h+='<div class="wf-why">“'+esc(iss.snippet)+'”</div>';if(iss.suggestions?.length){h+='<div class="wf-sug">';iss.suggestions.forEach(s=>h+='<button type="button" data-off="'+iss.offset+'" data-len="'+iss.length+'" data-rep="'+escAttr(s)+'" onclick="applyFix(this)">'+esc(s)+'</button>');h+='</div>'}h+='</div>'});panel.innerHTML=h}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function escAttr(s){return esc(s)}
+function applyFix(btn){const box=btn.closest('.exercise')||btn.parentElement;const ta=box.querySelector('textarea');if(!ta)return;const off=+btn.dataset.off,len=+btn.dataset.len,rep=btn.dataset.rep||'';if(len>0){ta.value=ta.value.slice(0,off)+rep+ta.value.slice(off+len);ta.dispatchEvent(new Event('input',{bubbles:true}))}}
+function enhanceTextareas(){document.querySelectorAll('textarea[data-key]').forEach(ta=>{if(ta.dataset.we)return;ta.dataset.we='1';const d=document.createElement('div');d.className='writing-tools';d.innerHTML='<button type="button" class="btn-write" onclick="checkWriting(this)">✨ Check writing</button>';ta.insertAdjacentElement('afterend',d)})}
+loadAll();enhanceTextareas();saveCourseProgress();
+document.addEventListener('input',()=>{clearTimeout(window._pt);window._pt=setTimeout(saveCourseProgress,350)});
+document.addEventListener('change',()=>{clearTimeout(window._pt);window._pt=setTimeout(saveCourseProgress,200)});
+</script>
+</body>
+</html>
