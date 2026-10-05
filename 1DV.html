@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#1e3a5f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiRW1wb3dlciBDMSIsInNob3J0X25hbWUiOiJFbXBvd2VyIiwic3RhcnRfdXJsIjoiLi8iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMWUzYTVmIiwidGhlbWVfY29sb3IiOiIjMWUzYTVmIn0=">
+<title>1V · Unit 1 Video · Language</title>
+<style>
+:root{--navy:#1e3a5f;--navy2:#16324f;--sky:#2b6cb0;--emerald:#38a169;--amber:#dd6b20;--light:#f7fafc;--card:#fff;--border:#e2e8f0;--text:#1a202c;--muted:#718096;--green:#38a169;--red:#e53e3e;--purple:#805ad5}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--light);color:var(--text);line-height:1.45}
+.grid{display:grid;grid-template-columns:240px 1fr;grid-template-rows:36px 1fr;grid-template-areas:"side top" "side main";min-height:100vh}
+.sidebar{grid-area:side;background:var(--navy2);color:#fff;padding:12px 14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;position:sticky;top:0;height:100vh}
+.topbar{grid-area:top;background:var(--navy);color:#fff;display:flex;align-items:center;padding:0 14px;font-size:14px;gap:10px}
+.main{grid-area:main;padding:16px 18px 40px;max-width:900px}
+.brand{font-weight:700;font-size:15px;letter-spacing:.02em}
+.home-link{color:#a0aec0;text-decoration:none;font-size:13px;display:block;margin-bottom:4px}
+.home-link:hover{color:#fff}
+.name-field{width:100%;padding:6px 8px;border-radius:4px;border:1px solid #2d4a6f;background:#0f2439;color:#fff;font-size:13px}
+.progress-wrap{margin:6px 0}
+.progress-label{font-size:12px;color:#a0aec0;margin-bottom:3px}
+.progress-bar{height:8px;background:#0f2439;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:var(--emerald);width:0%;transition:width .3s}
+.pct{font-size:12px;color:#a0aec0}
+.btn{border:none;border-radius:5px;padding:7px 12px;font-size:13px;cursor:pointer;font-weight:600}
+.btn-amber{background:var(--amber);color:#fff;width:100%}
+.btn-amber:hover{filter:brightness(1.08)}
+.nav-sec{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#718096;margin:10px 0 4px}
+.nav-link{display:block;padding:5px 8px;border-radius:4px;color:#cbd5e0;text-decoration:none;font-size:13px}
+.nav-link:hover,.nav-link.active{background:#1e3a5f;color:#fff}
+.hamburger{display:none;background:none;border:none;color:#fff;font-size:20px;cursor:pointer}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+h1{font-size:1.35rem;color:var(--navy);margin-bottom:4px}
+h2{font-size:1.1rem;color:var(--navy);margin:18px 0 8px;border-bottom:2px solid var(--sky);padding-bottom:3px}
+h3{font-size:1rem;color:var(--sky);margin:12px 0 6px}
+.page-chip{display:inline-block;background:#ebf8ff;color:var(--sky);font-size:12px;padding:2px 8px;border-radius:10px;margin-bottom:8px}
+.aims{font-size:13px;color:var(--muted);margin-bottom:10px}
+.ex{margin:12px 0}
+.ex-label{font-weight:600;margin-bottom:6px}
+.input-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0}
+input[type=text],select,textarea{border:1px solid var(--border);border-radius:4px;padding:6px 8px;font-size:14px;min-height:40px}
+input[type=text]:focus,select:focus,textarea:focus{outline:2px solid var(--sky);border-color:transparent}
+input.correct{background:#f0fff4;border-color:var(--green)}
+input.incorrect{background:#fff5f5;border-color:var(--red)}
+textarea{width:100%;min-height:80px;resize:vertical}
+.controls{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center}
+.btn-check{background:var(--sky);color:#fff}
+.btn-show{background:#edf2f7;color:var(--navy)}
+.btn-clear{background:#edf2f7;color:var(--muted)}
+.btn-write{background:transparent;border:1.5px solid var(--purple);color:var(--purple)}
+.score{font-size:13px;color:var(--muted);margin-left:auto}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.match-item{padding:8px;border:1px solid var(--border);border-radius:6px;cursor:pointer}
+.match-item.selected{background:#ebf8ff;border-color:var(--sky)}
+.pics{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin:10px 0}
+.pic-box{background:#1a202c;border-radius:8px;padding:8px;text-align:center;color:#fff;font-size:12px}
+.pic-box img,.pic-box svg{max-width:90px;height:70px;object-fit:contain}
+.pic-label{margin-top:4px;font-weight:600}
+.how-lookup{font-size:12px;color:var(--muted);margin:8px 0;cursor:pointer}
+.how-lookup summary{outline:none}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:100}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:10px;padding:20px;max-width:480px;width:92%;max-height:80vh;overflow-y:auto}
+.modal h3{margin-top:0}
+.close-x{float:right;cursor:pointer;font-size:20px;color:var(--muted)}
+.dict-popup{position:absolute;background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 12px;box-shadow:0 4px 16px rgba(0,0,0,.12);z-index:50;max-width:280px;font-size:13px}
+.dict-popup .pos{color:var(--sky);font-style:italic}
+.write-feedback{margin-top:8px;font-size:13px;background:#faf5ff;border:1px solid #e9d8fd;border-radius:6px;padding:8px}
+.write-feedback .issue{margin:4px 0}
+.chip{display:inline-block;background:#edf2f7;padding:2px 6px;border-radius:4px;margin:2px;cursor:pointer;font-size:12px}
+.chip:hover{background:#e2e8f0}
+audio{width:100%;margin:8px 0}
+.note{font-size:13px;color:var(--muted);font-style:italic}
+@media(max-width:768px){
+  .grid{grid-template-columns:1fr;grid-template-rows:36px 1fr;grid-template-areas:"top" "main"}
+  .sidebar{position:fixed;left:-260px;top:0;bottom:0;width:240px;z-index:40;transition:left .25s}
+  .sidebar.open{left:0}
+  .hamburger{display:block}
+  .match-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="grid">
+  <aside class="sidebar" id="sidebar">
+    <a class="home-link" href="index.html">← Main page</a>
+    <div class="brand">1V · Unit 1 Video</div>
+    <input class="name-field" id="studentName" placeholder="Your name" maxlength="40">
+    <div class="progress-wrap">
+      <div class="progress-label">Your progress</div>
+      <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+      <div class="pct" id="progPct">0%</div>
+    </div>
+    <button class="btn btn-amber" id="btnReport">Results Report</button>
+    <div class="nav-sec">Video</div>
+    <a class="nav-link active" href="#before">1 Before you watch</a>
+    <a class="nav-link" href="#while">2 While you watch</a>
+    <a class="nav-link" href="#after">3 After you watch</a>
+  </aside>
+
+  <header class="topbar">
+    <button class="hamburger" id="hamburger" aria-label="Menu">☰</button>
+    <span>1V · Language · Video</span>
+  </header>
+
+  <main class="main" id="main">
+    <div class="page-chip">Video worksheet · Unit 1</div>
+    <h1>UNIT 1 | LANGUAGE</h1>
+    <p class="aims">Documentary video: Hieroglyphs &amp; emoji at the Israel Museum</p>
+
+    <details class="how-lookup">
+      <summary>How to look up words</summary>
+      <p>Double-click (or long-press ~550 ms) any word in the main content for a definition. Order: unit glossary → Datamuse → dictionaryapi.dev. Works offline with a short fallback message.</p>
+    </details>
+
+    <!-- ========== 1 BEFORE YOU WATCH ========== -->
+    <section id="before">
+      <h2>1 BEFORE YOU WATCH</h2>
+
+      <div class="card">
+        <h3>a Work in groups. Look at the picture of hieroglyphs on a stone tablet. Answer the questions.</h3>
+        <div class="ex" data-ex="1a">
+          <div class="ex-label">1 What are hieroglyphs?</div>
+          <textarea data-open="1" placeholder="Your answer…"></textarea>
+          <div class="ex-label">2 Who used them? What were they used for?</div>
+          <textarea data-open="1" placeholder="Your answer…"></textarea>
+          <div class="ex-label">3 What else do you know about them?</div>
+          <textarea data-open="1" placeholder="Your answer…"></textarea>
+          <div class="controls">
+            <button class="btn btn-write check-writing">Check writing</button>
+          </div>
+          <p class="note">Possible answers (for self-check): picture writing / ancient Egyptians / records, tomb inscriptions / written top-to-bottom, carved in stone or on papyrus, origin of several alphabets.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>b Look at the pictures below. Answer the questions in your groups.</h3>
+        <div class="pics">
+          <div class="pic-box"><div style="font-size:48px;line-height:1.2">𓃠</div><div class="pic-label">a</div></div>
+          <div class="pic-box"><div style="font-size:48px">🐕</div><div class="pic-label">b</div></div>
+          <div class="pic-box"><div style="font-size:48px">🤷‍♀️</div><div class="pic-label">c</div></div>
+          <div class="pic-box"><div style="font-size:48px;line-height:1.2">𓀠</div><div class="pic-label">d</div></div>
+          <div class="pic-box"><div style="font-size:48px">🙃</div><div class="pic-label">e</div></div>
+          <div class="pic-box"><div style="font-size:48px;line-height:1.2">𓁷</div><div class="pic-label">f</div></div>
+        </div>
+        <div class="ex" data-ex="1b1">
+          <div class="ex-label">1 Which do you think are …? How do you know?</div>
+          <div class="input-row">a ancient hieroglyphs: <input type="text" data-answer="a,d,f|a d f|adf" style="width:120px" placeholder="e.g. a, d, f"></div>
+          <div class="input-row">b modern emojis: <input type="text" data-answer="b,c,e|b c e|bce" style="width:120px" placeholder="e.g. b, c, e"></div>
+          <div class="controls">
+            <button class="btn btn-check">Check</button>
+            <button class="btn btn-show">Show</button>
+            <button class="btn btn-clear">Clear</button>
+            <span class="score"></span>
+          </div>
+        </div>
+        <div class="ex" data-ex="1b2">
+          <div class="ex-label">2 How are they similar and different? Think about their appearance and purpose.</div>
+          <div>a similarities</div>
+          <textarea data-open="1" placeholder="…"></textarea>
+          <div>b differences</div>
+          <textarea data-open="1" placeholder="…"></textarea>
+          <div class="controls"><button class="btn btn-write check-writing">Check writing</button></div>
+          <p class="note">Possible: similarities – simplified pictures of animals/people, used to communicate. Differences – emojis look more modern; hieroglyphs were a complete writing system.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>c Match the words (1–6) with the meanings (a–f).</h3>
+        <div class="ex" data-ex="1c">
+          <div class="match-grid">
+            <div>
+              <div class="input-row">1 curator <select data-answer="d"><option value="">–</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option></select></div>
+              <div class="input-row">2 pidgin <select data-answer="f"><option value="">–</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option></select></div>
+              <div class="input-row">3 scribe <select data-answer="e"><option value="">–</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option></select></div>
+              <div class="input-row">4 character <select data-answer="b"><option value="">–</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option></select></div>
+              <div class="input-row">5 shorthand <select data-answer="c"><option value="">–</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option></select></div>
+              <div class="input-row">6 linguist <select data-answer="a"><option value="">–</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option></select></div>
+            </div>
+            <div style="font-size:13px">
+              <p>a a person who is an expert on the nature and development of language</p>
+              <p>b a letter, number or symbol used in writing</p>
+              <p>c a form of writing that is brief and quick</p>
+              <p>d a person who manages a museum or gallery</p>
+              <p>e a person in the past whose job it was to write things down and make copies</p>
+              <p>f a language that has developed from a mixture of two languages and is used as a way of communicating by people who do not speak each other’s languages</p>
+            </div>
+          </div>
+          <div class="controls">
+            <button class="btn btn-check">Check</button>
+            <button class="btn btn-show">Show</button>
+            <button class="btn btn-clear">Clear</button>
+            <span class="score"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 2 WHILE YOU WATCH ========== -->
+    <section id="while">
+      <h2>2 WHILE YOU WATCH</h2>
+      <div class="card">
+        <p>Watch the documentary video (or listen to the audio version below).</p>
+        <audio controls preload="metadata">
+          <source src="/home/workdir/artifacts/unit1_video_audio.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+        <p class="note">Full video: Empower Advanced Documentary Video Unit 01 (hieroglyphs &amp; emoji exhibition).</p>
+      </div>
+
+      <div class="card">
+        <h3>a Watch the video. Answer the questions.</h3>
+        <div class="ex" data-ex="2a">
+          <div class="ex-label">1 How are hieroglyphs similar to emojis?</div>
+          <textarea data-open="1" placeholder="…"></textarea>
+          <div class="ex-label">2 What is the main difference between them?</div>
+          <textarea data-open="1" placeholder="…"></textarea>
+          <div class="ex-label">3 In what way are emojis similar to a pidgin language?</div>
+          <textarea data-open="1" placeholder="…"></textarea>
+          <div class="controls"><button class="btn btn-write check-writing">Check writing</button></div>
+          <p class="note">Possible: 1 picture writing / express meaning through pictures. 2 Hieroglyphs = complete writing system; emoji = shorthand for simple concepts. 3 simple strategies, understood across communities with no common language.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>b Watch again. Make notes about the topics below.</h3>
+        <div class="ex" data-ex="2b">
+          <div class="ex-label">1 The curator’s aim</div>
+          <textarea data-open="1" data-answer-hint="show that something ancient is still relevant today"></textarea>
+          <div class="ex-label">2 Becoming a scribe in ancient Egypt</div>
+          <textarea data-open="1" data-answer-hint="years of training; only people authorised to use the system"></textarea>
+          <div class="ex-label">3 The invention of emojis</div>
+          <textarea data-open="1" data-answer-hint="Japan, late 1990s, shorthand for simple concepts / spirit"></textarea>
+          <div class="ex-label">4 Communicating complex ideas in emojis</div>
+          <textarea data-open="1" data-answer-hint="not designed for complete ideas"></textarea>
+          <div class="ex-label">5 How to say ‘very’ in a pidgin language</div>
+          <textarea data-open="1" data-answer-hint="repeat the word / image"></textarea>
+          <div class="ex-label">6 Emoji translators</div>
+          <textarea data-open="1" data-answer-hint="London agency employs them; meanings differ by culture"></textarea>
+          <div class="ex-label">7 Emojis in Europe, the USA and other countries</div>
+          <textarea data-open="1" data-answer-hint="separate ‘languages’; smiley = happiness (USA) vs distrust (China)"></textarea>
+          <div class="ex-label">8 The future of emojis</div>
+          <textarea data-open="1" data-answer-hint="unknown; may become fuller writing system; look to hieroglyphs for solutions"></textarea>
+          <div class="controls"><button class="btn btn-write check-writing">Check writing</button></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>c Complete the sentences with the word that matches the meaning in <em>italics</em>. Watch again and check your answers.</h3>
+        <div class="ex" data-ex="2c">
+          <div class="input-row">1 Scribes were the only people in ancient Egypt who were <input type="text" data-answer="authorised|authorized" style="width:140px"> <em>(given official permission)</em> to use hieroglyphics.</div>
+          <div class="input-row">2 The exhibition shows the <input type="text" data-answer="striking" style="width:120px"> <em>(surprising and easily noticed)</em> similarities between hieroglyphs and emojis.</div>
+          <div class="input-row">3 There are also <input type="text" data-answer="profound" style="width:120px"> <em>(important and great)</em> differences between the two systems.</div>
+          <div class="input-row">4 A smiley face emoji can signify <input type="text" data-answer="distrust" style="width:110px"> <em>(not trusting someone)</em> or <input type="text" data-answer="disbelief" style="width:110px"> <em>(not believing someone)</em> in China.</div>
+          <div class="input-row">5 How our use of emojis will <input type="text" data-answer="evolve" style="width:100px"> <em>(gradually change)</em> in the years ahead is unknown.</div>
+          <div class="controls">
+            <button class="btn btn-check">Check</button>
+            <button class="btn btn-show">Show</button>
+            <button class="btn btn-clear">Clear</button>
+            <span class="score"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>d Work in pairs. The curator’s aim in showing hieroglyphs and emojis together in the museum exhibition was to show how ancient Egyptian culture is still relevant today. Answer the questions. Give reasons for your answers.</h3>
+        <div class="ex" data-ex="2d">
+          <div class="ex-label">1 Do you think the approach was a good idea?</div>
+          <textarea data-open="1"></textarea>
+          <div class="ex-label">2 Think of arguments … for the approach · against it</div>
+          <textarea data-open="1"></textarea>
+          <div class="ex-label">3 Which argument do you think is the most convincing?</div>
+          <textarea data-open="1"></textarea>
+          <div class="controls"><button class="btn btn-write check-writing">Check writing</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 3 AFTER YOU WATCH ========== -->
+    <section id="after">
+      <h2>3 AFTER YOU WATCH</h2>
+      <div class="card">
+        <h3>a Think about a museum or an exhibition you have visited. Make notes.</h3>
+        <div class="ex" data-ex="3a">
+          <div class="ex-label">1 Where and when was it? What did it show?</div>
+          <textarea data-open="1"></textarea>
+          <div class="ex-label">2 Did you enjoy it? What rating would you give it from 1 (the least) to 5 (the most)? Why?</div>
+          <textarea data-open="1"></textarea>
+          <div class="ex-label">3 What do you remember about it?</div>
+          <textarea data-open="1"></textarea>
+          <div class="ex-label">4 What, if anything, do you think was done to make it … more interesting or attractive to look at · relevant to your life</div>
+          <textarea data-open="1"></textarea>
+          <div class="controls"><button class="btn btn-write check-writing">Check writing</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>b Work in pairs. Tell your partner about the museum or exhibition you visited. Ask your partner questions about their experience.</h3>
+        <p class="note">Speaking task – use your notes from 3a. Optional: record yourself with the device microphone if desired.</p>
+        <textarea data-open="1" placeholder="Notes for speaking…"></textarea>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Results modal -->
+<div class="modal-bg" id="reportModal">
+  <div class="modal">
+    <span class="close-x" id="closeReport">×</span>
+    <h3>Results Report</h3>
+    <p id="reportName"></p>
+    <div id="reportBody"></div>
+    <button class="btn btn-check" id="copyReport" style="margin-top:10px">Copy summary</button>
+  </div>
+</div>
+
+<div id="dictPopup" class="dict-popup" style="display:none"></div>
+
+<script>
+const LESSON_CODE = "1V";
+const STORAGE_KEY = "empowerC1_" + LESSON_CODE;
+const PROGRESS_KEY = "empowerC1_lessonProgress";
+
+/* ---------- helpers ---------- */
+function normalize(s) {
+  return (s || "").trim().toLowerCase()
+    .replace(/[‘’]/g, "'").replace(/[“”]/g, '"')
+    .replace(/[.,!?;:]+$/g, "").replace(/\s+/g, " ");
+}
+function saveState() {
+  const data = { name: document.getElementById("studentName").value, answers: {} };
+  document.querySelectorAll("[data-answer], textarea[data-open]").forEach((el, i) => {
+    const key = el.dataset.ex || el.closest("[data-ex]")?.dataset.ex || "o" + i;
+    if (!data.answers[key]) data.answers[key] = [];
+    data.answers[key].push(el.value);
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  updateProgress();
+}
+function loadState() {
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    if (data.name) document.getElementById("studentName").value = data.name;
+    if (data.answers) {
+      document.querySelectorAll("[data-answer], textarea[data-open]").forEach((el, i) => {
+        const key = el.dataset.ex || el.closest("[data-ex]")?.dataset.ex || "o" + i;
+        const arr = data.answers[key];
+        if (arr && arr.length) {
+          const idx = Array.from(el.closest("[data-ex]")?.querySelectorAll("[data-answer], textarea[data-open]") || [el]).indexOf(el);
+          if (arr[idx] !== undefined) el.value = arr[idx];
+        }
+      });
+    }
+  } catch(e) {}
+  updateProgress();
+}
+function updateProgress() {
+  let correct = 0, total = 0;
+  document.querySelectorAll("[data-answer]").forEach(el => {
+    total++;
+    const val = normalize(el.value);
+    const ok = (el.dataset.answer || "").split("|").some(a => normalize(a) === val);
+    if (ok && val) correct++;
+  });
+  document.querySelectorAll("textarea[data-open]").forEach(el => {
+    if (el.value.trim().length > 25) { total++; correct++; }
+  });
+  const pct = total ? Math.round(100 * correct / total) : 0;
+  document.getElementById("progFill").style.width = pct + "%";
+  document.getElementById("progPct").textContent = pct + "%";
+  const all = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}");
+  all[LESSON_CODE] = { pct, updated: new Date().toISOString() };
+  localStorage.setItem(PROGRESS_KEY, JSON.stringify(all));
+}
+
+/* ---------- live checking ---------- */
+function checkEx(exEl) {
+  let k = 0, n = 0;
+  exEl.querySelectorAll("[data-answer]").forEach(el => {
+    n++;
+    const val = normalize(el.value);
+    const answers = (el.dataset.answer || "").split("|").map(normalize);
+    if (answers.includes(val) && val) {
+      el.classList.add("correct"); el.classList.remove("incorrect"); k++;
+    } else if (val) {
+      el.classList.add("incorrect"); el.classList.remove("correct");
+    } else {
+      el.classList.remove("correct", "incorrect");
+    }
+  });
+  const scoreEl = exEl.querySelector(".score");
+  if (scoreEl) scoreEl.textContent = k + "/" + n;
+  saveState();
+}
+function showEx(exEl) {
+  exEl.querySelectorAll("[data-answer]").forEach(el => {
+    el.value = (el.dataset.answer || "").split("|")[0];
+    el.classList.add("correct"); el.classList.remove("incorrect");
+  });
+  checkEx(exEl);
+}
+function clearEx(exEl) {
+  exEl.querySelectorAll("[data-answer]").forEach(el => {
+    el.value = ""; el.classList.remove("correct", "incorrect");
+  });
+  const scoreEl = exEl.querySelector(".score");
+  if (scoreEl) scoreEl.textContent = "";
+  saveState();
+}
+
+document.querySelectorAll(".ex").forEach(ex => {
+  const chk = ex.querySelector(".btn-check");
+  const shw = ex.querySelector(".btn-show");
+  const clr = ex.querySelector(".btn-clear");
+  if (chk) chk.addEventListener("click", () => checkEx(ex));
+  if (shw) shw.addEventListener("click", () => showEx(ex));
+  if (clr) clr.addEventListener("click", () => clearEx(ex));
+  ex.querySelectorAll("[data-answer]").forEach(el => {
+    el.addEventListener("input", () => {
+      const val = normalize(el.value);
+      const answers = (el.dataset.answer || "").split("|").map(normalize);
+      if (answers.includes(val) && val) {
+        el.classList.add("correct"); el.classList.remove("incorrect");
+      } else if (val) {
+        el.classList.add("incorrect"); el.classList.remove("correct");
+      } else {
+        el.classList.remove("correct", "incorrect");
+      }
+      saveState();
+    });
+  });
+});
+
+/* ---------- writing feedback (LanguageTool) ---------- */
+document.querySelectorAll(".check-writing").forEach(btn => {
+  btn.addEventListener("click", async () => {
+    const ta = btn.closest(".ex").querySelector("textarea");
+    if (!ta || !ta.value.trim()) return;
+    let box = btn.parentElement.nextElementSibling;
+    if (!box || !box.classList.contains("write-feedback")) {
+      box = document.createElement("div");
+      box.className = "write-feedback";
+      btn.parentElement.after(box);
+    }
+    box.innerHTML = "Checking…";
+    try {
+      const res = await fetch("https://api.languagetool.org/v2/check", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "language=en-GB&text=" + encodeURIComponent(ta.value)
+      });
+      const data = await res.json();
+      if (!data.matches || !data.matches.length) {
+        box.innerHTML = "<strong>No issues found.</strong>";
+        return;
+      }
+      box.innerHTML = data.matches.slice(0, 8).map(m => {
+        const reps = (m.replacements || []).slice(0, 3).map(r =>
+          `<span class="chip" data-rep="${r.value}">${r.value}</span>`).join(" ");
+        return `<div class="issue"><strong>${m.message}</strong><br><em>${m.context.text}</em> ${reps}</div>`;
+      }).join("");
+      box.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+        ta.value = ta.value.replace(c.closest(".issue").querySelector("em").textContent.trim(), c.dataset.rep);
+        saveState();
+      }));
+    } catch (e) {
+      box.innerHTML = "Writing check unavailable (offline or API limit).";
+    }
+  });
+});
+
+/* ---------- dictionary ---------- */
+const GLOSSARY = {
+  hieroglyph: { pos: "n", def: "a picture or symbol used in the ancient Egyptian writing system", ex: "Hieroglyphs were carved on temple walls." },
+  emoji: { pos: "n", def: "a small digital image or icon used to express an idea or emotion", ex: "She ended the message with a smiley emoji." },
+  curator: { pos: "n", def: "a person who manages a museum or gallery", ex: "The curator organised the new exhibition." },
+  pidgin: { pos: "n", def: "a simplified language that develops between groups with no common language", ex: "They communicated in a pidgin language." },
+  scribe: { pos: "n", def: "a person in the past whose job was to write things down and make copies", ex: "Only trained scribes could use hieroglyphs." },
+  character: { pos: "n", def: "a letter, number or symbol used in writing", ex: "Chinese characters represent whole words." },
+  shorthand: { pos: "n", def: "a system of rapid writing using abbreviations and symbols", ex: "She took notes in shorthand." },
+  linguist: { pos: "n", def: "an expert on the nature and development of language", ex: "Linguists study how languages change." },
+  authorised: { pos: "adj", def: "given official permission", ex: "Only authorised staff may enter." },
+  striking: { pos: "adj", def: "very noticeable or impressive", ex: "There was a striking similarity." },
+  profound: { pos: "adj", def: "very great or intense; deep", ex: "The differences are profound." },
+  evolve: { pos: "v", def: "to develop gradually", ex: "Languages evolve over time." }
+};
+let pressTimer;
+document.getElementById("main").addEventListener("dblclick", e => lookupWord(e));
+document.getElementById("main").addEventListener("touchstart", e => {
+  pressTimer = setTimeout(() => lookupWord(e), 550);
+});
+document.getElementById("main").addEventListener("touchend", () => clearTimeout(pressTimer));
+document.getElementById("main").addEventListener("touchmove", () => clearTimeout(pressTimer));
+
+async function lookupWord(e) {
+  const sel = window.getSelection();
+  let word = (sel + "").trim().replace(/[^\w'-]/g, "");
+  if (!word || word.length < 2) return;
+  if (e.target.closest("input,textarea,button,audio,.btn")) return;
+  const popup = document.getElementById("dictPopup");
+  popup.style.display = "block";
+  popup.style.left = (e.pageX || 20) + "px";
+  popup.style.top = (e.pageY || 20) + 10 + "px";
+  popup.innerHTML = "<em>Looking up…</em>";
+  const low = word.toLowerCase();
+  if (GLOSSARY[low]) {
+    const g = GLOSSARY[low];
+    popup.innerHTML = `<strong>${word}</strong> <span class="pos">${g.pos}</span><br>${g.def}<br><em>${g.ex || ""}</em>`;
+    return;
+  }
+  try {
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), 7000);
+    let res = await fetch(`https://api.datamuse.com/words?sp=${encodeURIComponent(low)}&md=d&max=1`, { signal: ctrl.signal });
+    let data = await res.json();
+    if (data[0] && data[0].defs) {
+      const def = data[0].defs[0].replace(/^\w+\t/, "");
+      popup.innerHTML = `<strong>${word}</strong><br>${def}`;
+      return;
+    }
+    res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(low)}`, { signal: ctrl.signal });
+    data = await res.json();
+    if (Array.isArray(data) && data[0]?.meanings) {
+      const m = data[0].meanings[0];
+      popup.innerHTML = `<strong>${word}</strong> <span class="pos">${m.partOfSpeech}</span><br>${m.definitions[0].definition}`;
+      return;
+    }
+    popup.innerHTML = `<strong>${word}</strong><br>Definition not found (offline or unknown word).`;
+  } catch (err) {
+    popup.innerHTML = `<strong>${word}</strong><br>Lookup unavailable offline.`;
+  }
+}
+document.addEventListener("click", e => {
+  if (!e.target.closest("#dictPopup")) document.getElementById("dictPopup").style.display = "none";
+});
+
+/* ---------- Results Report ---------- */
+document.getElementById("btnReport").addEventListener("click", () => {
+  const modal = document.getElementById("reportModal");
+  const name = document.getElementById("studentName").value || "Student";
+  document.getElementById("reportName").textContent = "Name: " + name;
+  let html = "<ul>", totalK = 0, totalN = 0;
+  document.querySelectorAll(".ex").forEach(ex => {
+    const id = ex.dataset.ex || "";
+    let k = 0, n = 0;
+    ex.querySelectorAll("[data-answer]").forEach(el => {
+      n++;
+      const val = normalize(el.value);
+      if ((el.dataset.answer || "").split("|").map(normalize).includes(val) && val) k++;
+    });
+    if (n) {
+      html += `<li>${id}: ${k}/${n}</li>`;
+      totalK += k; totalN += n;
+    }
+  });
+  html += `</ul><p><strong>Overall (auto-scored): ${totalN ? Math.round(100 * totalK / totalN) : 0}%</strong></p>`;
+  document.getElementById("reportBody").innerHTML = html;
+  modal.classList.add("open");
+});
+document.getElementById("closeReport").addEventListener("click", () => document.getElementById("reportModal").classList.remove("open"));
+document.getElementById("copyReport").addEventListener("click", () => {
+  const text = document.getElementById("reportName").textContent + "\n" + document.getElementById("reportBody").innerText;
+  navigator.clipboard.writeText(text).then(() => alert("Copied!"));
+});
+
+/* ---------- UI ---------- */
+document.getElementById("hamburger").addEventListener("click", () => document.getElementById("sidebar").classList.toggle("open"));
+document.getElementById("studentName").addEventListener("input", saveState);
+document.querySelectorAll("textarea").forEach(t => t.addEventListener("input", saveState));
+document.querySelectorAll(".nav-link").forEach(a => a.addEventListener("click", () => {
+  document.querySelectorAll(".nav-link").forEach(x => x.classList.remove("active"));
+  a.classList.add("active");
+  if (window.innerWidth < 768) document.getElementById("sidebar").classList.remove("open");
+}));
+
+loadState();
+</script>
+</body>
+</html>
